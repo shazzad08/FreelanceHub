@@ -8,11 +8,20 @@ Create Base Templates(templates/
                             navbar.html
                             footer.html)
 
-
-## Current Milestone
 Custom User Model
-
-## Next Tasks
 Registration
 Login & Logout
+
+## Current Milestone
 Email Verification
+
+## Next Tasks
+Profile Model
+Profile Page(Features
+                ● Profile image
+                ● Skills
+                ● Bio
+                ● Social links
+                ● Applied jobs history
+                )
+
