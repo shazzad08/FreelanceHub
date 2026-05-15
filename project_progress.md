@@ -11,11 +11,8 @@
 -Custom User Model
 -Registration
 -Login & Logout
-
+-Email Verification
 ## Current Milestone
-Email Verification
-
-## Next Tasks
 Profile Model
 Profile Page(Features
                 ● Profile image
@@ -24,4 +21,8 @@ Profile Page(Features
                 ● Social links
                 ● Applied jobs history
                 )
+
+## Next Tasks
+-Category Model
+
 
