@@ -2,15 +2,15 @@
 
 ## Completed
 - Django project setup
-Configure Static & Media
-Create Base Templates(templates/
+-Configure Static & Media
+-Create Base Templates(templates/
                             base.html
                             navbar.html
                             footer.html)
 
-Custom User Model
-Registration
-Login & Logout
+-Custom User Model
+-Registration
+-Login & Logout
 
 ## Current Milestone
 Email Verification
