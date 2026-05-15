@@ -1,20 +1,145 @@
-<h2>
-    Welcome to FreelanceHub
-</h2>
+<!DOCTYPE html>
+<html>
 
-<p>
-    Click the button below to verify your email:
-</p>
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+</head>
 
-<a href="{{ confirm_link }}"
-   style="
-      background:black;
-      color:white;
-      padding:10px 20px;
-      text-decoration:none;
-      border-radius:5px;
-   ">
+<body style="
+    margin:0;
+    padding:0;
+    background:#f4f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+">
 
-    Verify Email
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:40px 20px;">
 
-</a>
+                <table width="600" cellpadding="0" cellspacing="0"
+                       style="
+                          background:#ffffff;
+                          border-radius:12px;
+                          overflow:hidden;
+                          box-shadow:0 4px 20px rgba(0,0,0,0.08);
+                       ">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="
+                            background:#111827;
+                            padding:30px;
+                            text-align:center;
+                        ">
+
+                            <h1 style="
+                                color:#ffffff;
+                                margin:0;
+                                font-size:32px;
+                                font-weight:bold;
+                            ">
+                                FreelanceHub
+                            </h1>
+
+                            <p style="
+                                color:#cbd5e1;
+                                margin-top:10px;
+                                font-size:16px;
+                            ">
+                                Professional Freelance Marketplace
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding:40px;">
+
+                            <h2 style="
+                                margin-top:0;
+                                color:#111827;
+                                font-size:28px;
+                            ">
+                                Verify Your Email Address
+                            </h2>
+
+                            <p style="
+                                color:#4b5563;
+                                font-size:16px;
+                                line-height:1.8;
+                            ">
+                                Thank you for joining FreelanceHub.
+                                Please confirm your email address to activate
+                                your account and start exploring projects,
+                                freelancers, and opportunities.
+                            </p>
+
+                            <!-- Button -->
+                            <table cellpadding="0" cellspacing="0" style="margin-top:30px;">
+                                <tr>
+                                    <td align="center">
+
+                                        <a href="{{ confirm_link }}"
+                                           style="
+                                              background:#111827;
+                                              color:#ffffff;
+                                              padding:14px 32px;
+                                              text-decoration:none;
+                                              border-radius:8px;
+                                              display:inline-block;
+                                              font-size:16px;
+                                              font-weight:bold;
+                                           ">
+
+                                            Verify Email
+
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+
+                            <p style="
+                                word-break:break-all;
+                                color:#2563eb;
+                                font-size:14px;
+                            ">
+                                {{ confirm_link }}
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="
+                            background:#f9fafb;
+                            padding:25px;
+                            text-align:center;
+                            border-top:1px solid #e5e7eb;
+                        ">
+
+                            <p style="
+                                margin:0;
+                                color:#6b7280;
+                                font-size:14px;
+                            ">
+                                © 2026 FreelanceHub. All rights reserved.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
