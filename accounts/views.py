@@ -24,9 +24,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
-# =========================
-# Registration View
-# =========================
 
 def register_view(request):
 
@@ -40,7 +37,7 @@ def register_view(request):
 
             user = form.save(commit=False)
 
-            # Block login before email verification
+            
             user.is_active = False
 
             user.save()
@@ -53,16 +50,15 @@ def register_view(request):
                 force_bytes(user.pk)
             )
 
-            # Activation link
+           
             confirm_link = (
                 f"http://127.0.0.1:8000/"
                 f"accounts/activate/{uid}/{token}/"
             )
 
-            # Email subject
+          
             email_subject = "Confirm Your Email"
 
-            # Render email template
             email_body = render_to_string(
                 'accounts/confirm_email.html',
                 {
@@ -70,7 +66,7 @@ def register_view(request):
                 }
             )
 
-            # Create email
+           
             email = EmailMultiAlternatives(
                 subject=email_subject,
 
@@ -79,18 +75,18 @@ def register_view(request):
                 to=[user.email]
             )
 
-            # Attach HTML template
+           
             email.attach_alternative(
                 email_body,
                 "text/html"
             )
 
-            # Send email
+            
             email.send()
 
             print("Verification email sent successfully")
 
-            # Redirect to login page
+           
             return redirect('login')
 
         else:
