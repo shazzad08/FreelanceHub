@@ -108,9 +108,7 @@ def register_view(request):
     )
 
 
-# =========================
-# Activate Account
-# =========================
+
 
 def activate(request, uid, token):
     
@@ -144,9 +142,7 @@ def activate(request, uid, token):
         return redirect('register')
 
 
-# =========================
-# Login View
-# =========================
+
 
 class UserLoginView(LoginView):
 
@@ -157,9 +153,7 @@ class UserLoginView(LoginView):
         return reverse_lazy('home')
 
 
-# =========================
-# Logout View
-# =========================
+
 
 def logout_view(request):
 
