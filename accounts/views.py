@@ -31,7 +31,7 @@ def register_view(request):
 
     if request.method == 'POST':
 
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST)  #Django fills the form with submitted data.
 
         if form.is_valid():
 

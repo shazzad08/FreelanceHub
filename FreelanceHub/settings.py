@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts',
-    'profiles',
+    'profiles.apps.ProfilesConfig',
     'projects',
     'proposals',
     'reviews',
@@ -140,7 +140,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'accounts.User'

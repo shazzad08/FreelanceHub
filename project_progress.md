@@ -12,6 +12,7 @@
 -Registration
 -Login & Logout
 -Email Verification
+
 ## Current Milestone
 Profile Model
 Profile Page(Features
