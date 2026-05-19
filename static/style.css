@@ -1,3 +1,86 @@
 body{
     background-color: #f8f9fa;
 }
+
+
+/* Profile Image */
+.profile-image {
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    object-fit: cover;
+    object-position: center;
+    border: 5px solid #f1f1f1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Company Logo */
+.company-logo {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+/* Profile Name */
+.profile-name {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+/* Profile Details Container */
+.profile-details {
+    padding: 20px 40px;
+}
+
+/* Detail Text */
+.detail-text {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* Edit Button */
+.btn-edit {
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: #0b5ed7;
+    color: white;
+}
+
+/* Save Button */
+.btn-save {
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: #198754;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #157347;
+    color: white;
+}
+
+/* Cancel Button */
+.btn-cancel {
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: #5c636a;
+    color: white;
+}

@@ -1,106 +1,84 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
 
+
+
+{% block content %}
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow border-0 p-4">
-        <!-- Profile Header -->
-        <div class="text-center">
-          {% if user.role == 'freelancer' %} {% if profile.profile_image %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0 p-4">
 
-          <img
-            src="{{ profile.profile_image.url }}"
-            class="rounded-circle mb-3"
-            width="150"
-            height="150"
-            style="object-fit: cover"
-          />
+                <!-- Profile Header -->
+                <div class="text-center">
+                    {% if user.role == 'freelancer' %}
+                        {% if profile.profile_image %}
+                            <img
+                                src="{{ profile.profile_image.url }}"
+                                class="profile-image"
+                                width="160"
+                                height="160"
+                            >
+                        {% endif %}
+                        <h2 class="profile-name">{{ user.first_name }}</h2>
+                    {% else %}
+                        {% if profile.company_logo %}
+                            <img
+                                src="{{ profile.company_logo.url }}"
+                                class="profile-image"
+                                width="160"
+                                height="160"
+                            >
+                        {% endif %}
+                        <h2 class="profile-name">{{ profile.company_name }}</h2>
+                    {% endif %}
+                </div>
 
-          {% endif %}
+                <hr>
 
-          <h2>{{ user.first_name }}</h2>
+                <!-- VIEW MODE -->
+                {% if not edit_mode %}
+                    <div class="profile-details">
+                        {% if user.role == 'freelancer' %}
+                            <p class="detail-text"><strong>Bio:</strong> {{ profile.bio }}</p>
+                            <p class="detail-text"><strong>Skills:</strong> {{ profile.skills }}</p>
+                            <p class="detail-text"><strong>Hourly Rate:</strong> ${{ profile.hourly_rate }}</p>
+                            <p class="detail-text">
+                                <strong>Github:</strong>
+                                <a href="{{ profile.github }}">{{ profile.github }}</a>
+                            </p>
+                            <p class="detail-text">
+                                <strong>LinkedIn:</strong>
+                                <a href="{{ profile.linkedin }}">{{ profile.linkedin }}</a>
+                            </p>
+                        {% else %}
+                            <p class="detail-text"><strong>Description:</strong> {{ profile.company_description }}</p>
+                            <p class="detail-text">
+                                <strong>Website:</strong>
+                                <a href="{{ profile.company_website }}">{{ profile.company_website }}</a>
+                            </p>
+                        {% endif %}
 
-          {% else %} {% if profile.company_logo %}
+                        <!-- Edit Button -->
+                        <div class="text-center mt-5">
+                            <a href="?edit=True" class="btn btn-edit">Edit Profile</a>
+                        </div>
+                    </div>
 
-          <img
-            src="{{ profile.company_logo.url }}"
-            class="img-fluid mb-3"
-            style="max-height: 180px; width: auto; object-fit: contain"
-          />
+                {% else %}
+                    <!-- EDIT MODE -->
+                    <div class="p-4">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-save">Save Changes</button>
+                            <a href="{% url 'profile' %}" class="btn btn-cancel">Cancel</a>
+                        </form>
+                    </div>
+                {% endif %}
 
-          {% endif %}
-
-          <h2>{{ profile.company_name }}</h2>
-
-          {% endif %}
+            </div>
         </div>
-
-        <hr />
-
-        <!-- VIEW MODE -->
-        {% if not edit_mode %} {% if user.role == 'freelancer' %}
-
-        <p>
-          <strong>Bio:</strong>
-          {{ profile.bio }}
-        </p>
-
-        <p>
-          <strong>Skills:</strong>
-          {{ profile.skills }}
-        </p>
-
-        <p>
-          <strong>Hourly Rate:</strong>
-          ${{ profile.hourly_rate }}
-        </p>
-
-        <p>
-          <strong>Github:</strong>
-          <a href="{{ profile.github }}"> {{ profile.github }} </a>
-        </p>
-
-        <p>
-          <strong>LinkedIn:</strong>
-          <a href="{{ profile.linkedin }}"> {{ profile.linkedin }} </a>
-        </p>
-
-        {% else %}
-
-        <p>
-          <strong>Description:</strong>
-          {{ profile.company_description }}
-        </p>
-
-        <p>
-          <strong>Website:</strong>
-          <a href="{{ profile.company_website }}">
-            {{ profile.company_website }}
-          </a>
-        </p>
-
-        {% endif %}
-
-        <!-- Edit Button -->
-        <div class="text-center mt-4">
-          <a href="?edit=True" class="btn btn-primary"> Edit Profile </a>
-        </div>
-
-        <!-- EDIT MODE -->
-        {% else %}
-
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %} {{ form.as_p }}
-
-          <button type="submit" class="btn btn-success">Save Changes</button>
-
-          <a href="{% url 'profile' %}" class="btn btn-secondary"> Cancel </a>
-        </form>
-
-        {% endif %}
-      </div>
     </div>
-  </div>
 </div>
-
 {% endblock %}
