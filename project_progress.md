@@ -20,10 +20,9 @@
                 ● Social links
                 ● Applied jobs history
                 )
-## Current Milestone
 -Category Model
 
-## Next Tasks
+## Current Milestone
 
 -Project Model
 -Create Project:
@@ -53,3 +52,17 @@
                     ● Related projects
 
 
+## Next Tasks
+
+-Proposal Model
+-Apply to Project
+                Features
+                ● Cover letter textarea
+                ● Bid amount
+                ● Apply button
+
+-Client Proposal Dashboard
+                        Client can:
+                        ● View all proposals
+                        ● Accept proposal
+                        ● Reject proposal
