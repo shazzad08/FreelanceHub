@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-header bg-dark text-white py-3 rounded-top-4">
+
+                    <h3 class="mb-0 text-center">
+                        Create New Project
+                    </h3>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Category
+                            </label>
+                            {{ form.category }}
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Project Title
+                            </label>
+                            {{ form.title }}
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Description
+                            </label>
+                            {{ form.description }}
+                        </div>
+
+                        <!-- Budget -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Budget
+                            </label>
+                            {{ form.budget }}
+                        </div>
+
+                        <!-- Deadline -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Deadline
+                            </label>
+                            {{ form.deadline }}
+                        </div>
+
+                        <!-- Button -->
+                        <div class="d-grid">
+                            <button
+                                type="submit"
+                                class="btn btn-dark btn-lg rounded-3"
+                            >
+                                Post Project
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

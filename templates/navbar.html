@@ -1,133 +1,77 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold" href="/"> FreelanceHub </a>
 
-    <div class="container">
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold" href="/">
-            FreelanceHub
-        </a>
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Left Side -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/"> Home </a>
+        </li>
 
-        <!-- Mobile Toggle -->
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_project' %}"> Projects </a>
+        </li>
 
-            <span class="navbar-toggler-icon"></span>
+        <li class="nav-item">
+          <a class="nav-link" href="#"> Freelancers </a>
+        </li>
+      </ul>
 
-        </button>
+      <!-- Right Side -->
+      <ul class="navbar-nav align-items-center">
+        {% if user.is_authenticated %}
 
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Profile -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}"> Profile </a>
+        </li>
 
-            <!-- Left Side -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Dashboard -->
+        <li class="nav-item">
+          <a class="nav-link" href="#"> Dashboard </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        Home
-                    </a>
-                </li>
+        <!-- User Name -->
+        <li class="nav-item">
+          <span class="nav-link text-warning">
+            Hello, {{ user.first_name }}
+          </span>
+        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Projects
-                    </a>
-                </li>
+        <!-- Logout -->
+        <li class="nav-item">
+          <a class="btn btn-danger ms-2" href="{% url 'logout' %}"> Logout </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Freelancers
-                    </a>
-                </li>
+        {% else %}
 
-            </ul>
+        <!-- Login -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}"> Login </a>
+        </li>
 
-            <!-- Right Side -->
-            <ul class="navbar-nav align-items-center">
+        <!-- Register -->
+        <li class="nav-item">
+          <a class="btn btn-primary ms-2" href="{% url 'register' %}">
+            Register
+          </a>
+        </li>
 
-                {% if user.is_authenticated %}
-
-                    <!-- Profile -->
-                    <li class="nav-item">
-
-                        <a class="nav-link"
-                           href="{% url 'profile' %}">
-
-                            Profile
-
-                        </a>
-
-                    </li>
-
-                    <!-- Dashboard -->
-                    <li class="nav-item">
-
-                        <a class="nav-link"
-                           href="#">
-
-                            Dashboard
-
-                        </a>
-
-                    </li>
-
-                    <!-- User Name -->
-                    <li class="nav-item">
-
-                        <span class="nav-link text-warning">
-
-                            Hello,
-                            {{ user.first_name }}
-
-                        </span>
-
-                    </li>
-
-                    <!-- Logout -->
-                    <li class="nav-item">
-
-                        <a class="btn btn-danger ms-2"
-                           href="{% url 'logout' %}">
-
-                            Logout
-
-                        </a>
-
-                    </li>
-
-                {% else %}
-
-                    <!-- Login -->
-                    <li class="nav-item">
-
-                        <a class="nav-link"
-                           href="{% url 'login' %}">
-
-                            Login
-
-                        </a>
-
-                    </li>
-
-                    <!-- Register -->
-                    <li class="nav-item">
-
-                        <a class="btn btn-primary ms-2"
-                           href="{% url 'register' %}">
-
-                            Register
-
-                        </a>
-
-                    </li>
-
-                {% endif %}
-
-            </ul>
-
-        </div>
-
+        {% endif %}
+      </ul>
     </div>
-
+  </div>
 </nav>

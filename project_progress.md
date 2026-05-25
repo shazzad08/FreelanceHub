@@ -26,10 +26,17 @@
 
 -Project Model
 -Create Project:
-                Client Features
-                ● Add project
+                Client Features:
+                ● Post project
                 ● Edit project
                 ● Delete project
+                ● View proposals
+
+                Freelancer:
+                ● Browse projects
+                ● View details
+                ● Search projects
+                ● Filter projects
 
 -Project Listing:
                   Features:

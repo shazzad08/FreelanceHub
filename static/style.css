@@ -84,3 +84,7 @@ body{
     background-color: #5c636a;
     color: white;
 }
+
+.navbar a{
+    text-decoration: none;
+}
