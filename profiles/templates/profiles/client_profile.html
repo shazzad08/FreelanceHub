@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <!-- Header -->
+
+                <div class="card-header bg-dark text-white text-center py-4">
+
+                    <h2 class="mb-1">
+                        Client Profile
+                    </h2>
+
+                    <p class="mb-0">
+                        {{ profile_user.user.username }}
+                    </p>
+
+                </div>
+
+                <!-- Body -->
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        {% if profile_user.company_logo %}
+
+                        <img
+                            src="{{ profile_user.company_logo.url }}"
+                            class="rounded-circle shadow"
+                            width="140"
+                            height="140"
+                            style="object-fit: cover;"
+                        >
+
+                        {% else %}
+
+                        <img
+                            src="https://via.placeholder.com/140"
+                            class="rounded-circle shadow"
+                        >
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <h6 class="text-muted">
+                                Username
+                            </h6>
+
+                            <p class="fw-bold">
+                                {{ profile_user.user.username }}
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <h6 class="text-muted">
+                                Email
+                            </h6>
+
+                            <p class="fw-bold">
+                                {{ profile_user.user.email }}
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <h6 class="text-muted">
+                                Role
+                            </h6>
+
+                            <p class="fw-bold">
+                                {{ profile_user.user.role }}
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <h6 class="text-muted">
+                                Joined
+                            </h6>
+
+                            <p class="fw-bold">
+                                {{ profile_user.user.date_joined|date:"F d, Y" }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <!-- About Client -->
+
+                    <h5 class="fw-bold mb-3">
+                        About Client
+                    </h5>
+
+                    <p class="text-muted">
+
+                        {% if profile_user.company_description %}
+                            {{ profile_user.company_description }}
+                        {% else %}
+                            No description added yet.
+                        {% endif %}
+
+                    </p>
+
+                    <!-- Buttons -->
+
+                    <div class="mt-4">
+
+                        <a
+                            href="javascript:history.back()"
+                            class="btn btn-secondary"
+                        >
+                            Back
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
