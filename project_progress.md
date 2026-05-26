@@ -21,9 +21,6 @@
                 ● Applied jobs history
                 )
 -Category Model
-
-## Current Milestone
-
 -Project Model
 -Create Project:
                 Client Features:
@@ -56,10 +53,9 @@
                     ● Full description
                     ● Client profile
                     ● Proposal form
-                    ● Related projects
+                   ● Related projects
 
-
-## Next Tasks
+## Current Milestone
 
 -Proposal Model
 -Apply to Project
@@ -69,6 +65,23 @@
                 ● Apply button
 
 -Client Proposal Dashboard
+                        Client can:
+                        ● View all proposals
+                        ● Accept proposal
+                        ● Reject proposal
+
+
+
+## Next Tasks
+
+- Proposal Model
+-Apply to Project
+                Features
+                ● Cover letter textarea
+                ● Bid amount
+                ● Apply button
+
+- Client Proposal Dashboard
                         Client can:
                         ● View all proposals
                         ● Accept proposal
