@@ -166,10 +166,4 @@ def client_profile(request, id):
         user__id=id
     )
 
-    return render(
-        request,
-        'profiles/client_profile.html',
-        {
-            'profile_user': profile
-        }
-    )
+    return render(request,'projects/client_profile.html',{'profile_user': profile})
