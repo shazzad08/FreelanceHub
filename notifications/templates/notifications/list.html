@@ -35,7 +35,16 @@
 
                 {% for notification in notifications %}
 
-                    <!-- Message Notification Clickable -->
+
+
+                    {% if notification.notification_type == 'message' and notification.conversation %}
+
+                    <a
+                        href="{% url 'conversation_detail' notification.conversation.id %}"
+                        class="text-decoration-none"
+                    >
+
+                    {% endif %}
 
                     <div
                         class="card border-0 shadow-sm rounded-4 mb-3 notification-card"
@@ -55,7 +64,6 @@
 
                                     <div
                                         class="rounded-circle d-flex justify-content-center align-items-center"
-
                                         style="
                                             width:45px;
                                             height:45px;
@@ -69,13 +77,9 @@
                                     >
 
                                         {% if notification.notification_type == 'proposal' %}
-
                                         📄
-
                                         {% else %}
-
                                         💬
-
                                         {% endif %}
 
                                     </div>
@@ -97,16 +101,7 @@
                                         <h6
                                             class="mb-1 fw-semibold text-primary"
                                         >
-                                            {% if notification.conversation %}
-                                            <a
-                                                href="{% url 'conversation_detail' notification.conversation.id %}"
-                                                class="text-decoration-none text-primary"
-                                            >
-                                                New Message
-                                            </a>
-                                            {% else %}
                                             New Message
-                                            {% endif %}
                                         </h6>
 
                                         {% endif %}
@@ -136,6 +131,10 @@
 
                     </div>
 
+                    {% if notification.notification_type == 'message' and notification.conversation %}
+                    </a>
+                    {% endif %}
+
                 {% endfor %}
 
             {% else %}
@@ -155,15 +154,11 @@
                 </div>
 
                 <h4 class="fw-bold">
-
                     No Notifications
-
                 </h4>
 
                 <p class="text-muted mb-0">
-
                     You're all caught up.
-
                 </p>
 
             </div>
@@ -176,13 +171,14 @@
 
 </div>
 
-<!-- Hover Effect -->
+
 
 <style>
 
 .notification-card{
 
     transition: all .25s ease;
+    cursor: pointer;
 }
 
 .notification-card:hover{

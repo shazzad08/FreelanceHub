@@ -94,6 +94,15 @@
             >
               Reject
             </a>
+
+            {% if proposal.status == 'accepted' and proposal.conversation %}
+            <a
+              href="{% url 'conversation_detail' proposal.conversation.id %}"
+              class="btn btn-success"
+            >
+              Message Freelancer
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>

@@ -6,106 +6,141 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-8">
+        <div class="col-lg-9">
 
-            <div class="card border-0 shadow rounded-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden chat-card">
 
                 <!-- Header -->
 
-                <div class="card-header bg-dark text-white py-3">
+                <div
+                    class="chat-header d-flex justify-content-between align-items-center px-4 py-3"
+                >
 
-                    <h4 class="mb-1">
+                    <div>
 
-                        {{ conversation.project.title }}
+                        <h4 class="mb-1 fw-bold text-white">
 
-                    </h4>
+                            {{ conversation.project.title }}
 
-                    <small>
+                        </h4>
 
-                        Client ↔ Freelancer Conversation
+                        <small class="text-light opacity-75">
 
-                    </small>
+                            Client ↔ Freelancer Conversation
+
+                        </small>
+
+                    </div>
+
+                    <div
+                        class="bg-white text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                        style="width:45px;height:45px;"
+                    >
+                        💬
+                    </div>
 
                 </div>
 
                 <!-- Messages -->
 
                 <div
-                    class="card-body bg-light"
-                    style="height:500px; overflow-y:auto;"
+                    id="chat-box"
+                    class="chat-body"
                 >
 
                     {% for message in conversation.messages.all %}
 
-                    <!-- My Message -->
+                        {% if message.sender == request.user %}
 
-                    {% if message.sender == request.user %}
+                        <!-- My Message -->
 
-                    <div class="d-flex justify-content-end mb-3">
+                        <div class="d-flex justify-content-end mb-4">
 
-                        <div
-                            class="bg-dark text-white p-3 rounded-4"
-                            style="max-width:75%;"
-                        >
+                            <div
+                                class="message-bubble my-message"
+                            >
 
-                            <p class="mb-1">
+                                <p class="mb-1">
 
-                                {{ message.body }}
+                                    {{ message.body }}
 
-                            </p>
+                                </p>
 
-                            <small class="opacity-75">
+                                <small class="message-time">
 
-                                {{ message.created_at|timesince }}
-                                ago
+                                    {{ message.created_at|timesince }}
+                                    ago
 
-                            </small>
+                                </small>
 
-                        </div>
-
-                    </div>
-
-                    {% else %}
-
-                    <!-- Other Message -->
-
-                    <div class="d-flex justify-content-start mb-3">
-
-                        <div
-                            class="bg-white shadow-sm p-3 rounded-4"
-                            style="max-width:75%;"
-                        >
-
-                            <strong>
-
-                                {{ message.sender.first_name }}
-
-                            </strong>
-
-                            <p class="mb-1">
-
-                                {{ message.body }}
-
-                            </p>
-
-                            <small class="text-muted">
-
-                                {{ message.created_at|timesince }}
-                                ago
-
-                            </small>
+                            </div>
 
                         </div>
 
-                    </div>
+                        {% else %}
 
-                    {% endif %}
+                        <!-- Other Message -->
+
+                        <div
+                            class="d-flex justify-content-start mb-4 align-items-end gap-2"
+                        >
+
+                            <!-- Avatar -->
+
+                            <div
+                                class="avatar-circle"
+                            >
+                                {{ message.sender.first_name|slice:":1"|upper }}
+                            </div>
+
+                            <div>
+
+                                <div
+                                    class="small fw-semibold text-muted mb-1"
+                                >
+                                    {{ message.sender.first_name }}
+                                </div>
+
+                                <div
+                                    class="message-bubble other-message"
+                                >
+
+                                    <p class="mb-1">
+
+                                        {{ message.body }}
+
+                                    </p>
+
+                                    <small class="message-time text-muted">
+
+                                        {{ message.created_at|timesince }}
+                                        ago
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
 
                     {% empty %}
 
-                    <div class="text-center text-muted mt-5">
+                    <!-- Empty State -->
 
-                        <h5>
+                    <div
+                        class="h-100 d-flex flex-column justify-content-center align-items-center text-center text-muted"
+                    >
+
+                        <div
+                            class="empty-chat-icon mb-3"
+                        >
+                            💬
+                        </div>
+
+                        <h5 class="fw-bold">
 
                             No messages yet
 
@@ -113,7 +148,7 @@
 
                         <p>
 
-                            Start the conversation.
+                            Start the conversation and connect.
 
                         </p>
 
@@ -123,32 +158,30 @@
 
                 </div>
 
-                <!-- Send Form -->
+                <!-- Footer / Send -->
 
-                <div class="card-footer bg-white">
+                <div class="chat-footer">
 
                     <form method="POST">
 
                         {% csrf_token %}
 
-                        <div class="row g-2">
+                        <div
+                            class="d-flex align-items-center gap-2"
+                        >
 
-                            <div class="col-md-10">
+                            <div class="flex-grow-1">
 
                                 {{ form.body }}
 
                             </div>
 
-                            <div class="col-md-2 d-grid">
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-dark"
-                                >
-                                    Send
-                                </button>
-
-                            </div>
+                            <button
+                                type="submit"
+                                class="btn send-btn"
+                            >
+                                ➤ Send
+                            </button>
 
                         </div>
 
@@ -163,5 +196,182 @@
     </div>
 
 </div>
+
+<style>
+
+.chat-card{
+
+    height: 80vh;
+}
+
+/* Header */
+
+.chat-header{
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+        );
+}
+
+/* Body */
+
+.chat-body{
+
+    background:#f5f7fb;
+    padding:30px;
+    overflow-y:auto;
+    flex:1;
+    height:500px;
+}
+
+/* Bubble */
+
+.message-bubble{
+
+    max-width:75%;
+    padding:14px 18px;
+    border-radius:22px;
+    position:relative;
+    transition:.25s;
+    word-wrap:break-word;
+}
+
+.message-bubble:hover{
+
+    transform:translateY(-2px);
+}
+
+/* My */
+
+.my-message{
+
+    background:#111827;
+    color:white;
+    border-bottom-right-radius:8px;
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.12);
+}
+
+/* Other */
+
+.other-message{
+
+    background:white;
+    border-bottom-left-radius:8px;
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.08);
+}
+
+/* Time */
+
+.message-time{
+
+    font-size:12px;
+    opacity:.75;
+}
+
+/* Avatar */
+
+.avatar-circle{
+
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#111827;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+}
+
+/* Footer */
+
+.chat-footer{
+
+    background:white;
+    padding:18px;
+    border-top:1px solid #eee;
+}
+
+/* Input */
+
+.chat-footer textarea{
+
+    border:none;
+    background:#f3f4f6;
+    border-radius:30px;
+    padding:14px 20px;
+    resize:none;
+    width:100%;
+    outline:none;
+    box-shadow:none;
+}
+
+.chat-footer textarea:focus{
+
+    background:white;
+
+    box-shadow:
+        0 0 0 3px rgba(17,24,39,.08);
+}
+
+/* Button */
+
+.send-btn{
+
+    background:#111827;
+    color:white;
+    border:none;
+    border-radius:30px;
+    padding:12px 24px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.send-btn:hover{
+
+    background:#000;
+    color:white;
+    transform:translateY(-2px);
+}
+
+/* Empty */
+
+.empty-chat-icon{
+
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.08);
+}
+
+</style>
+
+<!-- Auto Scroll -->
+
+<script>
+
+window.onload = function(){
+
+    const chatBox =
+        document.getElementById(
+            'chat-box'
+        );
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
+}
+
+</script>
 
 {% endblock %}

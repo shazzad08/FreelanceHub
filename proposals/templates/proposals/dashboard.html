@@ -30,8 +30,7 @@
           <p class="mb-3">
             <strong> Freelancer: </strong>
 
-            {{ proposal.freelancer.first_name }} ({{ proposal.freelancer.email
-            }})
+            {{ proposal.freelancer.first_name }}
           </p>
 
           <!-- Bid -->
@@ -83,17 +82,6 @@
             View Details
           </a>
         </div>
-
-        {% if proposal.status == 'accepted' and proposal.conversation %}
-
-        <a
-          href="{% url 'conversation_detail' proposal.conversation.id %}"
-          class="btn btn-success w-100 mb-2"
-        >
-          Message Freelancer
-        </a>
-
-        {% endif %}
       </div>
     </div>
 

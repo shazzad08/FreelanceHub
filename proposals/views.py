@@ -138,6 +138,12 @@ def proposal_detail(request, id):
     if request.user != proposal.project.client and request.user != proposal.freelancer:
         return redirect('home')
 
+    # Fetch conversation if it exists
+    proposal.conversation = Conversation.objects.filter(
+        project=proposal.project,
+        freelancer=proposal.freelancer
+    ).first()
+
     return render(
         request,
         'proposals/proposal_detail.html',
