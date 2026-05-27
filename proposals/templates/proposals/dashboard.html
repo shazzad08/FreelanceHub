@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold">
+            Proposal Dashboard
+        </h2>
+
+        <p class="text-muted">
+            Manage project proposals submitted by freelancers
+        </p>
+
+    </div>
+
+    {% if proposals %}
+
+    <div class="row g-4">
+
+        {% for proposal in proposals %}
+
+        <div class="col-lg-6 col-md-6 col-12">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <!-- Header -->
+
+                <div class="card-header bg-dark text-white py-3 rounded-top-4">
+
+                    <h5 class="mb-0">
+                        {{ proposal.project.title }}
+                    </h5>
+
+                </div>
+
+                <!-- Body -->
+
+                <div class="card-body p-4">
+
+                    <!-- Freelancer -->
+
+                    <p class="mb-3">
+
+                        <strong>
+                            Freelancer:
+                        </strong>
+
+                        {{ proposal.freelancer.first_name }}
+                        ({{ proposal.freelancer.email }})
+
+                    </p>
+
+                    <!-- Bid -->
+
+                    <p class="mb-3">
+
+                        <strong>
+                            Bid Amount:
+                        </strong>
+
+                        <span class="badge bg-success fs-6">
+                            ৳{{ proposal.bid_amount }}
+                        </span>
+
+                    </p>
+
+                    <!-- Status -->
+
+                    <p class="mb-3">
+
+                        <strong>
+                            Status:
+                        </strong>
+
+                        {% if proposal.status == 'pending' %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                        {% elif proposal.status == 'accepted' %}
+
+                        <span class="badge bg-success">
+                            Accepted
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+                            Rejected
+                        </span>
+
+                        {% endif %}
+
+                    </p>
+
+                    <!-- Cover Letter Preview -->
+
+                    <div>
+
+                        <h6 class="fw-bold mb-2">
+                            Cover Letter Preview
+                        </h6>
+
+                        <p class="text-muted mb-0">
+
+                            {{ proposal.cover_letter|truncatewords:55 }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="card-footer bg-white border-0 p-4">
+
+                   
+
+                    <a
+                        href="{% url 'proposal_detail' proposal.id %}"
+                        class="btn btn-dark w-100 mb-3"
+                    >
+                        View Details
+                    </a>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Empty State -->
+
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+
+        <h4 class="fw-bold">
+            No Proposals Yet
+        </h4>
+
+        <p class="text-muted mb-0">
+            Freelancers have not submitted proposals yet.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
