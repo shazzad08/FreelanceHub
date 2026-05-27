@@ -40,13 +40,13 @@ def project_list(request):
     
     if request.user.role == 'freelancer':
 
-        projects = Project.objects.all()
+        projects = Project.objects.all().order_by('-id')
 
     else:
 
         projects = Project.objects.filter(
             client=request.user
-        )
+        ).order_by('-id')
 
     # Search
     query = request.GET.get('q')

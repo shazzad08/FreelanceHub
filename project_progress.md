@@ -55,8 +55,6 @@
                     ● Proposal form
                    ● Related projects
 
-## Current Milestone
-
 -Proposal Model
 -Apply to Project
                 Features
@@ -70,10 +68,6 @@
                         ● Accept proposal
                         ● Reject proposal
 
-
-
-## Next Tasks
-
 - Proposal Model
 -Apply to Project
                 Features
@@ -86,3 +80,19 @@
                         ● View all proposals
                         ● Accept proposal
                         ● Reject proposal
+
+
+## Current Milestone
+
+-Review Model
+-Features
+    Client:
+        ● Rate freelancer
+        ● Write feedback
+    Freelancer:
+        ● Receive ratings
+        ● Build reputation
+
+
+## Next Tasks
+

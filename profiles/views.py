@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-
 from django.contrib.auth.decorators import login_required
 
 from .forms import (
@@ -12,13 +11,16 @@ from .models import (
     ClientProfile
 )
 
+from proposals.models import Proposal
+
 
 @login_required
 def profile_view(request):
 
     user = request.user
-
     edit_mode = request.GET.get('edit')
+
+    proposals = None
 
     # Freelancer
     if user.role == 'freelancer':
@@ -26,6 +28,10 @@ def profile_view(request):
         profile, created = FreelanceProfile.objects.get_or_create(
             user=user
         )
+
+        proposals = Proposal.objects.filter(
+            freelancer=user
+        ).order_by('-id')
 
         form = FreelancerProfileForm(
             instance=profile
@@ -74,6 +80,7 @@ def profile_view(request):
         'profile': profile,
         'form': form,
         'edit_mode': edit_mode,
+        'proposals': proposals,
     }
 
     return render(
