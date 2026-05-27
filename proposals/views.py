@@ -101,6 +101,11 @@ def accept_proposal(request, id):
     )
 )
     
+    return redirect(
+    'proposal_detail',
+    proposal.id
+)
+    
 @login_required
 def reject_proposal(request, id):
 
@@ -124,8 +129,12 @@ def reject_proposal(request, id):
         f'was rejected.'
     )
 )
-    
-    
+
+    return redirect(
+    'proposal_detail',
+    proposal.id
+)
+
 @login_required
 def proposal_detail(request, id):
 
@@ -133,7 +142,7 @@ def proposal_detail(request, id):
             Proposal,
             id=id
             )
-    
+
     # Allow access if user is the client or the freelancer
     if request.user != proposal.project.client and request.user != proposal.freelancer:
         return redirect('home')
