@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow rounded-4">
+
+                <!-- Header -->
+
+                <div class="card-header bg-dark text-white py-3">
+
+                    <h4 class="mb-1">
+
+                        {{ conversation.project.title }}
+
+                    </h4>
+
+                    <small>
+
+                        Client ↔ Freelancer Conversation
+
+                    </small>
+
+                </div>
+
+                <!-- Messages -->
+
+                <div
+                    class="card-body bg-light"
+                    style="height:500px; overflow-y:auto;"
+                >
+
+                    {% for message in conversation.messages.all %}
+
+                    <!-- My Message -->
+
+                    {% if message.sender == request.user %}
+
+                    <div class="d-flex justify-content-end mb-3">
+
+                        <div
+                            class="bg-dark text-white p-3 rounded-4"
+                            style="max-width:75%;"
+                        >
+
+                            <p class="mb-1">
+
+                                {{ message.body }}
+
+                            </p>
+
+                            <small class="opacity-75">
+
+                                {{ message.created_at|timesince }}
+                                ago
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    {% else %}
+
+                    <!-- Other Message -->
+
+                    <div class="d-flex justify-content-start mb-3">
+
+                        <div
+                            class="bg-white shadow-sm p-3 rounded-4"
+                            style="max-width:75%;"
+                        >
+
+                            <strong>
+
+                                {{ message.sender.first_name }}
+
+                            </strong>
+
+                            <p class="mb-1">
+
+                                {{ message.body }}
+
+                            </p>
+
+                            <small class="text-muted">
+
+                                {{ message.created_at|timesince }}
+                                ago
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                    {% empty %}
+
+                    <div class="text-center text-muted mt-5">
+
+                        <h5>
+
+                            No messages yet
+
+                        </h5>
+
+                        <p>
+
+                            Start the conversation.
+
+                        </p>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <!-- Send Form -->
+
+                <div class="card-footer bg-white">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row g-2">
+
+                            <div class="col-md-10">
+
+                                {{ form.body }}
+
+                            </div>
+
+                            <div class="col-md-2 d-grid">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-dark"
+                                >
+                                    Send
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

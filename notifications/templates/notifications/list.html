@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <!-- Header -->
+
+            <div class="text-center mb-5">
+
+                <div
+                    class="d-inline-flex justify-content-center align-items-center bg-dark text-white rounded-circle shadow mb-3"
+                    style="width:70px;height:70px;"
+                >
+                    <h2 class="mb-0">
+                        🔔
+                    </h2>
+                </div>
+
+                <h2 class="fw-bold mb-2">
+                    Notifications
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Stay updated with proposal and project activity
+                </p>
+
+            </div>
+
+            {% if notifications %}
+
+                {% for notification in notifications %}
+
+                    <!-- Message Notification Clickable -->
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4 mb-3 notification-card"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex justify-content-between align-items-start flex-wrap gap-2"
+                            >
+
+                                <!-- Left -->
+
+                                <div class="d-flex align-items-start gap-3">
+
+                                    <!-- Icon -->
+
+                                    <div
+                                        class="rounded-circle d-flex justify-content-center align-items-center"
+
+                                        style="
+                                            width:45px;
+                                            height:45px;
+
+                                            {% if notification.notification_type == 'proposal' %}
+                                            background:#e8f5e9;
+                                            {% else %}
+                                            background:#e3f2fd;
+                                            {% endif %}
+                                        "
+                                    >
+
+                                        {% if notification.notification_type == 'proposal' %}
+
+                                        📄
+
+                                        {% else %}
+
+                                        💬
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- Content -->
+
+                                    <div>
+
+                                        {% if notification.notification_type == 'proposal' %}
+
+                                        <h6
+                                            class="mb-1 fw-semibold text-success"
+                                        >
+                                            Proposal Update
+                                        </h6>
+
+                                        {% else %}
+
+                                        <h6
+                                            class="mb-1 fw-semibold text-primary"
+                                        >
+                                            {% if notification.conversation %}
+                                            <a
+                                                href="{% url 'conversation_detail' notification.conversation.id %}"
+                                                class="text-decoration-none text-primary"
+                                            >
+                                                New Message
+                                            </a>
+                                            {% else %}
+                                            New Message
+                                            {% endif %}
+                                        </h6>
+
+                                        {% endif %}
+
+                                        <p class="mb-1 text-muted">
+
+                                            {{ notification.message }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Time -->
+
+                                <small class="text-muted">
+
+                                    {{ notification.created_at|timesince }}
+                                    ago
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+            <!-- Empty State -->
+
+            <div
+                class="card border-0 shadow-sm rounded-4 p-5 text-center"
+            >
+
+                <div class="mb-3">
+
+                    <h1>
+                        🔕
+                    </h1>
+
+                </div>
+
+                <h4 class="fw-bold">
+
+                    No Notifications
+
+                </h4>
+
+                <p class="text-muted mb-0">
+
+                    You're all caught up.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Hover Effect -->
+
+<style>
+
+.notification-card{
+
+    transition: all .25s ease;
+}
+
+.notification-card:hover{
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 .6rem 1.2rem rgba(0,0,0,.12)!important;
+}
+
+</style>
+
+{% endblock %}

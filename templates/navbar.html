@@ -21,7 +21,6 @@
           <a class="nav-link" href="/"> Home </a>
         </li>
 
-        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'project_list' %}"> Projects </a>
         </li>
@@ -42,7 +41,35 @@
 
         <!-- Dashboard -->
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'proposal_dashboard'%}"> Dashboard </a>
+          {% if user.role == 'client' %}
+
+          <a class="nav-link" href="{% url 'proposal_dashboard' %}">
+            Dashboard
+          </a>
+
+          {% elif user.role == 'freelancer' %}
+
+          <a class="nav-link" href="{% url 'freelancer_dashboard' %}">
+            Dashboard
+          </a>
+
+          {% endif %}
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link position-relative"
+            href="{% url 'notifications' %}"
+          >
+            🔔
+            {% if notification_count > 0 %}
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+              {{ notification_count }}
+            </span>
+            {% endif %}
+          </a>
         </li>
 
         <!-- User Name -->

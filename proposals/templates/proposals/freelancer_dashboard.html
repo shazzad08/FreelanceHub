@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold">
+            My Proposals
+        </h2>
+
+        <p class="text-muted">
+            Track proposal status and communicate with clients
+        </p>
+
+    </div>
+
+    {% if proposals %}
+
+    <div class="row g-4">
+
+        {% for proposal in proposals %}
+
+        <div class="col-lg-6 col-md-6 col-12">
+
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+
+                <!-- Header -->
+
+                <div class="card-header bg-dark text-white py-3">
+
+                    <h5 class="mb-0">
+                        {{ proposal.project.title }}
+                    </h5>
+
+                </div>
+
+                <!-- Body -->
+
+                <div class="card-body">
+
+                    <!-- Bid -->
+
+                    <p class="mb-3">
+
+                        <strong>
+                            Bid:
+                        </strong>
+
+                        <span class="badge bg-success fs-6">
+
+                            ৳{{ proposal.bid_amount }}
+
+                        </span>
+
+                    </p>
+
+                    <!-- Status -->
+
+                    <p class="mb-3">
+
+                        <strong>
+                            Status:
+                        </strong>
+
+                        {% if proposal.status == 'pending' %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                        {% elif proposal.status == 'accepted' %}
+
+                        <span class="badge bg-success">
+                            Accepted
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+                            Rejected
+                        </span>
+
+                        {% endif %}
+
+                    </p>
+
+                    <!-- Status Message -->
+
+                    {% if proposal.status == 'pending' %}
+
+                    <p class="text-muted small">
+
+                        Waiting for client response.
+
+                    </p>
+
+                    {% elif proposal.status == 'accepted' %}
+
+                    <p class="text-success small fw-semibold">
+
+                        Client accepted your proposal.
+
+                    </p>
+
+                    {% else %}
+
+                    <p class="text-danger small fw-semibold">
+
+                        Client rejected your proposal.
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- Footer -->
+
+                <div class="card-footer bg-white border-0">
+
+                    <div class="d-grid gap-2">
+
+                        <!-- View Proposal -->
+
+                        <a
+                            href="{% url 'proposal_detail' proposal.id %}"
+                            class="btn btn-dark"
+                        >
+                            View Proposal
+                        </a>
+
+                        <!-- Accepted Proposal -->
+
+                        {% if proposal.status == 'accepted' %}
+
+                            {% if proposal.conversation %}
+
+                            <a
+                                href="{% url 'conversation_detail' proposal.conversation.id %}"
+                                class="btn btn-success"
+                            >
+                                Contact Client
+                            </a>
+
+                            {% else %}
+
+                            <button
+                                class="btn btn-outline-success"
+                                disabled
+                            >
+                                Contact Preparing...
+                            </button>
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Empty State -->
+
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+
+        <h4 class="fw-bold">
+
+            No Proposals Yet
+
+        </h4>
+
+        <p class="text-muted mb-0">
+
+            You have not submitted any proposals.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

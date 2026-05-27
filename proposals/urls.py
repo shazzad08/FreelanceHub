@@ -14,6 +14,8 @@ urlpatterns = [
 
     path('detail/<int:id>/',views.proposal_detail,name='proposal_detail'),
     
-    path('freelancer/<int:id>/',views.freelancer_profile,name='freelancer_profile')
+    path('freelancer/<int:id>/',views.freelancer_profile,name='freelancer_profile'),
+    
+    path('freelancer-dashboard/',views.freelancer_dashboard,name='freelancer_dashboard'),
 
 ]

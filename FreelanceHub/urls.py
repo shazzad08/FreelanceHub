@@ -19,6 +19,10 @@ urlpatterns = [
 
     path('proposals/',include('proposals.urls')),
 
+    path('messages/',include('messaging.urls')),
+    
+    path('notifications/',include('notifications.urls')),
+
 ]
 
 
