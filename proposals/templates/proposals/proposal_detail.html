@@ -1,9 +1,12 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-8">
+
       <div class="card border-0 shadow rounded-4">
+
         <!-- Header -->
 
         <div class="card-header bg-dark text-white py-4 rounded-top-4">
@@ -13,16 +16,19 @@
         <!-- Body -->
 
         <div class="card-body p-4">
+
           <!-- Project -->
 
-          <h4 class="fw-bold mb-3">{{ proposal.project.title }}</h4>
+          <h4 class="fw-bold mb-3">
+            {{ proposal.project.title }}
+          </h4>
 
-          <hr />
+          <hr>
 
           <!-- Freelancer -->
 
           <p class="mb-3">
-            <strong> Freelancer: </strong>
+            <strong>Freelancer:</strong>
 
             <a
               href="{% url 'freelancer_profile' proposal.freelancer.id %}"
@@ -30,12 +36,12 @@
             >
               {{ proposal.freelancer.first_name }}
             </a>
-
-           
           </p>
 
+          <!-- Bid Amount -->
+
           <p class="mb-3">
-            <strong> Bid Amount: </strong>
+            <strong>Bid Amount:</strong>
 
             <span class="badge bg-success fs-6">
               ৳{{ proposal.bid_amount }}
@@ -45,67 +51,156 @@
           <!-- Status -->
 
           <p class="mb-4">
-            <strong> Status: </strong>
+            <strong>Status:</strong>
 
             {% if proposal.status == 'pending' %}
 
-            <span class="badge bg-warning text-dark"> Pending </span>
+              <span class="badge bg-warning text-dark">
+                Pending
+              </span>
 
             {% elif proposal.status == 'accepted' %}
 
-            <span class="badge bg-success"> Accepted </span>
+              <span class="badge bg-success">
+                Accepted
+              </span>
 
-            {% else %}
+            {% elif proposal.status == 'rejected' %}
 
-            <span class="badge bg-danger"> Rejected </span>
+              <span class="badge bg-danger">
+                Rejected
+              </span>
 
             {% endif %}
           </p>
 
           <!-- Cover Letter -->
 
-          <h5 class="fw-bold mb-3">Cover Letter</h5>
+          <h5 class="fw-bold mb-3">
+            Cover Letter
+          </h5>
 
           <div class="bg-light rounded-4 p-4 border">
             <p class="mb-0 text-muted">
               {{ proposal.cover_letter|linebreaks }}
             </p>
           </div>
+
         </div>
 
         <!-- Footer -->
 
         <div class="card-footer bg-white border-0 p-4">
           <div class="d-flex flex-wrap gap-2">
-            <a href="{% url 'proposal_dashboard' %}" class="btn btn-secondary">
-              Back
-            </a>
 
-            <a
-              href="{% url 'accept_proposal' proposal.id %}"
-              class="btn btn-success"
-            >
-              Accept
-            </a>
+            <!-- BACK BUTTON -->
 
-            <a
-              href="{% url 'reject_proposal' proposal.id %}"
-              class="btn btn-danger"
-            >
-              Reject
-            </a>
+            {% if request.user.role == 'client' %}
 
-            {% if proposal.status == 'accepted' and proposal.conversation %}
-            <a
-              href="{% url 'conversation_detail' proposal.conversation.id %}"
-              class="btn btn-success"
-            >
-              Message Freelancer
-            </a>
+              <a
+                href="{% url 'proposal_dashboard' %}"
+                class="btn btn-secondary"
+              >
+                Back
+              </a>
+
+            {% elif request.user.role == 'freelancer' %}
+
+              <a
+                href="{% url 'freelancer_dashboard' %}"
+                class="btn btn-secondary"
+              >
+                Back
+              </a>
+
             {% endif %}
+
+            <!-- CLIENT VIEW -->
+
+            {% if request.user.role == 'client' %}
+
+              <!-- PENDING -->
+
+              {% if proposal.status == 'pending' %}
+
+                <a
+                  href="{% url 'accept_proposal' proposal.id %}"
+                  class="btn btn-success"
+                >
+                  Accept
+                </a>
+
+                <a
+                  href="{% url 'reject_proposal' proposal.id %}"
+                  class="btn btn-danger"
+                >
+                  Reject
+                </a>
+
+                {% if proposal.conversation %}
+                <a
+                  href="{% url 'conversation_detail' proposal.conversation.id %}"
+                  class="btn btn-primary"
+                >
+                  Message Freelancer
+                </a>
+                {% endif %}
+
+              <!-- ACCEPTED -->
+
+              {% elif proposal.status == 'accepted' %}
+
+                <a
+                  href="{% url 'reject_proposal' proposal.id %}"
+                  class="btn btn-danger"
+                >
+                  Reject
+                </a>
+
+                {% if proposal.conversation %}
+                <a
+                  href="{% url 'conversation_detail' proposal.conversation.id %}"
+                  class="btn btn-primary"
+                >
+                  Message Freelancer
+                </a>
+                {% endif %}
+
+              <!-- REJECTED -->
+
+              {% elif proposal.status == 'rejected' %}
+
+                <a
+                  href="{% url 'accept_proposal' proposal.id %}"
+                  class="btn btn-success"
+                >
+                  Accept
+                </a>
+
+              {% endif %}
+
+            <!-- FREELANCER VIEW -->
+
+            {% elif request.user.role == 'freelancer' %}
+
+              {% if proposal.status == 'accepted' and proposal.conversation %}
+
+                <a
+                  href="{% url 'conversation_detail' proposal.conversation.id %}"
+                  class="btn btn-primary"
+                >
+                  Message Client
+                </a>
+
+              {% endif %}
+
+            {% endif %}
+
           </div>
         </div>
+
       </div>
+
     </div>
   </div>
 </div>
