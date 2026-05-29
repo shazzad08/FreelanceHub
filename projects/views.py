@@ -1,52 +1,91 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404
+)
+
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
 from .forms import ProjectForm
 from .models import Project
+
 from categories.models import Category
 from profiles.models import ClientProfile
 from accounts.models import User
-from django.shortcuts import get_object_or_404
+from proposals.models import Proposal
+from messaging.models import Conversation
+from submissions.models import Submission
 
+
+# CREATE PROJECT
 @login_required
 def create_project(request):
 
     if request.method == 'POST':
 
-        form = ProjectForm(request.POST)
+        form = ProjectForm(
+            request.POST
+        )
 
         if form.is_valid():
 
-            project = form.save(commit=False)
+            project = form.save(
+                commit=False
+            )
 
             project.client = request.user
-
             project.save()
 
-            return redirect('project_list')
+            return redirect(
+                'project_list'
+            )
 
     else:
 
         form = ProjectForm()
 
-    return render( request,'projects/create_project.html',{'form': form})
+    return render(
+        request,
+        'projects/create_project.html',
+        {
+            'form': form
+        }
+    )
 
 
+# PROJECT LIST
 def project_list(request):
-    
+
     categories = Category.objects.all()
 
-    
-    if request.user.role == 'freelancer':
+    # Freelancer sees all
+    if (
+        request.user.is_authenticated
+        and
+        request.user.role == 'freelancer'
+    ):
 
-        projects = Project.objects.all().order_by('-id')
+        projects = Project.objects.all().order_by(
+            '-id'
+        )
 
-    else:
+    # Client sees own
+    elif (
+        request.user.is_authenticated
+        and
+        request.user.role == 'client'
+    ):
 
         projects = Project.objects.filter(
             client=request.user
         ).order_by('-id')
+
+    else:
+
+        projects = Project.objects.all().order_by(
+            '-id'
+        )
 
     # Search
     query = request.GET.get('q')
@@ -57,8 +96,10 @@ def project_list(request):
             title__icontains=query
         )
 
-    # Category Filter
-    category_id = request.GET.get('category')
+    # Category filter
+    category_id = request.GET.get(
+        'category'
+    )
 
     if category_id:
 
@@ -66,7 +107,7 @@ def project_list(request):
             category_id=category_id
         )
 
-    # Budget Sort
+    # Budget sort
     sort = request.GET.get('sort')
 
     if sort == 'low':
@@ -81,18 +122,61 @@ def project_list(request):
             '-budget'
         )
 
-    return render(request,'projects/project_list.html',{'projects': projects,'categories': categories})
+    return render(
+        request,
+        'projects/project_list.html',
+        {
+            'projects': projects,
+            'categories': categories
+        }
+    )
 
 
+# PROJECT DETAILS
+@login_required
+def project_details(request, id):
 
-def project_details(request,id):
+    project = get_object_or_404(
+        Project,
+        id=id
+    )
 
-    project= get_object_or_404(Project,id=id)
+    proposals = Proposal.objects.filter(
+        project=project
+    )
 
-    return render(request,'projects/project_details.html',{'project': project})
+    accepted_proposal = proposals.filter(
+        status='accepted'
+    ).first()
+
+    conversation = None
+
+    if accepted_proposal:
+
+        conversation = Conversation.objects.filter(
+            project=project,
+            freelancer=accepted_proposal.freelancer
+        ).first()
+
+    # Submission
+    submission = Submission.objects.filter(
+        project=project
+    ).first()
+
+    return render(
+        request,
+        'projects/project_details.html',
+        {
+            'project': project,
+            'proposals': proposals,
+            'accepted_proposal': accepted_proposal,
+            'conversation': conversation,
+            'submission': submission
+        }
+    )
 
 
-
+# EDIT PROJECT
 @login_required
 def edit_project(request, id):
 
@@ -113,22 +197,27 @@ def edit_project(request, id):
 
             form.save()
 
-            return redirect('project_list')
+            return redirect(
+                'project_list'
+            )
 
     else:
 
-        form = ProjectForm(instance=project)
+        form = ProjectForm(
+            instance=project
+        )
 
     return render(
         request,
         'projects/edit_project.html',
-        {'form': form,
-        'project': project}
+        {
+            'form': form,
+            'project': project
+        }
     )
 
 
-
-
+# DELETE PROJECT
 @login_required
 def delete_project(request, id):
 
@@ -142,7 +231,9 @@ def delete_project(request, id):
 
         project.delete()
 
-        return redirect('project_list')
+        return redirect(
+            'project_list'
+        )
 
     return redirect(
         'project_details',
@@ -150,20 +241,29 @@ def delete_project(request, id):
     )
 
 
-
-
+# CLIENT PROFILE
 def client_profile(request, id):
-    # Check if user exists
-    user = get_object_or_404(User, id=id)
-    
-    # Check if user is a client
+
+    user = get_object_or_404(
+        User,
+        id=id
+    )
+
     if user.role != 'client':
-        raise Http404(f"User is a {user.role}, not a client.")
-    
-    # Get client profile
+
+        raise Http404(
+            f'User is a {user.role}, not a client.'
+        )
+
     profile = get_object_or_404(
         ClientProfile,
         user__id=id
     )
 
-    return render(request,'projects/client_profile.html',{'profile_user': profile})
+    return render(
+        request,
+        'projects/client_profile.html',
+        {
+            'profile_user': profile
+        }
+    )

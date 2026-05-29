@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'core',
     'messaging',
     'notifications',
+    'submissions',
 ]
 
 MIDDLEWARE = [

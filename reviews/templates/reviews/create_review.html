@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-3">
+
+                        Review Freelancer
+
+                    </h3>
+
+                    <p class="text-muted">
+
+                        {{ project.title }}
+
+                    </p>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label>
+
+                                Rating
+
+                            </label>
+
+                            {{ form.rating }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label>
+
+                                Feedback
+
+                            </label>
+
+                            {{ form.feedback }}
+
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100"
+                        >
+
+                            Submit Review
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

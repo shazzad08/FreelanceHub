@@ -6,7 +6,13 @@ urlpatterns = [
     path(
         '',
         views.notification_list,
-        name='notifications'
+        name='notification_list'
+    ),
+
+    path(
+        'redirect/<int:id>/',
+        views.notification_redirect,
+        name='notification_redirect'
     ),
 
 ]

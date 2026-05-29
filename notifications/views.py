@@ -1,8 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404
+)
+
 from django.contrib.auth.decorators import login_required
+
 from .models import Notification
 
 
+# Notification List
 @login_required
 def notification_list(request):
 
@@ -12,14 +19,36 @@ def notification_list(request):
         '-created_at'
     )
 
-    notifications.update(
-        is_read=True
-    )
-
     return render(
         request,
         'notifications/list.html',
         {
             'notifications': notifications
         }
+    )
+
+
+# Notification Click Redirect
+@login_required
+def notification_redirect(request, id):
+
+    notification = get_object_or_404(
+        Notification,
+        id=id,
+        user=request.user
+    )
+
+    # Mark as read
+    notification.is_read = True
+    notification.save()
+
+    # Redirect if URL exists
+    if notification.redirect_url:
+
+        return redirect(
+            notification.redirect_url
+        )
+
+    return redirect(
+        'notification_list'
     )

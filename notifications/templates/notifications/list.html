@@ -35,16 +35,23 @@
 
                 {% for notification in notifications %}
 
+                <!-- LINK START -->
 
-
-                    {% if notification.notification_type == 'message' and notification.conversation %}
+                {% if notification.notification_type == 'message' and notification.conversation %}
 
                     <a
                         href="{% url 'conversation_detail' notification.conversation.id %}"
                         class="text-decoration-none"
                     >
 
-                    {% endif %}
+                {% else %}
+
+                    <a
+                        href="{% url 'notification_redirect' notification.id %}"
+                        class="text-decoration-none"
+                    >
+
+                {% endif %}
 
                     <div
                         class="card border-0 shadow-sm rounded-4 mb-3 notification-card"
@@ -70,6 +77,10 @@
 
                                             {% if notification.notification_type == 'proposal' %}
                                             background:#e8f5e9;
+
+                                            {% elif notification.notification_type == 'submission' %}
+                                            background:#fff3cd;
+
                                             {% else %}
                                             background:#e3f2fd;
                                             {% endif %}
@@ -77,9 +88,13 @@
                                     >
 
                                         {% if notification.notification_type == 'proposal' %}
-                                        📄
+                                            📄
+
+                                        {% elif notification.notification_type == 'submission' %}
+                                            📦
+
                                         {% else %}
-                                        💬
+                                            💬
                                         {% endif %}
 
                                     </div>
@@ -90,19 +105,27 @@
 
                                         {% if notification.notification_type == 'proposal' %}
 
-                                        <h6
-                                            class="mb-1 fw-semibold text-success"
-                                        >
-                                            Proposal Update
-                                        </h6>
+                                            <h6
+                                                class="mb-1 fw-semibold text-success"
+                                            >
+                                                Proposal Update
+                                            </h6>
+
+                                        {% elif notification.notification_type == 'submission' %}
+
+                                            <h6
+                                                class="mb-1 fw-semibold text-warning"
+                                            >
+                                                Work Submitted
+                                            </h6>
 
                                         {% else %}
 
-                                        <h6
-                                            class="mb-1 fw-semibold text-primary"
-                                        >
-                                            New Message
-                                        </h6>
+                                            <h6
+                                                class="mb-1 fw-semibold text-primary"
+                                            >
+                                                New Message
+                                            </h6>
 
                                         {% endif %}
 
@@ -111,6 +134,16 @@
                                             {{ notification.message }}
 
                                         </p>
+
+                                        {% if not notification.is_read %}
+
+                                        <span
+                                            class="badge bg-danger"
+                                        >
+                                            New
+                                        </span>
+
+                                        {% endif %}
 
                                     </div>
 
@@ -131,15 +164,13 @@
 
                     </div>
 
-                    {% if notification.notification_type == 'message' and notification.conversation %}
-                    </a>
-                    {% endif %}
+                </a>
 
                 {% endfor %}
 
             {% else %}
 
-            <!-- Empty State -->
+            <!-- Empty -->
 
             <div
                 class="card border-0 shadow-sm rounded-4 p-5 text-center"
@@ -171,19 +202,17 @@
 
 </div>
 
-
-
 <style>
 
 .notification-card{
 
     transition: all .25s ease;
-    cursor: pointer;
+    cursor:pointer;
 }
 
 .notification-card:hover{
 
-    transform: translateY(-3px);
+    transform:translateY(-3px);
 
     box-shadow:
         0 .6rem 1.2rem rgba(0,0,0,.12)!important;

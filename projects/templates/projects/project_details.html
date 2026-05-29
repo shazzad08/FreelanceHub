@@ -40,6 +40,32 @@
 
       <hr />
 
+      {% if submission %}
+
+      <div class="card shadow-sm border-0 mt-4">
+        <div class="card-header bg-success text-white">Submitted Work</div>
+
+        <div class="card-body">
+          <p>
+            <strong>Message:</strong>
+          </p>
+
+          <p class="text-muted">{{ submission.message }}</p>
+
+          <p>
+            <strong>Submitted:</strong>
+
+            {{ submission.submitted_at }}
+          </p>
+
+          <a href="{{ submission.file.url }}" class="btn btn-primary" download>
+            Download File
+          </a>
+        </div>
+      </div>
+
+      {% endif %}
+
       <!-- Deadline -->
 
       <p>

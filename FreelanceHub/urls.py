@@ -22,6 +22,9 @@ urlpatterns = [
     path('messages/',include('messaging.urls')),
     
     path('notifications/',include('notifications.urls')),
+    
+    path('submissions/',include('submissions.urls')),
+    path('reviews/',include('reviews.urls')),
 
 ]
 
