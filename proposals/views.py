@@ -143,17 +143,18 @@ def accept_proposal(request, id):
         freelancer=proposal.freelancer
     )
 
-    # Notification
+    
+    
     Notification.objects.create(
-        user=proposal.freelancer,
-        notification_type='proposal',
-        message=(
-            f'Your proposal for '
-            f'"{project.title}" '
-            f'was accepted.'
-        )
+    user=proposal.freelancer,
+    notification_type='proposal',
+    redirect_url=f'/proposals/detail/{proposal.id}/',
+    message=(
+        f'Your proposal for '
+        f'"{project.title}" '
+        f'was accepted.'
     )
-
+)
     return redirect(
         'proposal_detail',
         proposal.id
@@ -187,14 +188,15 @@ def reject_proposal(request, id):
         proposal.project.save()
 
     Notification.objects.create(
-        user=proposal.freelancer,
-        notification_type='proposal',
-        message=(
-            f'Your proposal for '
-            f'"{proposal.project.title}" '
-            f'was rejected.'
-        )
+    user=proposal.freelancer,
+    notification_type='proposal',
+    redirect_url=f'/proposals/detail/{proposal.id}/',
+    message=(
+        f'Your proposal for '
+        f'"{proposal.project.title}" '
+        f'was rejected.'
     )
+)
 
     return redirect(
         'proposal_detail',

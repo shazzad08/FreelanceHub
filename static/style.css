@@ -1,90 +1,108 @@
-body{
-    background-color: #f8f9fa;
+/* HERO SECTION / VIDEO LAYERING */
+.hero-section{
+    position:relative;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
 }
 
-
-/* Profile Image */
-.profile-image {
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    object-fit: cover;
-    object-position: center;
-    border: 5px solid #f1f1f1;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+/* Background Video */
+.hero-video{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:1;
 }
 
-/* Company Logo */
-.company-logo {
-    width: 180px;
-    height: 180px;
-    object-fit: contain;
-    margin-bottom: 1rem;
+/* DARK OVERLAY */
+.hero-overlay{
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,.55);
+    z-index:2;
 }
 
-/* Profile Name */
-.profile-name {
-    font-size: 36px;
-    font-weight: 700;
+/* HERO CONTENT - centered over video */
+.hero-content{
+    position:relative;
+    z-index:3;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+    padding:0 20px;
 }
 
-/* Profile Details Container */
-.profile-details {
-    padding: 20px 40px;
+/* HERO TITLE */
+.hero-title{
+    font-size:56px;
+    font-weight:700;
+    line-height:1.15;
+    margin-bottom:30px;
+    text-shadow:0 2px 10px rgba(0,0,0,.4);
 }
 
-/* Detail Text */
-.detail-text {
-    font-size: 17px;
-    line-height: 1.7;
+/* SEARCH BAR */
+.hero-search{
+    display:flex;
+    width:100%;
+    max-width:700px;
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+.hero-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:16px 20px;
+    font-size:16px;
+}
+.hero-search button{
+    border:none;
+    background:#0d0d0d;
+    color:#fff;
+    padding:0 22px;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+.hero-search button:hover{
+    background:#222;
 }
 
-/* Edit Button */
-.btn-edit {
-    padding: 10px 35px;
-    border-radius: 10px;
-    background-color: #0d6efd;
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+/* CATEGORY TAGS */
+.hero-tags{
+    margin-top:22px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+}
+.hero-tags a{
+    color:#fff;
+    border:1px solid rgba(255,255,255,.6);
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:14px;
+    text-decoration:none;
+    transition:.3s;
+    background:rgba(0,0,0,.25);
+}
+.hero-tags a:hover{
+    background:#fff;
+    color:#000;
 }
 
-.btn-edit:hover {
-    background-color: #0b5ed7;
-    color: white;
-}
-
-/* Save Button */
-.btn-save {
-    padding: 10px 35px;
-    border-radius: 10px;
-    background-color: #198754;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-save:hover {
-    background-color: #157347;
-    color: white;
-}
-
-/* Cancel Button */
-.btn-cancel {
-    padding: 10px 35px;
-    border-radius: 10px;
-    background-color: #6c757d;
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
-}
-
-.btn-cancel:hover {
-    background-color: #5c636a;
-    color: white;
-}
-
-.navbar a{
-    text-decoration: none;
+/* RESPONSIVE */
+@media (max-width:768px){
+    .hero-title{ font-size:36px; }
+    .hero-search input{ padding:12px 16px; font-size:14px; }
 }

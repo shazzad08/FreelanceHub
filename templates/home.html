@@ -1,13 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="container mt-5">
+<!-- HERO SECTION -->
+<section class="hero-section">
 
-    <h1>
-        Welcome to FreelanceHub
-    </h1>
+    <!-- Background Video -->
+    <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+        <source
+            src="{% static 'videos/hero.mp4' %}"
+            type="video/mp4"
+        >
+    </video>
 
-</div>
+    <!-- Dark Overlay -->
+    <div class="hero-overlay"></div>
+
+    <!-- Hero Content -->
+    <div class="container hero-content">
+
+        <h1 class="hero-title">
+            Welcome to <br>
+            FreelanceHub
+        </h1>
+
+        <!-- Search Bar -->
+        <form class="hero-search">
+
+            <input
+                type="text"
+                placeholder="Search for any service..."
+            >
+
+            <button type="submit">
+                🔍
+            </button>
+
+        </form>
+
+        <!-- Category Tags -->
+        <div class="hero-tags">
+
+            <a href="#">Website Development</a>
+            <a href="#">Graphic Design</a>
+            <a href="#">Video Editing</a>
+            <a href="#">Marketing</a>
+            <a href="#">Book Publishing</a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

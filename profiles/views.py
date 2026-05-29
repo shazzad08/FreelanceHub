@@ -88,3 +88,21 @@ def profile_view(request):
         'profiles/profile.html',
         context
     )
+    
+    
+    
+
+def freelancer_list(request):
+    
+    freelancers = FreelanceProfile.objects.filter(
+        user__role='freelancer',
+        user__is_verified=True
+    ).select_related('user')
+
+    return render(
+        request,
+        'profiles/freelancer_list.html',
+        {
+            'freelancers': freelancers
+        }
+    )

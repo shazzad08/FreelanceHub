@@ -1,0 +1,203 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold display-6">
+            Verified Freelancers
+        </h1>
+
+        <p class="text-muted fs-5">
+            Connect with trusted and verified professionals
+            ready to work on your projects.
+        </p>
+
+    </div>
+
+    <!-- Freelancer Cards -->
+    <div class="row g-4">
+
+        {% for freelancer in freelancers %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div
+                class="card border-0 shadow-sm h-100 freelancer-card"
+                style="border-radius:22px;"
+            >
+
+                <div class="card-body p-4 text-center">
+
+                    <!-- Profile Image -->
+                    {% if freelancer.profile_image %}
+                    <img
+                        src="{{ freelancer.profile_image.url }}"
+                        class="rounded-circle shadow-sm mb-3"
+                        width="105"
+                        height="105"
+                        style="
+                            object-fit:cover;
+                            border:4px solid #f8f9fa;
+                        "
+                    >
+                    {% else %}
+                    <img
+                        src="https://via.placeholder.com/105"
+                        class="rounded-circle shadow-sm mb-3"
+                    >
+                    {% endif %}
+
+                    <!-- Name -->
+                    <h5 class="fw-bold mb-1">
+
+                        {{ freelancer.user.first_name }}
+                        {{ freelancer.user.last_name }}
+
+                    </h5>
+
+                    <!-- Verified Badge -->
+                    <span
+                        class="badge rounded-pill bg-success px-3 py-2 mb-3"
+                    >
+                        ✓ Verified
+                    </span>
+
+                    <!-- Skills -->
+                    {% if freelancer.skills %}
+                    <div class="mb-3">
+
+                        <span
+                            class="
+                                badge
+                                bg-light
+                                text-dark
+                                border
+                                px-3
+                                py-2
+                            "
+                        >
+                            {{ freelancer.skills }}
+                        </span>
+
+                    </div>
+                    {% endif %}
+
+                    <!-- Bio -->
+                    <p
+                        class="text-muted"
+                        style="
+                            min-height:70px;
+                            line-height:1.7;
+                        "
+                    >
+                        {{ freelancer.bio|truncatewords:18 }}
+                    </p>
+
+                    <!-- Button -->
+                    <div class="d-grid mt-4">
+
+                        <a
+                            href="{% url 'freelancer_profile' freelancer.user.id %}"
+                            class="btn btn-dark rounded-pill py-2"
+                        >
+                            View Profile
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <!-- Empty State -->
+        <div class="col-12">
+
+            <div
+                class="card border-0 shadow-sm p-5 text-center"
+                style="border-radius:20px;"
+            >
+
+                <h4 class="fw-bold">
+                    No Verified Freelancers Yet
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Verified freelancer profiles will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- Card Animation -->
+<style>
+
+.freelancer-card{
+    position:relative;
+    overflow:hidden;
+    transition:all 0.4s ease;
+    background:#fff;
+}
+
+/* Hover Lift + Zoom */
+.freelancer-card:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    box-shadow:
+        0 18px 40px
+        rgba(0,0,0,0.15)!important;
+}
+
+/* Animated Side Shine */
+.freelancer-card::before{
+
+    content:'';
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.4),
+            transparent
+        );
+
+    transition:0.7s;
+}
+
+.freelancer-card:hover::before{
+    left:130%;
+}
+
+/* Button Hover */
+.freelancer-card .btn:hover{
+    transform:scale(1.03);
+    transition:0.3s;
+}
+
+</style>
+
+{% endblock %}
+```

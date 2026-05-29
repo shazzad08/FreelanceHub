@@ -42,9 +42,18 @@ def notification_redirect(request, id):
     notification.is_read = True
     notification.save()
 
-    # Redirect if URL exists
-    if notification.redirect_url:
+    # Message notification
+    if (
+        notification.notification_type == 'message'
+        and notification.conversation
+    ):
+        return redirect(
+            'conversation_detail',
+            notification.conversation.id
+        )
 
+    # Proposal + others
+    if notification.redirect_url:
         return redirect(
             notification.redirect_url
         )
