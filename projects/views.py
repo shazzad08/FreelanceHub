@@ -3,7 +3,6 @@ from django.shortcuts import (
     redirect,
     get_object_or_404
 )
-
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
@@ -16,6 +15,7 @@ from accounts.models import User
 from proposals.models import Proposal
 from messaging.models import Conversation
 from submissions.models import Submission
+from profiles.models import FreelanceProfile
 
 
 # CREATE PROJECT
@@ -163,6 +163,18 @@ def project_details(request, id):
         project=project
     ).first()
 
+    # Check if freelancer already applied
+    already_applied = False
+
+    if (
+        request.user.is_authenticated
+        and request.user != project.client
+    ):
+        already_applied = Proposal.objects.filter(
+            project=project,
+            freelancer=request.user
+        ).exists()
+
     return render(
         request,
         'projects/project_details.html',
@@ -171,10 +183,10 @@ def project_details(request, id):
             'proposals': proposals,
             'accepted_proposal': accepted_proposal,
             'conversation': conversation,
-            'submission': submission
+            'submission': submission,
+            'already_applied': already_applied,
         }
     )
-
 
 # EDIT PROJECT
 @login_required
@@ -266,4 +278,38 @@ def client_profile(request, id):
         {
             'profile_user': profile
         }
+    )
+    
+    
+@login_required
+def category_freelancers(request, slug):
+
+    freelancers = FreelanceProfile.objects.filter(
+        category__slug=slug
+    )
+
+    return render(
+        request,
+        'category/freelancer_list.html',
+        {
+            'freelancers': freelancers,
+            'slug': slug
+        }
+    )
+
+def category_projects(request, slug):
+
+    projects = Project.objects.filter(
+        category__slug=slug
+    )
+
+    context = {
+        'projects': projects,
+        'category_slug': slug
+    }
+
+    return render(
+        request,
+        'category/project_list.html',
+        context
     )

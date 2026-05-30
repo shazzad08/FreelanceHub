@@ -62,6 +62,17 @@ def apply_to_project(request, id):
             proposal.freelancer = request.user
             proposal.save()
 
+            # Send notification to client
+            Notification.objects.create(
+                user=project.client,
+                notification_type='proposal',
+                redirect_url=f'/proposals/dashboard/',
+                message=(
+                    f'{request.user.username} applied to your project '
+                    f'"{project.title}" with a bid of ${proposal.bid_amount}'
+                )
+            )
+
             return redirect(
                 'project_details',
                 id=project.id

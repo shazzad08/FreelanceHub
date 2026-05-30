@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+/* PAGE */
+
+.freelancer-page{
+    background:#f8f9fa;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+.page-title{
+    font-size:42px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.page-subtitle{
+    color:#6c757d;
+    margin-bottom:50px;
+}
+
+/* CARD */
+
+.freelancer-card{
+    background:white;
+    border:none;
+    border-radius:22px;
+    padding:30px;
+    text-align:center;
+    height:100%;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.freelancer-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+}
+
+/* IMAGE */
+
+.freelancer-image{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #f1f1f1;
+    margin-bottom:20px;
+}
+
+/* NAME */
+
+.freelancer-name{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+/* CATEGORY */
+
+.freelancer-category{
+    color:#6c757d;
+    margin-bottom:18px;
+}
+
+/* SKILLS */
+
+.skill-badge{
+    display:inline-block;
+    background:#f3f4f6;
+    color:#111827;
+    border-radius:30px;
+    padding:8px 14px;
+    margin:4px;
+    font-size:.85rem;
+}
+
+/* RATE */
+
+.freelancer-rate{
+    margin:18px 0;
+    font-weight:600;
+    color:#198754;
+}
+
+/* BUTTON */
+
+.profile-btn{
+    background:#111827;
+    color:white;
+    border:none;
+    border-radius:12px;
+    width:100%;
+    padding:12px;
+    text-decoration:none;
+    display:inline-block;
+    transition:.3s;
+}
+
+.profile-btn:hover{
+    background:black;
+    color:white;
+}
+
+/* EMPTY */
+
+.empty-box{
+    background:white;
+    border-radius:22px;
+    padding:60px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .page-title{
+        font-size:32px;
+    }
+
+}
+
+</style>
+
+<div class="freelancer-page py-5">
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="text-center mb-5">
+
+            <h2 class="page-title">
+                Find Freelancers
+            </h2>
+
+            <p class="page-subtitle">
+                Discover skilled professionals for your project
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for freelancer in freelancers %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="freelancer-card">
+
+                    <!-- Image -->
+                    {% if freelancer.profile_image %}
+
+                        <img
+                            src="{{ freelancer.profile_image.url }}"
+                            class="freelancer-image"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="https://via.placeholder.com/110"
+                            class="freelancer-image"
+                        >
+
+                    {% endif %}
+
+                    <!-- Name -->
+                    <h4 class="freelancer-name">
+
+                        {{ freelancer.user.first_name }}
+
+                    </h4>
+
+                    <!-- Category -->
+                    <p class="freelancer-category">
+
+                        {{ freelancer.category.name }}
+
+                    </p>
+
+                    <!-- Skills -->
+                    {% if freelancer.skills %}
+
+                    <div>
+
+                        {% for skill in freelancer.skills.split %}
+
+                            <span class="skill-badge">
+
+                                {{ skill }}
+
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- Hourly Rate -->
+                    {% if freelancer.hourly_rate %}
+
+                    <div class="freelancer-rate">
+
+                        ${{ freelancer.hourly_rate }}/hr
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- Button -->
+                    <a
+                        href="{% url 'freelancer_profile' freelancer.user.id %}"
+                        class="profile-btn"
+                    >
+                        View Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+
+                <div class="empty-box">
+
+                    <h4>
+                        No Freelancers Found
+                    </h4>
+
+                    <p>
+                        No freelancers available in this category yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

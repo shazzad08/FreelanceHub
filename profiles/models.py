@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from categories.models import Category
 
 
 class FreelanceProfile(models.Model):
@@ -25,6 +26,12 @@ class FreelanceProfile(models.Model):
         blank=True,
         help_text='Separate skills with commas'
     )
+    category = models.ForeignKey(
+    Category,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True
+)
 
     github = models.URLField(
         blank=True
