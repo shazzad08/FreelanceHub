@@ -7,7 +7,10 @@
 
     <!-- VIDEO -->
     <video class="hero-video" autoplay muted loop playsinline>
-        <source src="{% static 'videos/hero.mp4' %}" type="video/mp4">
+        <source
+            src="{% static 'videos/hero.mp4' %}"
+            type="video/mp4"
+        >
     </video>
 
     <!-- OVERLAY -->
@@ -21,16 +24,27 @@
             FreelanceHub
         </h1>
 
-        <form class="hero-search">
+        <!-- SEARCH -->
+        <form
+            class="hero-search"
+            method="GET"
+            action="{% url 'project_list' %}"
+        >
+
             <input
                 type="text"
+                name="q"
                 placeholder="Search for any service..."
+                value="{{ request.GET.q }}"
             >
+
             <button type="submit">
                 🔍
             </button>
+
         </form>
 
+        <!-- CATEGORY TAGS -->
         <div class="hero-tags">
 
             {% if request.user.is_authenticated %}
@@ -49,7 +63,7 @@
                         Video Editing
                     </a>
 
-                    <a href="{% url 'category_freelancers' 'marketting' %}">
+                    <a href="{% url 'category_freelancers' 'marketing' %}">
                         Marketing
                     </a>
 
@@ -67,7 +81,7 @@
                         Video Editing
                     </a>
 
-                    <a href="{% url 'category_projects' 'marketting' %}">
+                    <a href="{% url 'category_projects' 'marketing' %}">
                         Marketing
                     </a>
 
