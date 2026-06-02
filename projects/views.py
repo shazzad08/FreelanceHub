@@ -313,3 +313,59 @@ def category_projects(request, slug):
         'category/project_list.html',
         context
     )
+    
+
+
+def home(request):
+    
+    categories = Category.objects.all()
+
+    # Base queryset
+    projects = Project.objects.all().order_by(
+        '-id'
+    )
+
+    # Search filter
+    query = request.GET.get('q')
+
+    if query:
+        projects = projects.filter(
+            title__icontains=query
+        )
+
+    # Category filter
+    category_id = request.GET.get(
+        'category'
+    )
+
+    if category_id:
+        projects = projects.filter(
+            category_id=category_id
+        )
+
+    # Budget sort
+    sort = request.GET.get('sort')
+
+    if sort == 'low':
+        projects = projects.order_by(
+            'budget'
+        )
+
+    elif sort == 'high':
+        projects = projects.order_by(
+            '-budget'
+        )
+
+    # Homepage latest cards
+    latest_projects = projects[:4]
+
+    context = {
+        'latest_projects': latest_projects,
+        'categories': categories,
+    }
+
+    return render(
+        request,
+        'home.html',
+        context
+    )
