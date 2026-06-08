@@ -16,3 +16,238 @@
 .card:hover{
     transform: translateY(-2px);
 }
+
+
+
+
+/* =========================
+   PROFESSIONAL EDIT PROFILE
+========================= */
+
+.profile-edit-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.08),
+        0 1px 3px rgba(0,0,0,0.05);
+    animation: slideUp .6s ease;
+}
+
+/* Header */
+
+.edit-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.edit-header h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.edit-header p {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+/* Form Sections */
+
+.field-card {
+    background: #f8fafc;
+    border: 2px solid transparent;
+    border-radius: 18px;
+    padding: 20px;
+    transition: all .35s ease;
+}
+
+.field-card:hover {
+    transform: translateY(-3px);
+    border-color: #2563eb20;
+    box-shadow: 0 10px 25px rgba(37,99,235,0.08);
+}
+
+.field-card label {
+    display: block;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+/* Inputs */
+
+.field-card input,
+.field-card textarea,
+.field-card select {
+    width: 100%;
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 15px;
+    background: white;
+    transition: all .3s ease;
+}
+
+.field-card textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.field-card input:focus,
+.field-card textarea:focus,
+.field-card select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 5px rgba(37,99,235,.12);
+    transform: scale(1.01);
+}
+
+/* File Upload */
+
+input[type="file"] {
+    border: 2px dashed #2563eb40 !important;
+    background: #f8fbff !important;
+    padding: 18px !important;
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    border-color: #2563eb !important;
+}
+
+/* Small text */
+
+.field-card small {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* Action Buttons */
+
+.edit-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-save {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 35px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+
+.btn-save:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(37,99,235,.35);
+}
+
+.btn-cancel {
+    border-radius: 50px;
+    padding: 14px 35px;
+    border: 2px solid #e5e7eb;
+    color: #374151;
+    background: white;
+    transition: all .3s ease;
+}
+
+.btn-cancel:hover {
+    background: #f3f4f6;
+    transform: translateY(-3px);
+}
+
+/* Animation */
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .profile-edit-card{
+        padding:25px;
+    }
+
+    .edit-actions{
+        flex-direction:column;
+    }
+
+    .btn-save,
+    .btn-cancel{
+        width:100%;
+    }
+}
+
+
+
+.profile-upload-section{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.current-image img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #fff;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    transition:.3s;
+}
+
+.current-image img:hover{
+    transform:scale(1.05);
+}
+
+.upload-field{
+    flex:1;
+}
+
+.upload-field input[type="file"]{
+    width:100%;
+    padding:15px;
+    border:2px dashed #3b82f6;
+    border-radius:16px;
+    background:#f8fbff;
+    cursor:pointer;
+}
+
+/* Django clear checkbox styling */
+
+.upload-field label{
+    font-weight:500;
+    margin-top:10px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#dc2626;
+}
+
+.upload-field input[type="checkbox"]{
+    width:18px;
+    height:18px;
+    accent-color:#dc2626;
+}

@@ -81,9 +81,6 @@
                         ● Accept proposal
                         ● Reject proposal
 
-
-## Current Milestone
-
 -Review Model
 -Features
     Client:
@@ -92,6 +89,11 @@
     Freelancer:
         ● Receive ratings
         ● Build reputation
+
+
+
+## Current Milestone
+
 
 
 ## Next Tasks

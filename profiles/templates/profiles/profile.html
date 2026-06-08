@@ -1,316 +1,325 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="container py-5">
+  <!-- PROFILE CARD -->
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-start flex-wrap">
+          <div class="d-flex align-items-center gap-4">
+            {% if user.role == 'freelancer' %} {% if profile.profile_image %}
+            <img
+              src="{{ profile.profile_image.url }}"
+              class="rounded-circle shadow-sm"
+              width="120"
+              height="120"
+              style="object-fit: cover"
+            />
+            {% endif %}
 
-    <!-- PROFILE CARD -->
-    <div class="row justify-content-center">
+            <div>
+              <h2 class="fw-bold mb-1">{{ user.first_name }}</h2>
 
-        <div class="col-lg-9">
-
-            <div class="card border-0 shadow-sm rounded-4 p-4">
-
-                <!-- Header -->
-                <div class="d-flex justify-content-between align-items-start flex-wrap">
-
-                    <div class="d-flex align-items-center gap-4">
-
-                        {% if user.role == 'freelancer' %}
-
-                            {% if profile.profile_image %}
-                                <img
-                                    src="{{ profile.profile_image.url }}"
-                                    class="rounded-circle shadow-sm"
-                                    width="120"
-                                    height="120"
-                                    style="object-fit: cover;"
-                                >
-                            {% endif %}
-
-                            <div>
-                                <h2 class="fw-bold mb-1">
-                                    {{ user.first_name }}
-                                </h2>
-
-                                <span class="badge bg-primary">
-                                    Freelancer
-                                </span>
-                            </div>
-
-                        {% else %}
-
-                            {% if profile.company_logo %}
-                                <img
-                                    src="{{ profile.company_logo.url }}"
-                                    class="rounded-circle shadow-sm"
-                                    width="120"
-                                    height="120"
-                                    style="object-fit: cover;"
-                                >
-                            {% endif %}
-
-                            <div>
-                                <h2 class="fw-bold mb-1">
-                                    {{ profile.company_name }}
-                                </h2>
-
-                                <span class="badge bg-dark">
-                                    Client
-                                </span>
-                            </div>
-
-                        {% endif %}
-                    </div>
-
-                    {% if not edit_mode %}
-                    <div>
-                        <a
-                            href="?edit=True"
-                            class="btn btn-primary rounded-pill px-4"
-                        >
-                            Edit Profile
-                        </a>
-                    </div>
-                    {% endif %}
-
-                </div>
-
-                <hr class="my-4">
-
-                <!-- VIEW MODE -->
-                {% if not edit_mode %}
-
-                    {% if user.role == 'freelancer' %}
-
-                        <!-- Bio -->
-                        <div class="mb-4">
-                            <h5 class="fw-semibold mb-2">
-                                About
-                            </h5>
-
-                            <p class="text-muted">
-                                {{ profile.bio }}
-                            </p>
-                        </div>
-
-                        <!-- Skills -->
-                        <div class="mb-4">
-
-                            <h5 class="fw-semibold mb-3">
-                                Skills
-                            </h5>
-
-                            {% for skill in profile.skills.split %}
-                                <span class="badge bg-light text-dark border me-2 mb-2 p-2">
-                                    {{ skill }}
-                                </span>
-                            {% endfor %}
-
-                        </div>
-
-                        <!-- Info Grid -->
-                        <div class="row g-3">
-
-                            <div class="col-md-4">
-                                <div class="card border-0 bg-light p-3 rounded-3">
-                                    <small class="text-muted">
-                                        Hourly Rate
-                                    </small>
-                                    <h5 class="mb-0">
-                                        ${{ profile.hourly_rate }}
-                                    </h5>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card border-0 bg-light p-3 rounded-3">
-                                    <small class="text-muted">
-                                        Github
-                                    </small>
-
-                                    <a
-                                        href="{{ profile.github }}"
-                                        target="_blank"
-                                    >
-                                         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/github.png" alt="github"/>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card border-0 bg-light p-3 rounded-3">
-                                    <small class="text-muted">
-                                        LinkedIn
-                                    </small>
-
-                                    <a
-                                        href="{{ profile.linkedin }}"
-                                        target="_blank"
-                                    >
-                                       <img width="50" height="50" src="https://img.icons8.com/ios/50/linkedin.png" alt="linkedin"/>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    {% else %}
-
-                        <!-- Client View -->
-
-                        <div class="mb-4">
-
-                            <h5 class="fw-semibold">
-                                Company Description
-                            </h5>
-
-                            <p class="text-muted">
-                                {{ profile.company_description }}
-                            </p>
-
-                        </div>
-
-                        <div class="card border-0 bg-light p-3">
-
-                            <small class="text-muted">
-                                Website
-                            </small>
-
-                            <a
-                                href="{{ profile.company_website }}"
-                                target="_blank"
-                            >
-                                {{ profile.company_website }}
-                            </a>
-
-                        </div>
-
-                    {% endif %}
-
-                {% else %}
-
-                    <!-- EDIT MODE -->
-
-                    <div class="card border-0 bg-light p-4 rounded-4">
-
-                        <form
-                            method="POST"
-                            enctype="multipart/form-data"
-                        >
-
-                            {% csrf_token %}
-
-                            {{ form.as_p }}
-
-                            <div class="mt-4">
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-success rounded-pill px-4"
-                                >
-                                    Save Changes
-                                </button>
-
-                                <a
-                                    href="{% url 'profile' %}"
-                                    class="btn btn-outline-secondary rounded-pill px-4"
-                                >
-                                    Cancel
-                                </a>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                {% endif %}
-
+              <span class="badge bg-primary"> Freelancer </span>
             </div>
 
-            <!-- APPLIED JOB HISTORY -->
-            {% if user.role == 'freelancer' and not edit_mode %}
+            {% else %} {% if profile.company_logo %}
+            <img
+              src="{{ profile.company_logo.url }}"
+              class="rounded-circle shadow-sm"
+              width="120"
+              height="120"
+              style="object-fit: cover"
+            />
+            {% endif %}
 
-            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+            <div>
+              <h2 class="fw-bold mb-1">{{ profile.company_name }}</h2>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="badge bg-dark"> Client </span>
+            </div>
 
-                    <h4 class="fw-bold mb-0">
-                        Applied Jobs
-                    </h4>
+            {% endif %}
+          </div>
 
-                    <span class="badge bg-dark">
-                        {{ proposals|length }} Applications
-                    </span>
+          {% if not edit_mode %}
+          <div>
+            <a href="?edit=True" class="btn btn-primary rounded-pill px-4">
+              Edit Profile
+            </a>
+          </div>
+          {% endif %}
+        </div>
 
+        <hr class="my-4" />
+
+        <!-- VIEW MODE -->
+        {% if not edit_mode %} {% if user.role == 'freelancer' %}
+
+        <!-- Bio -->
+        <div class="mb-4">
+          <h5 class="fw-semibold mb-2">About</h5>
+
+          <p class="text-muted">{{ profile.bio }}</p>
+        </div>
+
+        <!-- Skills -->
+        <div class="mb-4">
+          <h5 class="fw-semibold mb-3">Skills</h5>
+
+          {% for skill in profile.skills.split %}
+          <span class="badge bg-light text-dark border me-2 mb-2 p-2">
+            {{ skill }}
+          </span>
+          {% endfor %}
+        </div>
+
+        <!-- Info Grid -->
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card border-0 bg-light p-3 rounded-3">
+              <small class="text-muted"> Hourly Rate </small>
+              <h5 class="mb-0">${{ profile.hourly_rate }}</h5>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card border-0 bg-light p-3 rounded-3">
+              <small class="text-muted"> Github </small>
+
+              <a href="{{ profile.github }}" target="_blank">
+                <img
+                  width="50"
+                  height="50"
+                  src="https://img.icons8.com/ios-filled/50/github.png"
+                  alt="github"
+                />
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card border-0 bg-light p-3 rounded-3">
+              <small class="text-muted"> LinkedIn </small>
+
+              <a href="{{ profile.linkedin }}" target="_blank">
+                <img
+                  width="50"
+                  height="50"
+                  src="https://img.icons8.com/ios/50/linkedin.png"
+                  alt="linkedin"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {% else %}
+
+        <!-- Client View -->
+
+        <div class="mb-4">
+          <h5 class="fw-semibold">Company Description</h5>
+
+          <p class="text-muted">{{ profile.company_description }}</p>
+        </div>
+
+        <div class="card border-0 bg-light p-3">
+          <small class="text-muted"> Website </small>
+
+          <a href="{{ profile.company_website }}" target="_blank">
+            {{ profile.company_website }}
+          </a>
+        </div>
+
+        {% endif %} {% else %}
+
+        <div class="edit-header">
+    <h3>
+        <i class="fas fa-user-edit text-primary me-2"></i>
+        Update Your Profile
+    </h3>
+
+    <p>
+        Keep your profile updated to attract more clients and opportunities.
+    </p>
+</div>
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Profile Image -->
+
+                <div class="field-card mb-4">
+
+    <label>Profile Image</label>
+
+    {% if profile.profile_image %}
+    <div class="mb-3 text-center">
+        <img
+            id="preview-image"
+            src="{{ profile.profile_image.url }}"
+            class="rounded-circle shadow"
+            width="130"
+            height="130"
+            style="object-fit: cover;"
+        >
+    </div>
+    {% endif %}
+
+    <input
+        type="file"
+        name="profile_image"
+        id="id_profile_image"
+        class="form-control"
+        accept="image/*"
+    >
+
+    <small class="text-muted mt-2 d-block">
+        Upload a new image to replace the current one.
+    </small>
+
+
+
+</div>
+
+            <!-- Bio -->
+
+            <div class="field-card mb-4">
+              <label> Bio </label>
+
+              {{ form.bio }}
+            </div>
+
+            <!-- Skills + Hourly Rate -->
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="field-card">
+                  <label> Skills </label>
+
+                  {{ form.skills }}
+
+                  <small class="text-muted d-block mt-2">
+                    Separate skills with commas
+                  </small>
                 </div>
+              </div>
 
-                {% for proposal in proposals %}
+              <div class="col-md-6 mb-4">
+                <div class="field-card">
+                  <label> Hourly Rate ($) </label>
 
-                <div class="card border-0 bg-light rounded-4 p-3 mb-3">
-
-                    <div class="d-flex justify-content-between flex-wrap">
-
-                        <div>
-                            <h5 class="mb-1 fw-semibold">
-                                {{ proposal.project.title }}
-                            </h5>
-
-                            <small class="text-muted">
-                                Applied:
-                                {{ proposal.created_at|date:"d M Y" }}
-                            </small>
-                        </div>
-
-                        <div>
-
-                            {% if proposal.status == 'accepted' %}
-                                <span class="badge bg-success">
-                                    Accepted
-                                </span>
-
-                            {% elif proposal.status == 'rejected' %}
-                                <span class="badge bg-danger">
-                                    Rejected
-                                </span>
-
-                            {% else %}
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-                    <a
-                        href="{% url 'project_details' proposal.project.id %}"
-                        class="btn btn-outline-primary btn-sm rounded-pill mt-3"
-                    >
-                        View Project
-                    </a>
-
+                  {{ form.hourly_rate }}
                 </div>
+              </div>
+            </div>
 
-                {% empty %}
+            <!-- Social Links -->
 
-                <div class="alert alert-light border rounded-4">
-                    No applied jobs yet.
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="field-card">
+                  <label> Github Profile </label>
+
+                  {{ form.github }}
                 </div>
+              </div>
 
-                {% endfor %}
+              <div class="col-md-6 mb-4">
+                <div class="field-card">
+                  <label> LinkedIn Profile </label>
 
+                  {{ form.linkedin }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Portfolio -->
+
+            {% if form.portfolio %}
+
+            <div class="field-card mb-4">
+              <label> Portfolio Website </label>
+
+              {{ form.portfolio }}
             </div>
 
             {% endif %}
 
+            <div class="edit-actions">
+              <button type="submit" class="btn btn-save">
+                <i class="fas fa-save me-2"></i>
+                Save Changes
+              </button>
+
+              <a href="{% url 'profile' %}" class="btn btn-cancel"> Cancel </a>
+            </div>
+          </form>
         </div>
 
-    </div>
+        {% endif %}
+      </div>
 
+      <!-- APPLIED JOB HISTORY -->
+      {% if user.role == 'freelancer' and not edit_mode %}
+
+      <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold mb-0">Applied Jobs</h4>
+
+          <span class="badge bg-dark">
+            {{ proposals|length }} Applications
+          </span>
+        </div>
+
+        {% for proposal in proposals %}
+
+        <div class="card border-0 bg-light rounded-4 p-3 mb-3">
+          <div class="d-flex justify-content-between flex-wrap">
+            <div>
+              <h5 class="mb-1 fw-semibold">{{ proposal.project.title }}</h5>
+
+              <small class="text-muted">
+                Applied: {{ proposal.created_at|date:"d M Y" }}
+              </small>
+            </div>
+
+            <div>
+              {% if proposal.status == 'accepted' %}
+              <span class="badge bg-success"> Accepted </span>
+
+              {% elif proposal.status == 'rejected' %}
+              <span class="badge bg-danger"> Rejected </span>
+
+              {% else %}
+              <span class="badge bg-warning text-dark"> Pending </span>
+              {% endif %}
+            </div>
+          </div>
+
+          <a
+            href="{% url 'project_details' proposal.project.id %}"
+            class="btn btn-outline-primary btn-sm rounded-pill mt-3"
+          >
+            View Project
+          </a>
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-light border rounded-4">
+          No applied jobs yet.
+        </div>
+
+        {% endfor %}
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
 </div>
 
 {% endblock %}
