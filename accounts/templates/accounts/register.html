@@ -1,36 +1,151 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block extra_head %}
 
-{% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+{% endblock %} {% block content %}
 
-<div class="container mt-5">
+<div class="register-page">
+  ```
+  <div class="register-container">
+    <!-- LEFT SIDE -->
 
-    <div class="row justify-content-center">
+    <div class="register-banner">
+      <img
+        src="{% static 'images/freelancehub-signup.png' %}"
+        alt="FreelanceHub Signup"
+      />
+    </div>
 
-        <div class="col-md-6">
+    <!-- RIGHT SIDE -->
 
-            <div class="card shadow p-4">
+    <div class="register-form-panel">
+      <div class="register-box">
+        <h1>Create Account</h1>
 
-                <h2 class="text-center mb-4">
-                    Register
-                </h2>
+        <p class="subtitle">
+          Join FreelanceHub and start your freelance journey today.
+        </p>
 
-                <form method="POST">
+        <form method="POST">
+          {% csrf_token %} {% if form.non_field_errors %}
+          <div class="form-errors">
+            {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
 
-                    {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
 
-                    {{ form.as_p }}
-
-                    <button class="btn btn-dark w-100">
-                        Register
-                    </button>
-
-                </form>
-
+              {{ form.first_name }} {% for error in form.first_name.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
             </div>
 
-        </div>
+            <div class="form-group">
+              <label>Last Name</label>
 
+              {{ form.last_name }} {% for error in form.last_name.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Username</label>
+
+            {{ form.username }}
+
+            <div class="custom-help-text">
+              <span class="help-icon">ℹ️</span>
+
+              <div>
+                <strong>Choose a professional username.</strong>
+
+                <p>
+                  Your username will be visible on your public profile, project
+                  proposals, and client interactions.
+                </p>
+
+                <small>
+                  Example:
+                  <strong>shazzad_dev</strong>, <strong>sara_designer</strong>,
+                  <strong>alex_writer</strong>
+                </small>
+              </div>
+            </div>
+
+            {% for error in form.username.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+
+            {{ form.email }} {% for error in form.email.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-group">
+            <label>Account Type</label>
+
+            {{ form.role }} {% for error in form.role.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Password</label>
+
+              {{ form.password1 }} {% for error in form.password1.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Password</label>
+
+              {{ form.password2 }} {% for error in form.password2.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- PASSWORD CARD -->
+
+          <div class="password-card">
+            <div class="password-card-header">
+              <span>🔒</span>
+
+              <h4>Password Requirements</h4>
+            </div>
+
+            <ul>
+              <li>✅ Minimum 8 characters</li>
+
+              <li>👤 Must not be similar to your personal information</li>
+
+              <li>🚫 Must not be a commonly used password</li>
+
+              <li>🔢 Cannot contain only numbers</li>
+            </ul>
+          </div>
+
+          <button type="submit" class="register-btn">Create Account →</button>
+        </form>
+
+        <div class="login-link">
+          Already have an account?
+
+          <a href="{% url 'login' %}"> Login </a>
+        </div>
+      </div>
     </div>
+  </div>
 
 </div>
 

@@ -1,0 +1,307 @@
+/* =========================
+   PAGE
+========================= */
+
+.login-page{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.login-container{
+    width:1100px;
+    max-width:95%;
+    background:#ffffff;
+    border-radius:24px;
+    overflow:hidden;
+
+    display:grid;
+    grid-template-columns:55% 45%;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.05),
+        0 20px 60px rgba(0,0,0,.08);
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.login-banner{
+    background:#071b4d;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+}
+
+.login-banner img{
+    width:100%;
+    height:auto;
+    display:block;
+    object-fit:contain;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.login-form-panel{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:50px 60px;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.login-box h1{
+    font-size:42px;
+    font-weight:700;
+    color:#0f172a;
+    margin-bottom:10px;
+    line-height:1.1;
+}
+
+.subtitle{
+    font-size:18px;
+    color:#64748b;
+    margin-bottom:35px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#111827;
+}
+
+/* Django Inputs */
+
+.form-group input,
+input[type="text"],
+input[type="password"],
+input[type="email"]{
+
+    width:100%;
+    height:52px;
+
+    padding:0 16px;
+
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+    transition:all .3s ease;
+}
+
+.form-group input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.10);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.login-btn{
+
+    width:100%;
+    height:54px;
+
+    margin-top:8px;
+
+    border:none;
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    color:white;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+}
+
+.login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(37,99,235,.25);
+}
+
+/* =========================
+   SIGNUP LINK
+========================= */
+
+.signup-link{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    color:#64748b;
+
+    font-size:15px;
+}
+
+.signup-link a{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+.signup-link a:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:992px){
+
+    .login-container{
+
+        grid-template-columns:1fr;
+
+        width:500px;
+    }
+
+    .login-banner{
+        display:none;
+    }
+
+    .login-form-panel{
+        padding:40px 30px;
+    }
+
+    .login-box h1{
+        font-size:34px;
+    }
+
+    .subtitle{
+        font-size:16px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .login-page{
+        padding:20px;
+    }
+
+    .login-form-panel{
+        padding:30px 20px;
+    }
+
+    .login-box h1{
+        font-size:30px;
+    }
+
+}
+
+/* SUCCESS ALERT */
+
+.success-alert{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:20px;
+}
+
+.success-icon{
+    font-size:24px;
+    line-height:1;
+}
+
+.success-content strong{
+    display:block;
+    color:#065f46;
+    margin-bottom:4px;
+    font-size:15px;
+}
+
+.success-content p{
+    margin:0;
+    color:#047857;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* ERROR ALERT */
+
+.error-alert{
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#b91c1c;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:20px;
+}
+
+.error-alert p{
+    margin:0;
+}
+
+.field-error{
+    color:#dc2626;
+    font-size:13px;
+    margin-top:6px;
+}

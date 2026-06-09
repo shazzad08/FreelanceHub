@@ -1,19 +1,279 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
+<div class="proposal-page">
+  <div class="proposal-layout">
+    <!-- left sidebar -->
+    <div class="left-panel">
+      <div class="project-card">
+        <span class="status-badge"> Open Project </span>
 
-<h2>{{ project.title }}</h2>
+        <h2>{{ project.title }}</h2>
 
-<form method="POST">
+        <p>{{ project.description }}</p>
+      </div>
 
-    {% csrf_token %}
+      {% if project.budget %}
+      <div class="info-card">
+        <h3>Budget</h3>
 
-    {{ form.as_p }}
+        <p class="budget">${{ project.budget }}</p>
+      </div>
+      {% endif %}
 
-    <button type="submit">
-        Apply
-    </button>
+      <div class="info-card">
+        <h3>Proposal Tips</h3>
 
-</form>
+        <ul>
+          <li>🙋🏿‍♂️ Introduce yourself clearly.</li>
+          <li>💼 Mention relevant experience.</li>
+          <li>🛠️ Explain your approach.</li>
+          <li>💰 Provide a realistic bid.</li>
+          <li>✍️ Keep your proposal concise.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="proposal-card">
+        <div class="form-header">
+          <h2>Submit Your Proposal</h2>
+
+          <p>
+            Convince the client why you're the best freelancer for this project.
+          </p>
+        </div>
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label> Cover Letter </label>
+
+            {{ form.cover_letter }} {% if form.cover_letter.errors %}
+            <div class="error">{{ form.cover_letter.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label> Your Bid (USD) </label>
+
+            <div class="bid-wrapper">
+              <span>$</span>
+
+              {{ form.bid_amount }}
+            </div>
+
+            {% if form.bid_amount.errors %}
+            <div class="error">{{ form.bid_amount.errors }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="submit-btn">Submit Proposal</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .proposal-page {
+    background: #f8fafc;
+    min-height: 100vh;
+    padding: 60px 20px;
+  }
+
+  .proposal-layout {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+  }
+
+  .project-card,
+  .info-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .project-card h2 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: #111827;
+  }
+
+  .project-card p {
+    color: #6b7280;
+    line-height: 1.7;
+  }
+
+  .status-badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .info-card h3 {
+    margin-bottom: 15px;
+    color: #111827;
+  }
+
+  .info-card ul {
+    padding-left: 20px;
+  }
+
+  .info-card li {
+    margin-bottom: 10px;
+    color: #4b5563;
+  }
+
+  .budget {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2563eb;
+  }
+
+  .proposal-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 35px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-header {
+    margin-bottom: 30px;
+  }
+
+  .form-header h2 {
+    margin-bottom: 10px;
+    color: #111827;
+  }
+
+  .form-header p {
+    color: #6b7280;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .proposal-input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: 0.3s;
+  }
+
+  .proposal-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  }
+
+  textarea.proposal-input {
+    resize: vertical;
+    min-height: 180px;
+  }
+
+  .bid-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .bid-wrapper span {
+    background: #f3f4f6;
+    padding: 15px 18px;
+    font-weight: 700;
+  }
+
+  .bid-wrapper input {
+    flex: 1;
+    border: none;
+    padding: 15px;
+    font-size: 15px;
+  }
+
+  .bid-wrapper input:focus {
+    outline: none;
+  }
+
+  .submit-btn {
+    width: 100%;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+  }
+
+  .error {
+    color: #dc2626;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .proposal-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+.info-card ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.info-card li{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 15px;
+    margin-bottom:10px;
+    border-radius:12px;
+    transition:all .3s ease;
+    cursor:pointer;
+}
+
+.info-card li:hover{
+    background:#eff6ff;
+    transform:translateX(8px);
+    color:#2563eb;
+}
+
+
+</style>
 
 {% endblock %}

@@ -150,40 +150,32 @@
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
+            {% if user.role == 'freelancer' %}
             <!-- Profile Image -->
 
-                <div class="field-card mb-4">
+            <div class="field-card mb-4">
 
-    <label>Profile Image</label>
+              <label>Profile Image</label>
 
-    {% if profile.profile_image %}
-    <div class="mb-3 text-center">
-        <img
-            id="preview-image"
-            src="{{ profile.profile_image.url }}"
-            class="rounded-circle shadow"
-            width="130"
-            height="130"
-            style="object-fit: cover;"
-        >
-    </div>
-    {% endif %}
+              {% if profile.profile_image %}
+              <div class="mb-3 text-center">
+                <img
+                  id="preview-image"
+                  src="{{ profile.profile_image.url }}"
+                  class="rounded-circle shadow"
+                  width="130"
+                  height="130"
+                  style="object-fit: cover;"
+                >
+              </div>
+              {% endif %}
 
-    <input
-        type="file"
-        name="profile_image"
-        id="id_profile_image"
-        class="form-control"
-        accept="image/*"
-    >
+              {{ form.profile_image }}
 
-    <small class="text-muted mt-2 d-block">
-        Upload a new image to replace the current one.
-    </small>
-
-
-
-</div>
+              <small class="text-muted mt-2 d-block">
+                Upload a new image to replace the current one.
+              </small>
+            </div>
 
             <!-- Bio -->
 
@@ -203,7 +195,7 @@
                   {{ form.skills }}
 
                   <small class="text-muted d-block mt-2">
-                    Separate skills with commas
+                    Separate skills with space
                   </small>
                 </div>
               </div>
@@ -247,6 +239,60 @@
               {{ form.portfolio }}
             </div>
 
+            {% endif %}
+            {% else %}
+            <!-- Client Fields -->
+
+            <div class="field-card mb-4">
+              <label for="{{ form.company_name.id_for_label }}">
+                Company Name
+              </label>
+              {{ form.company_name }}
+              {{ form.company_name.errors }}
+            </div>
+
+            <div class="field-card mb-4">
+              <label for="{{ form.company_logo.id_for_label }}">
+                Company Logo
+              </label>
+
+              {% if profile.company_logo %}
+              <div class="mb-3 text-center">
+                <img
+                  id="preview-image"
+                  src="{{ profile.company_logo.url }}"
+                  class="rounded-circle shadow"
+                  width="130"
+                  height="130"
+                  style="object-fit: cover;"
+                  alt="{{ profile.company_name }} logo"
+                >
+              </div>
+              {% endif %}
+
+              {{ form.company_logo }}
+              {{ form.company_logo.errors }}
+
+              <small class="text-muted mt-2 d-block">
+                Upload a new logo to replace the current one.
+              </small>
+            </div>
+
+            <div class="field-card mb-4">
+              <label for="{{ form.company_description.id_for_label }}">
+                Company Description
+              </label>
+              {{ form.company_description }}
+              {{ form.company_description.errors }}
+            </div>
+
+            <div class="field-card mb-4">
+              <label for="{{ form.company_website.id_for_label }}">
+                Company Website
+              </label>
+              {{ form.company_website }}
+              {{ form.company_website.errors }}
+            </div>
             {% endif %}
 
             <div class="edit-actions">

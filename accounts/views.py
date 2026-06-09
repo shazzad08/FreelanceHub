@@ -84,10 +84,9 @@ def register_view(request):
             
             email.send()
 
-            print("Verification email sent successfully")
+            request.session['verification_email'] = user.email
 
-           
-            return redirect('login')
+            return redirect('verification_sent')
 
         else:
 
@@ -103,7 +102,20 @@ def register_view(request):
         context
     )
 
+def verification_sent(request):
+    
+    email = request.session.get(
+        'verification_email',
+        ''
+    )
 
+    return render(
+        request,
+        'accounts/verification_sent.html',
+        {
+            'email': email
+        }
+    )
 
 
 def activate(request, uid, token):
@@ -131,6 +143,8 @@ def activate(request, uid, token):
 
         user.save()
 
+        request.session['verified_successfully'] = True
+
         return redirect('login')
 
     else:
@@ -141,6 +155,21 @@ def activate(request, uid, token):
 
 
 class UserLoginView(LoginView):
+    
+    template_name = 'accounts/login.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['verified_successfully'] = (
+            self.request.session.pop(
+                'verified_successfully',
+                False
+            )
+        )
+
+        return context
 
     template_name = 'accounts/login.html'
 

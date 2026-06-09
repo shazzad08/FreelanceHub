@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container py-5">
-  <!-- Heading -->
+  
 
   <div class="text-center mb-5">
     <h2 class="fw-bold">Proposal Dashboard</h2>
@@ -16,15 +16,16 @@
 
     <div class="col-lg-6 col-md-6 col-12">
       <div class="card border-0 shadow-sm rounded-4 h-100">
-        <!-- Header -->
+        
 
         <div class="card-header bg-dark text-white py-3 rounded-top-4">
           <h5 class="mb-0">{{ proposal.project.title }}</h5>
         </div>
 
-        <!-- Body -->
+        
 
         <div class="card-body p-4">
+
           <!-- Freelancer -->
 
           <p class="mb-3">
@@ -33,7 +34,7 @@
             {{ proposal.freelancer.first_name }}
           </p>
 
-          <!-- Bid -->
+          
 
           <p class="mb-3">
             <strong> Bid Amount: </strong>
@@ -43,7 +44,7 @@
             </span>
           </p>
 
-          <!-- Status -->
+          
 
           <p class="mb-3">
             <strong> Status: </strong>

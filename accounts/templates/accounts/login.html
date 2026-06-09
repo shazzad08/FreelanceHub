@@ -1,30 +1,128 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="login-page">
 
-    <div class="row justify-content-center">
+    <div class="login-container">
 
-        <div class="col-md-6">
+        <!-- LEFT SIDE -->
+        <div class="login-banner">
 
-            <div class="card p-4 shadow">
+            <img
+                src="{% static 'images/freelancehub-login.png' %}"
+                alt="FreelanceHub"
+            >
 
-                <h2 class="mb-4 text-center">
-                    Login
-                </h2>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="login-form-panel">
+
+            <div class="login-box">
+
+                <h1>
+                    Welcome Back!
+                </h1>
+
+                <p class="subtitle">
+                    Login to your FreelanceHub account
+                </p>
+
+                <!-- EMAIL VERIFIED SUCCESS MESSAGE -->
+                {% if verified_successfully %}
+                <div class="success-alert">
+
+                    <div class="success-icon">
+                        ✅
+                    </div>
+
+                    <div class="success-content">
+
+                        <strong>
+                            Email Verified Successfully!
+                        </strong>
+
+                        <p>
+                            Your account has been activated.
+                            You can now login and start using FreelanceHub.
+                        </p>
+
+                    </div>
+
+                </div>
+                {% endif %}
+
+                <!-- FORM ERRORS -->
+                {% if form.non_field_errors %}
+                <div class="error-alert">
+
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+
+                </div>
+                {% endif %}
 
                 <form method="POST">
 
                     {% csrf_token %}
 
-                    {{ form.as_p }}
+                    <div class="form-group">
 
-                    <button class="btn btn-dark w-100">
-                        Login
+                        <label>
+                            Username
+                        </label>
+
+                        {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        {{ form.password }}
+
+                        {% for error in form.password.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="login-btn"
+                    >
+                        Login →
                     </button>
 
                 </form>
+
+                <div class="signup-link">
+
+                    Don't have an account?
+
+                    <a href="{% url 'register' %}">
+                        Sign Up
+                    </a>
+
+                </div>
 
             </div>
 

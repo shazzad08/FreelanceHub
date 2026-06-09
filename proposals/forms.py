@@ -5,7 +5,6 @@ from .models import Proposal
 class ProposalForm(forms.ModelForm):
 
     class Meta:
-
         model = Proposal
 
         fields = [
@@ -14,16 +13,23 @@ class ProposalForm(forms.ModelForm):
         ]
 
         widgets = {
+
             'cover_letter': forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'rows': 5
+                    'rows': 8,
+                    'placeholder': (
+                        'Introduce yourself, explain your experience, '
+                        'and describe how you will complete this project...'
+                    )
                 }
             ),
 
             'bid_amount': forms.NumberInput(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'placeholder': 'Enter your bid amount'
                 }
             )
+
         }
