@@ -146,7 +146,7 @@
 
         <div class="col-lg-4 col-md-6 mb-4">
 
-            <div class="card border-0 shadow h-100 rounded-4">
+            <div class="project-card h-100">
 
                 <div class="card-body d-flex flex-column">
 
@@ -267,4 +267,129 @@
 
 </div>
 
+
+
+
+
+
+<style>
+
+/* =========================
+   ANIMATED PROJECT CARD
+========================= */
+
+.project-card{
+    position:relative;
+
+    background:#07182e;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    transition:.35s ease;
+
+    height:100%;
+}
+
+/* MOVING BORDER */
+
+.project-card::before{
+    content:'';
+
+    position:absolute;
+
+    width:70px;
+    height:180%;
+
+    left:50%;
+    top:-40%;
+
+    transform-origin:center;
+
+    background:linear-gradient(
+        180deg,
+        #2dbdff,
+        #c93cff
+    );
+
+    animation:rotBGimg 3s linear infinite;
+}
+
+/* INNER CARD */
+
+.project-card::after{
+    content:'';
+
+    position:absolute;
+
+    inset:3px;
+
+    background:#ffffff;
+
+    border-radius:19px;
+
+    z-index:1;
+}
+
+/* KEEP CONTENT ABOVE */
+
+.project-card .card-body{
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-direction:column;
+
+    height:100%;
+
+    padding:1.5rem;
+}
+
+/* HOVER */
+
+.project-card:hover{
+    transform:translateY(-10px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.12),
+        0 0 20px rgba(45,189,255,.15);
+}
+
+/* ANIMATION */
+
+@keyframes rotBGimg{
+
+    from{
+        transform:translateX(-50%) rotate(0deg);
+    }
+
+    to{
+        transform:translateX(-50%) rotate(360deg);
+    }
+
+}
+
+/* BADGES */
+
+.project-card .badge.bg-dark{
+    background:#111827 !important;
+}
+
+.project-card .badge.bg-success{
+    background:#16a34a !important;
+}
+
+/* BUTTONS */
+
+.project-card .btn-outline-dark{
+    border-radius:12px;
+}
+
+.project-card .btn-warning,
+.project-card .btn-danger{
+    border-radius:12px;
+}
+
+</style>
 {% endblock %}
