@@ -18,7 +18,7 @@ from submissions.models import Submission
 from profiles.models import FreelanceProfile
 
 
-# CREATE PROJECT
+
 @login_required
 def create_project(request):
 
@@ -54,7 +54,6 @@ def create_project(request):
     )
 
 
-# PROJECT LIST
 def project_list(request):
 
     categories = Category.objects.all()
@@ -132,7 +131,7 @@ def project_list(request):
     )
 
 
-# PROJECT DETAILS
+
 @login_required
 def project_details(request, id):
 
@@ -188,7 +187,7 @@ def project_details(request, id):
         }
     )
 
-# EDIT PROJECT
+
 @login_required
 def edit_project(request, id):
 
@@ -229,7 +228,7 @@ def edit_project(request, id):
     )
 
 
-# DELETE PROJECT
+
 @login_required
 def delete_project(request, id):
 
@@ -253,7 +252,7 @@ def delete_project(request, id):
     )
 
 
-# CLIENT PROFILE
+
 def client_profile(request, id):
 
     user = get_object_or_404(

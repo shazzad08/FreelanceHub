@@ -14,3 +14,6 @@ document.getElementById('prevBtn').onclick = () => {
         behavior: 'smooth'
     });
 };
+
+
+

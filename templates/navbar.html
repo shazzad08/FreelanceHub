@@ -1,110 +1,297 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <!-- Logo -->
-    <a class="navbar-brand fw-bold" href="/"> FreelanceHub </a>
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+    <div class="container-fluid px-4">
 
-    <!-- Mobile Toggle -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarContent"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <a class="navbar-brand" href="/">
+            Freelance<span>Hub</span>
+        </a>
 
-    <!-- Navbar Content -->
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <!-- Left Side -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/"> Home </a>
-        </li>
+      
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'project_list' %}"> Projects </a>
-        </li>
+        
+        <div class="collapse navbar-collapse" id="navbarContent">
 
-        {% if user.is_authenticated and user.role == 'client' %}
+            <!-- Left Menu -->
+            <ul class="navbar-nav ms-4 me-auto">
 
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'freelancer_list' %}">
-            Freelancers
-          </a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        Home
+                    </a>
+                </li>
 
-        {% endif %} ```
-      </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'project_list' %}">
+                        Find Projects
+                    </a>
+                </li>
 
-      <!-- Right Side -->
-      <ul class="navbar-nav align-items-center">
-        {% if user.is_authenticated %}
+                {% if user.is_authenticated and user.role == 'client' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'freelancer_list' %}">
+                         Freelancers
+                    </a>
+                </li>
+                {% endif %}
 
-        <!-- Profile -->
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'profile' %}"> Profile </a>
-        </li>
+            </ul>
 
-        <!-- Dashboard -->
-        <li class="nav-item">
-          {% if user.role == 'client' %}
+            <!-- Right Menu -->
+            <ul class="navbar-nav align-items-center">
 
-          <a class="nav-link" href="{% url 'proposal_dashboard' %}">
-            Dashboard
-          </a>
+                {% if user.is_authenticated %}
 
-          {% elif user.role == 'freelancer' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">
+                        <i class="bi bi-person-circle"></i>
+                        Profile
+                    </a>
+                </li>
 
-          <a class="nav-link" href="{% url 'freelancer_dashboard' %}">
-            Dashboard
-          </a>
+                <li class="nav-item">
 
-          {% endif %}
-        </li>
+                    {% if user.role == 'client' %}
+                    <a class="nav-link"
+                       href="{% url 'proposal_dashboard' %}">
+                        <i class="bi bi-grid"></i>
+                        Dashboard
+                    </a>
+                    {% elif user.role == 'freelancer' %}
+                    <a class="nav-link"
+                       href="{% url 'freelancer_dashboard' %}">
+                        <i class="bi bi-grid"></i>
+                        Dashboard
+                    </a>
+                    {% endif %}
 
-        <li class="nav-item">
-          <a
-            class="nav-link position-relative"
-            href="{% url 'notification_list' %}"
-          >
-            🔔 {% if notification_count > 0 %}
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            >
-              {{ notification_count }}
-            </span>
-            {% endif %}
-          </a>
-        </li>
+                </li>
 
-        <!-- User Name -->
-        <li class="nav-item">
-          <span class="nav-link text-warning">
-            Hello, {{ user.first_name }}
-          </span>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative"
+                       href="{% url 'notification_list' %}">
 
-        <!-- Logout -->
-        <li class="nav-item">
-          <a class="btn btn-danger ms-2" href="{% url 'logout' %}"> Logout </a>
-        </li>
+                        <i class="bi bi-bell"></i>
 
-        {% else %}
+                        {% if notification_count > 0 %}
+                        <span class="notification-badge">
+                            {{ notification_count }}
+                        </span>
+                        {% endif %}
 
-        <!-- Login -->
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}"> Login </a>
-        </li>
+                    </a>
+                </li>
 
-        <!-- Register -->
-        <li class="nav-item">
-          <a class="btn btn-primary ms-2" href="{% url 'register' %}">
-            Register
-          </a>
-        </li>
+                <li class="nav-item">
+                    <span class="nav-link username">
+                        Hello, {{ user.first_name }}
+                    </span>
+                </li>
 
-        {% endif %}
-      </ul>
+                <li class="nav-item ms-2">
+                    <a class="btn logout-btn"
+                       href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+                {% else %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+
+                <li class="nav-item ms-2">
+                    <a class="btn register-btn"
+                       href="{% url 'register' %}">
+                        Register
+                    </a>
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
     </div>
-  </div>
 </nav>
+
+
+<style>
+
+    /* =========================
+   NAVBAR
+========================= */
+
+body{
+    padding-top:85px;
+}
+
+.custom-navbar{
+    background:#fff;
+    height:85px;
+    box-shadow:0 2px 20px rgba(0,0,0,.06);
+    transition:all .35s ease;
+    z-index:9999;
+}
+
+.custom-navbar.scrolled{
+    height:72px;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    backdrop-filter:blur(12px);
+}
+
+/* Logo */
+
+.navbar-brand{
+    font-size:2rem;
+    font-weight:800;
+    color:#111827 !important;
+}
+
+.navbar-brand span{
+    color:#2563eb;
+}
+
+/* Navigation Links */
+
+.custom-navbar .nav-link{
+    position:relative;
+    color:#374151 !important;
+    font-weight:500;
+    margin:0 12px;
+    padding:8px 0 !important;
+    transition:all .3s ease;
+}
+
+.custom-navbar .nav-link:hover{
+    color:#2563eb !important;
+}
+
+/* Underline Animation */
+
+.custom-navbar .nav-link::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-6px;
+
+    width:0;
+    height:3px;
+
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #60a5fa
+    );
+
+    border-radius:50px;
+
+    transform:translateX(-50%);
+
+    transition:all .35s ease;
+
+    opacity:0;
+}
+
+.custom-navbar .nav-link:hover::after{
+    width:100%;
+    opacity:1;
+}
+
+/* Username */
+
+.username{
+    color:#2563eb !important;
+    font-weight:600;
+}
+
+/* Notification Badge */
+
+.notification-badge{
+    position:absolute;
+    top:0;
+    right:-4px;
+
+    width:18px;
+    height:18px;
+
+    background:#ef4444;
+    color:#fff;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:10px;
+    font-weight:600;
+}
+
+/* Buttons */
+
+.logout-btn,
+.register-btn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+
+    padding:10px 24px;
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.logout-btn:hover,
+.register-btn:hover{
+    background:#1d4ed8;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* Mobile */
+
+.navbar-toggler{
+    border:none;
+}
+
+.navbar-toggler:focus{
+    box-shadow:none;
+}
+
+@media(max-width:991px){
+
+    .navbar-collapse{
+        background:#fff;
+        padding:20px;
+        margin-top:15px;
+
+        border-radius:15px;
+
+        box-shadow:0 10px 40px rgba(0,0,0,.1);
+    }
+
+    .custom-navbar{
+        height:auto;
+        padding:10px 0;
+    }
+
+    .custom-navbar .nav-link{
+        margin:8px 0;
+    }
+}
+</style>
+
+<script></script>

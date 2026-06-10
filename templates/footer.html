@@ -1,46 +1,70 @@
-<footer class="bg-dark text-white mt-5 py-4">
+<footer class="footer">
 
     <div class="container">
 
-        <div class="row">
+        <div class="footer-grid">
 
-            <!-- About -->
-            <div class="col-md-4 mb-3">
+            <!-- Brand -->
+            <div class="footer-brand">
 
-                <h5>
-                    FreelanceHub
-                </h5>
+                <h2 class="footer-logo">
+                    Freelance<span>Hub</span>
+                </h2>
 
                 <p>
-                    A professional freelance marketplace platform where clients and freelancers connect efficiently.
+                    Connect with talented freelancers and clients.
+                    Build projects, collaborate and grow your
+                    career with confidence.
                 </p>
+
+                <div class="social-icons">
+
+                    <a href="https://www.facebook.com/sajjadula.isalama.caudhuri">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/shazzad-chowdhury/">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/shazzad-chowdhury/">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/shazzad-chowdhury/">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                </div>
 
             </div>
 
             <!-- Quick Links -->
-            <div class="col-md-4 mb-3">
+            <div class="footer-column">
 
-                <h5>
-                    Quick Links
-                </h5>
+                <h4>Quick Links</h4>
 
-                <ul class="list-unstyled">
+                <ul>
 
                     <li>
-                        <a href="#" class="text-white text-decoration-none">
-                            Home
-                        </a>
+                        <a href="/">Home</a>
                     </li>
 
                     <li>
-                        <a href="#" class="text-white text-decoration-none">
+                        <a href="{% url 'project_list' %}">
                             Projects
                         </a>
                     </li>
 
                     <li>
-                        <a href="#" class="text-white text-decoration-none">
-                            About
+                        <a href="{% url 'freelancer_list' %}">
+                            Freelancers
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            About Us
                         </a>
                     </li>
 
@@ -48,35 +72,400 @@
 
             </div>
 
-            <!-- Contact -->
-            <div class="col-md-4 mb-3">
+            <!-- Categories -->
+            <div class="footer-column">
 
-                <h5>
-                    Contact
-                </h5>
+                <h4>Categories</h4>
 
-                <p>
-                    Email: support@freelancehub.com
-                </p>
+                <ul>
 
-                <p>
-                    Phone: +880 1234-567890
-                </p>
+                    <li>
+                        <a href="#">
+                            Web Development
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Graphic Design
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Video Editing
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Marketing
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            
+            <div class="footer-column">
+
+                <h4>Contact</h4>
+
+                <div class="contact-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>
+                        support@freelancehub.com
+                    </span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>
+                        +880 123 456 789
+                    </span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>
+                        Dhaka, Bangladesh
+                    </span>
+                </div>
 
             </div>
 
         </div>
 
-        <hr>
+       
+        <div class="footer-bottom">
 
-        <div class="text-center">
-
-            <p class="mb-0">
-                © 2026 FreelanceHub. All Rights Reserved.
+            <p>
+                © 2026
+                <span>FreelanceHub</span>.
+                All Rights Reserved.
             </p>
+
+            <div class="payment-icons">
+
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/196/196578.png"
+                    alt="Visa"
+                >
+
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/5968/5968144.png"
+                    alt="MasterCard"
+                >
+
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/349/349221.png"
+                    alt="PayPal"
+                >
+
+            </div>
 
         </div>
 
     </div>
 
 </footer>
+
+
+<style>
+    /* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    background:
+    linear-gradient(
+        90deg,
+        #020b18,
+        #04152d,
+        #020b18
+    );
+
+    color:#fff;
+
+    padding:55px 0 20px;
+}
+
+/* GRID */
+
+.footer-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        1fr
+        1fr
+        1.2fr;
+
+    gap:50px;
+
+    margin-bottom:40px;
+}
+
+/* LOGO */
+
+.footer-logo{
+
+    font-size:42px;
+    font-weight:800;
+
+    margin-bottom:15px;
+}
+
+.footer-logo span{
+    color:#1e88ff;
+}
+
+.footer-brand p{
+
+    color:#cbd5e1;
+
+    line-height:1.8;
+    font-size:15px;
+
+    max-width:300px;
+
+    margin-bottom:25px;
+}
+
+/* SOCIAL */
+
+.social-icons{
+
+    display:flex;
+    gap:12px;
+}
+
+.social-icons a{
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    background:#1e88ff;
+
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.social-icons a:hover{
+
+    transform:translateY(-4px);
+
+    background:#3b9dff;
+}
+
+/* COLUMN */
+
+.footer-column h4{
+
+    font-size:20px;
+    font-weight:700;
+
+    margin-bottom:25px;
+
+    position:relative;
+}
+
+.footer-column h4::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-10px;
+
+    width:45px;
+    height:3px;
+
+    background:#1e88ff;
+}
+
+/* LINKS */
+
+.footer-column ul{
+
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.footer-column li{
+    margin-bottom:14px;
+}
+
+.footer-column a{
+
+    color:#dbe5f4;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.footer-column a:hover{
+
+    color:#1e88ff;
+
+    padding-left:5px;
+}
+
+/* CONTACT */
+
+.contact-item{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    color:#dbe5f4;
+
+    font-size:15px;
+}
+
+.contact-item i{
+
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    background:#1e88ff;
+
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+/* BOTTOM */
+
+.footer-bottom{
+
+    border-top:
+    1px solid rgba(255,255,255,.08);
+
+    padding-top:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+}
+
+.footer-bottom p{
+
+    margin:0;
+
+    color:#cbd5e1;
+
+    font-size:15px;
+}
+
+.footer-bottom span{
+    color:#1e88ff;
+}
+
+/* PAYMENT */
+
+.payment-icons{
+
+    display:flex;
+    gap:10px;
+}
+
+.payment-icons img{
+
+    width:65px;
+    height:42px;
+
+    object-fit:contain;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:6px;
+}
+
+/* MOBILE */
+
+@media(max-width:991px){
+
+    .footer-grid{
+
+        grid-template-columns:
+        1fr 1fr;
+
+        gap:40px;
+    }
+}
+
+@media(max-width:768px){
+
+    .footer{
+
+        text-align:center;
+    }
+
+    .footer-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .footer-brand p{
+
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .social-icons{
+
+        justify-content:center;
+    }
+
+    .contact-item{
+
+        justify-content:center;
+    }
+
+    .footer-column h4::after{
+
+        left:50%;
+        transform:translateX(-50%);
+    }
+
+    .footer-bottom{
+
+        flex-direction:column;
+    }
+}
+</style>
