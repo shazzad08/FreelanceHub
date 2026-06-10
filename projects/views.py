@@ -57,6 +57,8 @@ def create_project(request):
 def project_list(request):
 
     categories = Category.objects.all()
+    total_projects = Project.objects.count()
+    freelancer_count = User.objects.filter(role='freelancer').count()
 
     # Freelancer sees all
     if (
@@ -100,7 +102,7 @@ def project_list(request):
         'category'
     )
 
-    if category_id:
+    if category_id and category_id.isdigit():
 
         projects = projects.filter(
             category_id=category_id
@@ -126,7 +128,12 @@ def project_list(request):
         'projects/project_list.html',
         {
             'projects': projects,
-            'categories': categories
+            'categories': categories,
+            'total_projects': total_projects,
+            'freelancer_count': freelancer_count,
+            'selected_category': category_id,
+            'selected_sort': sort,
+            'query': query,
         }
     )
 
