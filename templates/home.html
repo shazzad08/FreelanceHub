@@ -1,646 +1,538 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
 
 <!-- HERO SECTION -->
 <section class="hero-section">
+  <!-- VIDEO -->
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
+  </video>
 
-    <!-- VIDEO -->
-    <video class="hero-video" autoplay muted loop playsinline>
-        <source
-            src="{% static 'videos/hero.mp4' %}"
-            type="video/mp4"
-        >
-    </video>
+  <!-- OVERLAY -->
+  <div class="hero-overlay"></div>
 
-    <!-- OVERLAY -->
-    <div class="hero-overlay"></div>
+  <!-- CONTENT -->
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Welcome to <br />
+      FreelanceHub
+    </h1>
 
-    <!-- CONTENT -->
-    <div class="hero-content">
+    <form class="hero-search" method="GET" action="{% url 'project_list' %}">
+      <div class="search-wrapper">
+        <input
+          id="searchInput"
+          type="text"
+          name="q"
+          required
+          placeholder="Search for any service..."
+          autocomplete="off"
+        />
 
-        <h1 class="hero-title">
-            Welcome to <br>
-            FreelanceHub
-        </h1>
+        <div id="suggestions"></div>
+      </div>
 
-        <!-- SEARCH -->
-        <form
-            class="hero-search"
-            method="GET"
-            action="{% url 'project_list' %}"
-        >
+      <button type="submit">🔍</button>
+    </form>
 
-            <input
-                type="text"
-                name="q"
-                placeholder="Search for any service..."
-                value="{{ request.GET.q }}"
-            >
+    <!-- CATEGORY TAGS -->
+    <div class="hero-tags">
+      
+      {% if request.user.role == 'client' %}
 
-            <button type="submit">
-                🔍
-            </button>
+      <a href="{% url 'category_freelancers' 'web-development' %}">
+        Web Development
+      </a>
 
-        </form>
+      <a href="{% url 'category_freelancers' 'graphic-design' %}">
+        Graphic Design
+      </a>
 
-        <!-- CATEGORY TAGS -->
-        <div class="hero-tags">
+      <a href="{% url 'category_freelancers' 'video-editing' %}">
+        Video Editing
+      </a>
 
-            {% if request.user.is_authenticated %}
+      <a href="{% url 'category_freelancers' 'marketting' %}"> Marketing </a>
 
-                {% if request.user.role == 'client' %}
+      {% else %}
 
-                    <a href="{% url 'category_freelancers' 'web-development' %}">
-                        Web Development
-                    </a>
+      <a href="{% url 'category_projects' 'web-development' %}">
+        Web Development
+      </a>
 
-                    <a href="{% url 'category_freelancers' 'graphic-design' %}">
-                        Graphic Design
-                    </a>
+      <a href="{% url 'category_projects' 'graphics-design' %}">
+        Graphic Design
+      </a>
 
-                    <a href="{% url 'category_freelancers' 'video-editing' %}">
-                        Video Editing
-                    </a>
+      <a href="{% url 'category_projects' 'bioinformtics-engineering' %}">
+        Bioinformatics
+      </a>
 
-                    <a href="{% url 'category_freelancers' 'marketting' %}">
-                        Marketing
-                    </a>
+      <a href="{% url 'category_projects' 'marketting' %}"> Marketing </a>
+     
 
-                {% else %}
-
-                    <a href="{% url 'category_projects' 'web-development' %}">
-                        Web Development
-                    </a>
-
-                    <a href="{% url 'category_projects' 'graphic-design' %}">
-                        Graphic Design
-                    </a>
-
-                    <a href="{% url 'category_projects' 'video-editing' %}">
-                        Video Editing
-                    </a>
-
-                    <a href="{% url 'category_projects' 'marketting' %}">
-                        Marketing
-                    </a>
-
-                {% endif %}
-
-            {% endif %}
-
-        </div>
-
+      
+      {% endif %}
     </div>
-
+  </div>
 </section>
-
 
 <!-- STATS SECTION -->
 <section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👨‍💻</div>
+        <h2>10+</h2>
+        <h5>Verified Freelancers</h5>
+        <p>Skilled & trusted professionals</p>
+      </div>
 
-    <div class="container">
+      <div class="stat-card">
+        <div class="stat-icon">📁</div>
+        <h2>25+</h2>
+        <h5>Projects Posted</h5>
+        <p>New projects posted weekly</p>
+      </div>
 
-        <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <h2>15+</h2>
+        <h5>Completed Jobs</h5>
+        <p>Successfully delivered projects</p>
+      </div>
 
-            <div class="stat-card">
-                <div class="stat-icon">👨‍💻</div>
-                <h2>10+</h2>
-                <h5>Verified Freelancers</h5>
-                <p>Skilled & trusted professionals</p>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">📁</div>
-                <h2>25+</h2>
-                <h5>Projects Posted</h5>
-                <p>New projects posted weekly</p>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <h2>15+</h2>
-                <h5>Completed Jobs</h5>
-                <p>Successfully delivered projects</p>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <h2>95%</h2>
-                <h5>Client Satisfaction</h5>
-                <p>Happy clients & great results</p>
-            </div>
-
-        </div>
-
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <h2>95%</h2>
+        <h5>Client Satisfaction</h5>
+        <p>Happy clients & great results</p>
+      </div>
     </div>
-
+  </div>
 </section>
 
 <!-- 
      CATEGORY SECTION
  -->
 <section class="category-section">
+  <div class="container">
+    <!-- SECTION TITLE -->
+    <div class="section-header">
+      <h2>Explore Categories</h2>
 
-    <div class="container">
-
-        <!-- SECTION TITLE -->
-        <div class="section-header">
-
-            <h2>
-                Explore Categories
-            </h2>
-
-            <p>
-                Discover top freelance services and opportunities
-            </p>
-
-        </div>
-
-        <!-- CATEGORY GRID -->
-        <div class="category-grid">
-
-            {% if request.user.is_authenticated %}
-
-                <!-- CLIENT VIEW -->
-                {% if request.user.role == 'client' %}
-
-                    <a
-                        href="{% url 'category_freelancers' 'web-development' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">💻</div>
-                        <h4>Web Development</h4>
-                        <p>Find skilled developers & engineers</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_freelancers' 'graphic-design' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">🎨</div>
-                        <h4>Graphic Design</h4>
-                        <p>Creative branding & visual design</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_freelancers' 'video-editing' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">🎬</div>
-                        <h4>Video Editing</h4>
-                        <p>Professional media editing experts</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_freelancers' 'marketting' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">📈</div>
-                        <h4>Marketing</h4>
-                        <p>SEO & growth marketing specialists</p>
-                    </a>
-
-                <!-- FREELANCER VIEW -->
-                {% else %}
-
-                    <a
-                        href="{% url 'category_projects' 'web-development' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">💻</div>
-                        <h4>Web Development</h4>
-                        <p>Browse development projects</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_projects' 'graphic-design' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">🎨</div>
-                        <h4>Graphic Design</h4>
-                        <p>Branding & UI/UX opportunities</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_projects' 'video-editing' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">🎬</div>
-                        <h4>Video Editing</h4>
-                        <p>Content creation & editing work</p>
-                    </a>
-
-                    <a
-                        href="{% url 'category_projects' 'marketting' %}"
-                        class="category-card"
-                    >
-                        <div class="category-icon">📈</div>
-                        <h4>Marketing</h4>
-                        <p>Digital campaign opportunities</p>
-                    </a>
-
-                {% endif %}
-
-            <!-- GUEST VIEW -->
-            {% else %}
-
-                <a
-                    href="{% url 'login' %}"
-                    class="category-card"
-                >
-                    <div class="category-icon">💻</div>
-                    <h4>Web Development</h4>
-                    <p>Find developers or hire talent</p>
-                </a>
-
-                <a
-                    href="{% url 'login' %}"
-                    class="category-card"
-                >
-                    <div class="category-icon">🎨</div>
-                    <h4>Graphic Design</h4>
-                    <p>Creative design & branding services</p>
-                </a>
-
-                <a
-                    href="{% url 'login' %}"
-                    class="category-card"
-                >
-                    <div class="category-icon">🎬</div>
-                    <h4>Video Editing</h4>
-                    <p>Professional editing services</p>
-                </a>
-
-                <a
-                    href="{% url 'login' %}"
-                    class="category-card"
-                >
-                    <div class="category-icon">📈</div>
-                    <h4>Marketing</h4>
-                    <p>SEO & digital growth solutions</p>
-                </a>
-
-            {% endif %}
-
-        </div>
-
+      <p>Discover top freelance services and opportunities</p>
     </div>
 
+    <!-- CATEGORY GRID -->
+    <div class="category-grid">
+      {% if request.user.is_authenticated %}
+
+      <!-- CLIENT VIEW -->
+      {% if request.user.role == 'client' %}
+
+      <a
+        href="{% url 'category_freelancers' 'web-development' %}"
+        class="category-card"
+      >
+        <div class="category-icon">💻</div>
+        <h4>Web Development</h4>
+        <p>Find skilled developers & engineers</p>
+      </a>
+
+      <a
+        href="{% url 'category_freelancers' 'graphic-design' %}"
+        class="category-card"
+      >
+        <div class="category-icon">🎨</div>
+        <h4>Graphic Design</h4>
+        <p>Creative branding & visual design</p>
+      </a>
+
+      <a
+        href="{% url 'category_freelancers' 'video-editing' %}"
+        class="category-card"
+      >
+        <div class="category-icon">🎬</div>
+        <h4>Video Editing</h4>
+        <p>Professional media editing experts</p>
+      </a>
+
+      <a
+        href="{% url 'category_freelancers' 'marketting' %}"
+        class="category-card"
+      >
+        <div class="category-icon">📈</div>
+        <h4>Marketing</h4>
+        <p>SEO & growth marketing specialists</p>
+      </a>
+
+      <!-- FREELANCER VIEW -->
+      {% else %}
+
+      <a
+        href="{% url 'category_projects' 'web-development' %}"
+        class="category-card"
+      >
+        <div class="category-icon">💻</div>
+        <h4>Web Development</h4>
+        <p>Browse development projects</p>
+      </a>
+
+      <a
+        href="{% url 'category_projects' 'graphic-design' %}"
+        class="category-card"
+      >
+        <div class="category-icon">🎨</div>
+        <h4>Graphic Design</h4>
+        <p>Branding & UI/UX opportunities</p>
+      </a>
+
+      <a
+        href="{% url 'category_projects' 'video-editing' %}"
+        class="category-card"
+      >
+        <div class="category-icon">🎬</div>
+        <h4>Video Editing</h4>
+        <p>Content creation & editing work</p>
+      </a>
+
+      <a
+        href="{% url 'category_projects' 'marketting' %}"
+        class="category-card"
+      >
+        <div class="category-icon">📈</div>
+        <h4>Marketing</h4>
+        <p>Digital campaign opportunities</p>
+      </a>
+
+      {% endif %}
+
+      <!-- GUEST VIEW -->
+      {% else %}
+
+      <a href="{% url 'login' %}" class="category-card">
+        <div class="category-icon">💻</div>
+        <h4>Web Development</h4>
+        <p>Find developers or hire talent</p>
+      </a>
+
+      <a href="{% url 'login' %}" class="category-card">
+        <div class="category-icon">🎨</div>
+        <h4>Graphic Design</h4>
+        <p>Creative design & branding services</p>
+      </a>
+
+      <a href="{% url 'login' %}" class="category-card">
+        <div class="category-icon">🎬</div>
+        <h4>Video Editing</h4>
+        <p>Professional editing services</p>
+      </a>
+
+      <a href="{% url 'login' %}" class="category-card">
+        <div class="category-icon">📈</div>
+        <h4>Marketing</h4>
+        <p>SEO & digital growth solutions</p>
+      </a>
+
+      {% endif %}
+    </div>
+  </div>
 </section>
-<!-- =========================
+<!-- 
      HOW IT WORKS SECTION
-========================= -->
+ -->
 <section class="works-section">
-
-    <div class="container">
-
-        <!-- TITLE -->
-        <div class="works-header">
-            <h2>
-                How FreelanceHub Works
-            </h2>
-        </div>
-
-        <div class="works-wrapper">
-
-            <!-- CLIENT SIDE -->
-            <div class="workflow-box">
-
-                <h3 class="client-title">
-                    For Clients
-                </h3>
-
-                <div class="workflow">
-
-                    <!-- STEP 1 -->
-                    <div class="step-card">
-
-                        <div class="step-icon client-bg">
-                            📄
-                        </div>
-
-                        <div class="step-number client-number">
-                            1
-                        </div>
-
-                        <h4>
-                            Post Project
-                        </h4>
-
-                        <p>
-                            Describe your project and your requirements.
-                        </p>
-
-                    </div>
-
-                    <div class="arrow">
-                        →
-                    </div>
-
-                    <!-- STEP 2 -->
-                    <div class="step-card">
-
-                        <div class="step-icon purple-bg">
-                            👥
-                        </div>
-
-                        <div class="step-number client-number">
-                            2
-                        </div>
-
-                        <h4>
-                            Receive Proposals
-                        </h4>
-
-                        <p>
-                            Get proposals from interested freelancers.
-                        </p>
-
-                    </div>
-
-                    <div class="arrow">
-                        →
-                    </div>
-
-                    <!-- STEP 3 -->
-                    <div class="step-card">
-
-                        <div class="step-icon soft-bg">
-                            ✔
-                        </div>
-
-                        <div class="step-number client-number">
-                            3
-                        </div>
-
-                        <h4>
-                            Hire & Collaborate
-                        </h4>
-
-                        <p>
-                            Hire the best fit and work together easily.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- FREELANCER SIDE -->
-            <div class="workflow-box">
-
-                <h3 class="freelancer-title">
-                    For Freelancers
-                </h3>
-
-                <div class="workflow">
-
-                    <!-- STEP 1 -->
-                    <div class="step-card">
-
-                        <div class="step-icon green-bg">
-                            🔍
-                        </div>
-
-                        <div class="step-number green-number">
-                            1
-                        </div>
-
-                        <h4>
-                            Discover Projects
-                        </h4>
-
-                        <p>
-                            Find projects that match your skills.
-                        </p>
-
-                    </div>
-
-                    <div class="arrow">
-                        →
-                    </div>
-
-                    <!-- STEP 2 -->
-                    <div class="step-card">
-
-                        <div class="step-icon green-bg">
-                            ✈
-                        </div>
-
-                        <div class="step-number green-number">
-                            2
-                        </div>
-
-                        <h4>
-                            Apply with Proposal
-                        </h4>
-
-                        <p>
-                            Send your proposal and impress clients.
-                        </p>
-
-                    </div>
-
-                    <div class="arrow">
-                        →
-                    </div>
-
-                    <!-- STEP 3 -->
-                    <div class="step-card">
-
-                        <div class="step-icon green-bg">
-                            💲
-                        </div>
-
-                        <div class="step-number green-number">
-                            3
-                        </div>
-
-                        <h4>
-                            Deliver & Get Paid
-                        </h4>
-
-                        <p>
-                            Deliver quality work and get paid securely.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
+  <div class="container">
+    <div class="works-header">
+      <h2>How FreelanceHub Works</h2>
     </div>
 
+    <div class="works-wrapper">
+      <!-- CLIENT SIDE -->
+      <div class="workflow-box">
+        <h3 class="client-title">For Clients</h3>
+
+        <div class="workflow">
+          <div class="step-card">
+            <div class="step-icon client-bg">📄</div>
+
+            <div class="step-number client-number">1</div>
+
+            <h4>Post Project</h4>
+
+            <p>Describe your project and your requirements.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step-card">
+            <div class="step-icon purple-bg">👥</div>
+
+            <div class="step-number client-number">2</div>
+
+            <h4>Receive Proposals</h4>
+
+            <p>Get proposals from interested freelancers.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step-card">
+            <div class="step-icon soft-bg">✔</div>
+
+            <div class="step-number client-number">3</div>
+
+            <h4>Hire & Collaborate</h4>
+
+            <p>Hire the best fit and work together easily.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FREELANCER SIDE -->
+      <div class="workflow-box">
+        <h3 class="freelancer-title">For Freelancers</h3>
+
+        <div class="workflow">
+          <div class="step-card">
+            <div class="step-icon green-bg">🔍</div>
+
+            <div class="step-number green-number">1</div>
+
+            <h4>Discover Projects</h4>
+
+            <p>Find projects that match your skills.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step-card">
+            <div class="step-icon green-bg">✈</div>
+
+            <div class="step-number green-number">2</div>
+
+            <h4>Apply with Proposal</h4>
+
+            <p>Send your proposal and impress clients.</p>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="step-card">
+            <div class="step-icon green-bg">💲</div>
+
+            <div class="step-number green-number">3</div>
+
+            <h4>Deliver & Get Paid</h4>
+
+            <p>Deliver quality work and get paid securely.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="project-showcase">
+  <div class="container">
+    <div class="project-header">
+      <h2>Recently Posted Projects</h2>
 
-    <div class="container">
-
-        <!-- HEADER -->
-        <div class="project-header">
-
-            <h2>
-                Recently Posted Projects
-            </h2>
-
-            <a href="{% url 'project_list' %}">
-                View All →
-            </a>
-
-        </div>
-
-        <!-- SLIDER WRAPPER -->
-        <div class="project-slider-wrapper">
-
-            <!-- LEFT BUTTON -->
-            <button class="slide-btn left" id="prevBtn">
-                ❮
-            </button>
-
-            <!-- CAROUSEL -->
-            <div class="project-slider" id="projectSlider">
-
-                {% for project in latest_projects %}
-
-                <div class="project-card">
-
-                    <span class="project-badge">
-                        {{ project.category.name }}
-                    </span>
-
-                    <h4>
-                        {{ project.title }}
-                    </h4>
-
-                    <div class="project-budget">
-                        ৳ {{ project.budget }}
-                    </div>
-
-                    <div class="project-deadline">
-                        📅 Deadline:
-                        {{ project.deadline }}
-                    </div>
-
-                    <!-- SHOW APPLY BUTTON ONLY FOR FREELANCERS -->
-                    {% if user.is_authenticated and user.profile.role == 'freelancer' %}
-                        <a
-                            href="{% url 'project_details' project.id %}"
-                            class="apply-btn"
-                        >
-                            Apply Now →
-                        </a>
-                    {% endif %}
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
-            <!-- RIGHT BUTTON -->
-            <button class="slide-btn right" id="nextBtn">
-                ❯
-            </button>
-
-        </div>
-
-        <!-- DOTS -->
-        <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-
+      <a href="{% url 'project_list' %}"> View All → </a>
     </div>
 
+    <div class="project-slider-wrapper">
+      <button class="slide-btn left" id="prevBtn">❮</button>
+
+      <div class="project-slider" id="projectSlider">
+        {% for project in latest_projects %}
+
+        <div class="project-card">
+          <span class="project-badge"> {{ project.category.name }} </span>
+
+          <h4>{{ project.title }}</h4>
+
+          <div class="project-budget">৳ {{ project.budget }}</div>
+
+          <div class="project-deadline">
+            📅 Deadline: {{ project.deadline }}
+          </div>
+
+          {% if user.is_authenticated and user.profile.role == 'freelancer' %}
+          <a href="{% url 'project_details' project.id %}" class="apply-btn">
+            Apply Now →
+          </a>
+          {% endif %}
+        </div>
+
+        {% endfor %}
+      </div>
+
+      <button class="slide-btn right" id="nextBtn">❯</button>
+    </div>
+
+    <!-- DOTS -->
+    <div class="slider-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
 </section>
 
 <!-- WHY CHOOSE SECTION -->
 <section class="why-section">
+  <div class="container">
+    <h2 class="why-title">Why Choose FreelanceHub?</h2>
 
-    <div class="container">
-
-        <h2 class="why-title">
-            Why Choose FreelanceHub?
-        </h2>
-
-        <div class="why-grid">
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-                <h5>Verified Professionals</h5>
-                <p>All freelancers are verified for your trust.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <i class="bi bi-lock"></i>
-                </div>
-                <h5>Secure Payments</h5>
-                <p>Safe & secure payments for every transaction.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <i class="bi bi-chat-dots"></i>
-                </div>
-                <h5>Easy Communication</h5>
-                <p>Built-in messaging for smooth collaboration.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <i class="bi bi-star"></i>
-                </div>
-                <h5>Ratings & Reviews</h5>
-                <p>Review system ensures quality work.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <i class="bi bi-clock"></i>
-                </div>
-                <h5>On-Time Delivery</h5>
-                <p>We value time and ensure on-time delivery.</p>
-            </div>
-
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <i class="bi bi-shield-check"></i>
         </div>
+        <h5>Verified Professionals</h5>
+        <p>All freelancers are verified for your trust.</p>
+      </div>
 
+      <div class="why-card">
+        <div class="why-icon">
+          <i class="bi bi-lock"></i>
+        </div>
+        <h5>Secure Payments</h5>
+        <p>Safe & secure payments for every transaction.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <i class="bi bi-chat-dots"></i>
+        </div>
+        <h5>Easy Communication</h5>
+        <p>Built-in messaging for smooth collaboration.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <i class="bi bi-star"></i>
+        </div>
+        <h5>Ratings & Reviews</h5>
+        <p>Review system ensures quality work.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <i class="bi bi-clock"></i>
+        </div>
+        <h5>On-Time Delivery</h5>
+        <p>We value time and ensure on-time delivery.</p>
+      </div>
     </div>
-
+  </div>
 </section>
 
-<style>
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const suggestionsBox = document.getElementById("suggestions");
 
-/* 
+  function validateSearch() {
+    const value = searchInput.value.trim();
+    if (value === "") {
+      alert("Please enter something");
+      return false;
+    }
+    return true;
+  }
+
+  function fetchSuggestions() {
+    const query = searchInput.value.trim();
+
+    if (query.length < 2) {
+      suggestionsBox.innerHTML = "";
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    fetch(`/projects/search-suggestions/?q=${encodeURIComponent(query)}`)
+      .then((response) => {
+        if (!response.ok) throw new Error("Network error");
+        return response.json();
+      })
+      .then((data) => {
+        suggestionsBox.innerHTML = "";
+
+        if (data.length === 0) {
+          suggestionsBox.style.display = "none";
+          return;
+        }
+
+        data.forEach((item) => {
+          const div = document.createElement("div");
+          div.classList.add("suggestion-item");
+          div.innerText = item;
+          div.onclick = function () {
+            searchInput.value = item;
+            suggestionsBox.innerHTML = "";
+            suggestionsBox.style.display = "none";
+          };
+          suggestionsBox.appendChild(div);
+        });
+
+        suggestionsBox.style.display = "block";
+      })
+      .catch(() => {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.style.display = "none";
+      });
+  }
+
+  searchInput.addEventListener("input", fetchSuggestions);
+  searchInput.addEventListener("keyup", fetchSuggestions);
+
+  // Hide suggestions when clicking outside
+  document.addEventListener("click", function (e) {
+    if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+      suggestionsBox.innerHTML = "";
+      suggestionsBox.style.display = "none";
+    }
+  });
+
+  // Project Slider
+  const projectSlider = document.getElementById("projectSlider");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  if (projectSlider && prevBtn && nextBtn) {
+    prevBtn.addEventListener("click", () => {
+      projectSlider.scrollBy({ left: -320, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      projectSlider.scrollBy({ left: 320, behavior: "smooth" });
+    });
+  }
+</script>
+
+<style>
+  /* 
    STATS SECTION
  */
 
-.stats-section{
-    background:#f8fafc;
-    padding:70px 0;
-}
+  .stats-section {
+    background: #f8fafc;
+    padding: 70px 0;
+  }
 
-/* SPACE AROUND LAYOUT */
-.stats-grid{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:25px;
-}
+  /* SPACE AROUND LAYOUT */
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
 
-/* CARD */
-.stat-card{
+  /* CARD */
+  .stat-card {
     position: relative;
 
     width: 280px;
@@ -651,14 +543,14 @@
 
     background: #07182e;
 
-    transition: all .35s ease;
+    transition: all 0.35s ease;
 
     isolation: isolate;
-}
+  }
 
-/* ANIMATED ROTATING BORDER */
-.stat-card::before{
-    content: '';
+  /* ANIMATED ROTATING BORDER */
+  .stat-card::before {
+    content: "";
 
     position: absolute;
 
@@ -670,21 +562,16 @@
 
     transform-origin: center;
 
-    background: linear-gradient(
-        180deg,
-        #00B7FF,
-        #FF30FF,
-        #00B7FF
-    );
+    background: linear-gradient(180deg, #00b7ff, #ff30ff, #00b7ff);
 
     animation: rotateBorderStats 4s linear infinite;
 
     z-index: 0;
-}
+  }
 
-/* INNER WHITE CARD */
-.stat-card::after{
-    content: '';
+  /* INNER WHITE CARD */
+  .stat-card::after {
+    content: "";
 
     position: absolute;
 
@@ -695,34 +582,34 @@
     border-radius: 19px;
 
     z-index: 1;
-}
+  }
 
-/* ROTATION ANIMATION */
-@keyframes rotateBorderStats{
-    from{
-        transform: translateX(-50%) rotate(0deg);
+  /* ROTATION ANIMATION */
+  @keyframes rotateBorderStats {
+    from {
+      transform: translateX(-50%) rotate(0deg);
     }
-    to{
-        transform: translateX(-50%) rotate(360deg);
+    to {
+      transform: translateX(-50%) rotate(360deg);
     }
-}
+  }
 
-/* HOVER EFFECT */
-.stat-card:hover{
+  /* HOVER EFFECT */
+  .stat-card:hover {
     transform: translateY(-12px);
 
     box-shadow:
-        0 20px 40px rgba(0,183,255,.15),
-        0 0 20px rgba(255,48,255,.15);
-}
-/* KEEP ALL CONTENT ABOVE */
-.stat-card > *{
+      0 20px 40px rgba(0, 183, 255, 0.15),
+      0 0 20px rgba(255, 48, 255, 0.15);
+  }
+  /* KEEP ALL CONTENT ABOVE */
+  .stat-card > * {
     position: relative;
     z-index: 2;
-}
+  }
 
-/* ICON */
-.stat-icon{
+  /* ICON */
+  .stat-icon {
     width: 72px;
     height: 72px;
     margin: auto auto 18px;
@@ -734,82 +621,119 @@
 
     font-size: 30px;
 
-    background: rgba(255,255,255,.7);
-    box-shadow: 0 5px 15px rgba(0,0,0,.05);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 
     position: relative;
     z-index: 2;
-}
+  }
 
-/* TEXT */
-.stat-card h2{
+  /* TEXT */
+  .stat-card h2 {
     font-size: 42px;
     font-weight: 700;
     margin-bottom: 8px;
     color: #111827;
     position: relative;
     z-index: 2;
-}
+  }
 
-.stat-card h5{
+  .stat-card h5 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 10px;
     color: #1f2937;
     position: relative;
     z-index: 2;
-}
+  }
 
-.stat-card p{
+  .stat-card p {
     font-size: 14px;
     color: #6b7280;
     margin: 0;
     position: relative;
     z-index: 2;
-}
+  }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-
-    .stats-grid{
-        justify-content: center;
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .stats-grid {
+      justify-content: center;
     }
 
-    .stat-card{
-        width: 100%;
-        max-width: 340px;
+    .stat-card {
+      width: 100%;
+      max-width: 340px;
     }
+  }
 
-}
+  .search-wrapper {
+    position: relative;
+    flex: 1;
+  }
 
+  #suggestions {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    color: #111827;
+    z-index: 9999;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    max-height: 260px;
+    overflow-y: auto;
+  }
 
-/*
+  .suggestion-item {
+    padding: 13px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #111827;
+    background: #ffffff;
+    transition: background 0.15s ease;
+  }
+
+  .suggestion-item:last-child {
+    border-bottom: none;
+  }
+
+  .suggestion-item:hover {
+    background: #f3f4f6;
+    color: #1d4ed8;
+  }
+
+  /*
    CATEGORY SECTION HEADER
 */
 
-.section-header{
+  .section-header {
     text-align: center;
     margin-bottom: 45px;
-}
+  }
 
-.section-header h2{
+  .section-header h2 {
     font-size: 36px;
     font-weight: 700;
     color: #111827;
     margin: 0 0 12px 0;
-}
+  }
 
-.section-header p{
+  .section-header p {
     font-size: 16px;
     color: #6b7280;
     margin: 0;
-}
+  }
 
-/*
+  /*
    CATEGORY CARD
 */
 
-.category-card{
+  .category-card {
     position: relative;
 
     width: 300px;
@@ -830,15 +754,15 @@
     justify-content: center;
     align-items: center;
 
-    transition: all .35s ease;
+    transition: all 0.35s ease;
 
     isolation: isolate;
-}
+  }
 
-/* ANIMATED ROTATING BORDER */
+  /* ANIMATED ROTATING BORDER */
 
-.category-card::before{
-    content: '';
+  .category-card::before {
+    content: "";
 
     position: absolute;
 
@@ -850,22 +774,17 @@
 
     transform-origin: center;
 
-    background: linear-gradient(
-        180deg,
-        #00B7FF,
-        #FF30FF,
-        #00B7FF
-    );
+    background: linear-gradient(180deg, #00b7ff, #ff30ff, #00b7ff);
 
     animation: rotateBorderCategory 4s linear infinite;
 
     z-index: 0;
-}
+  }
 
-/* INNER WHITE CARD */
+  /* INNER WHITE CARD */
 
-.category-card::after{
-    content: '';
+  .category-card::after {
+    content: "";
 
     position: absolute;
 
@@ -876,39 +795,39 @@
     border-radius: 19px;
 
     z-index: 1;
-}
+  }
 
-/* KEEP ALL CONTENT ABOVE */
+  /* KEEP ALL CONTENT ABOVE */
 
-.category-card > *{
+  .category-card > * {
     position: relative;
     z-index: 2;
-}
+  }
 
-/* HOVER EFFECT */
+  /* HOVER EFFECT */
 
-.category-card:hover{
+  .category-card:hover {
     transform: translateY(-8px);
 
     box-shadow:
-        0 20px 40px rgba(0,183,255,.15),
-        0 0 20px rgba(255,48,255,.15);
-}
+      0 20px 40px rgba(0, 183, 255, 0.15),
+      0 0 20px rgba(255, 48, 255, 0.15);
+  }
 
-/* ROTATION ANIMATION */
+  /* ROTATION ANIMATION */
 
-@keyframes rotateBorderCategory{
-    from{
-        transform: translateX(-50%) rotate(0deg);
+  @keyframes rotateBorderCategory {
+    from {
+      transform: translateX(-50%) rotate(0deg);
     }
-    to{
-        transform: translateX(-50%) rotate(360deg);
+    to {
+      transform: translateX(-50%) rotate(360deg);
     }
-}
+  }
 
-/* ICON */
+  /* ICON */
 
-.category-icon{
+  .category-icon {
     width: 65px;
     height: 65px;
 
@@ -924,15 +843,15 @@
 
     background: #eef2ff;
 
-    box-shadow: 0 5px 15px rgba(0,0,0,.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 
     position: relative;
     z-index: 2;
-}
+  }
 
-/* TITLE */
+  /* TITLE */
 
-.category-card h4{
+  .category-card h4 {
     font-size: 20px;
     font-weight: 700;
 
@@ -942,11 +861,11 @@
 
     position: relative;
     z-index: 2;
-}
+  }
 
-/* TEXT */
+  /* TEXT */
 
-.category-card p{
+  .category-card p {
     font-size: 14px;
     line-height: 1.6;
 
@@ -956,425 +875,411 @@
 
     position: relative;
     z-index: 2;
-}
+  }
 
-/* GRID */
+  /* GRID */
 
-.category-grid{
+  .category-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
-}
+  }
 
-/* RESPONSIVE */
+  /* RESPONSIVE */
 
-@media(max-width:768px){
-
-    .category-grid{
-        justify-content: center;
+  @media (max-width: 768px) {
+    .category-grid {
+      justify-content: center;
     }
 
-    .category-card{
-        width: 100%;
-        max-width: 340px;
+    .category-card {
+      width: 100%;
+      max-width: 340px;
     }
+  }
 
-}
-
-/* 
+  /* 
    HOW IT WORKS SECTION
 */
 
-.works-section{
-    padding:60px 0;
-    background:#fff;
-}
+  .works-section {
+    padding: 60px 0;
+    background: #fff;
+  }
 
-/* HEADER */
+  /* HEADER */
 
-.works-header{
-    text-align:center;
-    margin-bottom:35px;
-}
+  .works-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
 
-.works-header h2{
-    font-size:36px;
-    font-weight:700;
-    color:#111827;
-    margin:0;
-}
+  .works-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
 
-/* WRAPPER */
+  /* WRAPPER */
 
-.works-wrapper{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:40px;
-    flex-wrap:wrap;
-}
+  .works-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
 
-/* BOX */
+  /* BOX */
 
-.workflow-box{
-    flex:1;
-    min-width:500px;
-}
+  .workflow-box {
+    flex: 1;
+    min-width: 500px;
+  }
 
-/* TITLES */
+  /* TITLES */
 
-.client-title,
-.freelancer-title{
-    text-align:center;
-    font-size:28px;
-    font-weight:700;
-    margin-bottom:25px;
-}
+  .client-title,
+  .freelancer-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
 
-.client-title{
-    color:#2563eb;
-}
+  .client-title {
+    color: #2563eb;
+  }
 
-.freelancer-title{
-    color:#16a34a;
-}
+  .freelancer-title {
+    color: #16a34a;
+  }
 
-/* FLOW */
+  /* FLOW */
 
-.workflow{
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    gap:10px;
-    flex-wrap:nowrap;
-}
+  .workflow {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
 
-/* STEP CARD */
+  /* STEP CARD */
 
-.step-card{
-    width:160px;
-    text-align:center;
-    transition:.35s ease;
-}
+  .step-card {
+    width: 160px;
+    text-align: center;
+    transition: 0.35s ease;
+  }
 
-.step-card:hover{
-    transform:translateY(-8px);
-}
+  .step-card:hover {
+    transform: translateY(-8px);
+  }
 
-/* ICON */
+  /* ICON */
 
-.step-icon{
-    width:88px;
-    height:88px;
-    margin:auto;
+  .step-icon {
+    width: 88px;
+    height: 88px;
+    margin: auto;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size:34px;
-    transition:.35s ease;
-}
+    font-size: 34px;
+    transition: 0.35s ease;
+  }
 
-.step-card:hover .step-icon{
-    transform:scale(1.06);
-}
+  .step-card:hover .step-icon {
+    transform: scale(1.06);
+  }
 
-/* COLORS */
+  /* COLORS */
 
-.client-bg{
-    background:#e8f1ff;
-    color:#2563eb;
-}
+  .client-bg {
+    background: #e8f1ff;
+    color: #2563eb;
+  }
 
-.purple-bg{
-    background:#efe8ff;
-    color:#7c3aed;
-}
+  .purple-bg {
+    background: #efe8ff;
+    color: #7c3aed;
+  }
 
-.soft-bg{
-    background:#edf7f2;
-    color:#7c3aed;
-}
+  .soft-bg {
+    background: #edf7f2;
+    color: #7c3aed;
+  }
 
-.green-bg{
-    background:#eaf7f1;
-    color:#16a34a;
-}
+  .green-bg {
+    background: #eaf7f1;
+    color: #16a34a;
+  }
 
-/* STEP NUMBER */
+  /* STEP NUMBER */
 
-.step-number{
-    width:36px;
-    height:36px;
-    margin:12px auto;
+  .step-number {
+    width: 36px;
+    height: 36px;
+    margin: 12px auto;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size:17px;
-    font-weight:700;
-    color:#fff;
-}
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+  }
 
-.client-number{
-    background:#2563eb;
-}
+  .client-number {
+    background: #2563eb;
+  }
 
-.green-number{
-    background:#16a34a;
-}
+  .green-number {
+    background: #16a34a;
+  }
 
-/* TEXT */
+  /* TEXT */
 
-.step-card h4{
-    font-size:17px;
-    font-weight:700;
-    color:#111827;
-    margin-bottom:6px;
-    margin-top:0;
-}
+  .step-card h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+    margin-top: 0;
+  }
 
-.step-card p{
-    font-size:13px;
-    color:#6b7280;
-    line-height:1.5;
-    margin:0;
-}
+  .step-card p {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0;
+  }
 
-/* ARROWS */
+  /* ARROWS */
 
-.arrow{
-    font-size:32px;
-    color:#9ca3af;
-    margin-top:22px;
-    font-weight:600;
-}
+  .arrow {
+    font-size: 32px;
+    color: #9ca3af;
+    margin-top: 22px;
+    font-weight: 600;
+  }
 
-/* RESPONSIVE */
+  /* RESPONSIVE */
 
-@media(max-width:1200px){
-
-    .workflow-box{
-        min-width:100%;
+  @media (max-width: 1200px) {
+    .workflow-box {
+      min-width: 100%;
     }
 
-    .workflow{
-        flex-wrap:wrap;
-        gap:20px;
+    .workflow {
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
-    .arrow{
-        display:none;
+    .arrow {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .works-section {
+      padding: 50px 0;
     }
 
-}
-
-@media(max-width:768px){
-
-    .works-section{
-        padding:50px 0;
-    }
-
-    .works-header h2{
-        font-size:30px;
+    .works-header h2 {
+      font-size: 30px;
     }
 
     .client-title,
-    .freelancer-title{
-        font-size:24px;
+    .freelancer-title {
+      font-size: 24px;
     }
 
-    .workflow{
-        flex-direction:column;
-        align-items:center;
+    .workflow {
+      flex-direction: column;
+      align-items: center;
     }
 
-    .step-card{
-        width:100%;
-        max-width:240px;
+    .step-card {
+      width: 100%;
+      max-width: 240px;
     }
+  }
 
-}
-
-/* 
+  /* 
    WHY CHOOSE SECTION
 */
 
-.why-section{
-    position:relative;
-    padding:55px 0;
-    overflow:hidden;
+  .why-section {
+    position: relative;
+    padding: 55px 0;
+    overflow: hidden;
 
     background:
-    radial-gradient(circle at center,
-        rgba(0,120,255,.20),
-        transparent 45%),
-    linear-gradient(
-        90deg,
-        #07111f 0%,
-        #08192d 35%,
-        #07111f 100%
+      radial-gradient(
+        circle at center,
+        rgba(0, 120, 255, 0.2),
+        transparent 45%
+      ),
+      linear-gradient(90deg, #07111f 0%, #08192d 35%, #07111f 100%);
+  }
+
+  /* BLUE GLOW */
+  .why-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle,
+      rgba(0, 180, 255, 0.18),
+      transparent 60%
     );
-}
+    pointer-events: none;
+  }
 
-/* BLUE GLOW */
-.why-section::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:
-    radial-gradient(
-        circle,
-        rgba(0,180,255,.18),
-        transparent 60%
-    );
-    pointer-events:none;
-}
+  .why-title {
+    text-align: center;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 45px;
+    position: relative;
+    z-index: 2;
+  }
 
-.why-title{
-    text-align:center;
-    color:#fff;
-    font-size:40px;
-    font-weight:700;
-    margin-bottom:45px;
-    position:relative;
-    z-index:2;
-}
+  .why-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+  }
 
-.why-grid{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:20px;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:2;
-}
+  .why-card {
+    flex: 1;
+    min-width: 180px;
+    text-align: center;
+    color: white;
+    transition: 0.35s ease;
+  }
 
-.why-card{
-    flex:1;
-    min-width:180px;
-    text-align:center;
-    color:white;
-    transition:.35s ease;
-}
+  .why-card:hover {
+    transform: translateY(-6px);
+  }
 
-.why-card:hover{
-    transform:translateY(-6px);
-}
+  .why-icon {
+    font-size: 34px;
+    color: white;
+    margin-bottom: 15px;
+    opacity: 0.95;
+  }
 
-.why-icon{
-    font-size:34px;
-    color:white;
-    margin-bottom:15px;
-    opacity:.95;
-}
+  .why-card h5 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #fff;
+  }
 
-.why-card h5{
-    font-size:17px;
-    font-weight:600;
-    margin-bottom:6px;
-    color:#fff;
-}
+  .why-card p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.6;
+    margin: 0;
+  }
 
-.why-card p{
-    font-size:13px;
-    color:rgba(255,255,255,.72);
-    line-height:1.6;
-    margin:0;
-}
+  /* MOBILE */
 
-/* MOBILE */
-
-@media(max-width:992px){
-
-    .why-grid{
-        justify-content:center;
-        gap:35px;
+  @media (max-width: 992px) {
+    .why-grid {
+      justify-content: center;
+      gap: 35px;
     }
 
-    .why-card{
-        flex:0 0 45%;
+    .why-card {
+      flex: 0 0 45%;
     }
-}
+  }
 
-@media(max-width:576px){
-
-    .why-title{
-        font-size:30px;
+  @media (max-width: 576px) {
+    .why-title {
+      font-size: 30px;
     }
 
-    .why-card{
-        flex:0 0 100%;
+    .why-card {
+      flex: 0 0 100%;
     }
-}
+  }
 
-/* 
+  /* 
 PROJECT CAROUSEL
  */
 
-.project-showcase{
-    padding:75px 0;
-    background:#f5f7fb;
-}
+  .project-showcase {
+    padding: 75px 0;
+    background: #f5f7fb;
+  }
 
-.project-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:35px;
-}
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+  }
 
-.project-header h2{
+  .project-header h2 {
     text-align: center;
-    font-size:42px;
-    font-weight:800;
-    color:#0f172a;
-    margin:0;
-    flex:1;
-}
+    font-size: 42px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    flex: 1;
+  }
 
-.project-header a{
-    text-decoration:none;
-    color:#2563eb;
-    font-size:18px;
-    font-weight:600;
-    white-space:nowrap;
-}
+  .project-header a {
+    text-decoration: none;
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
 
-.project-slider-wrapper{
-    position:relative;
-}
+  .project-slider-wrapper {
+    position: relative;
+  }
 
-/* SLIDER */
+  /* SLIDER */
 
-.project-slider{
+  .project-slider {
+    display: flex;
+    gap: 25px;
 
-    display:flex;
-    gap:25px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
 
-    overflow-x:auto;
-    scroll-behavior:smooth;
+    scrollbar-width: none;
+    padding: 10px 5px 25px;
+  }
 
-    scrollbar-width:none;
-    padding:10px 5px 25px;
-}
+  .project-slider::-webkit-scrollbar {
+    display: none;
+  }
 
-.project-slider::-webkit-scrollbar{
-    display:none;
-}
+  /* CARD */
 
-/* CARD */
-
-
-.project-card{
+  .project-card {
     position: relative;
 
     flex: 0 0 260px;
@@ -1387,15 +1292,15 @@ PROJECT CAROUSEL
 
     background: #07182e;
 
-    transition: all .35s ease;
+    transition: all 0.35s ease;
 
     isolation: isolate;
-}
+  }
 
-/* ANIMATED BORDER */
+  /* ANIMATED BORDER */
 
-.project-card::before{
-    content: '';
+  .project-card::before {
+    content: "";
 
     position: absolute;
 
@@ -1407,23 +1312,17 @@ PROJECT CAROUSEL
 
     transform-origin: center;
 
-    background: linear-gradient(
-        180deg,
-        #00d4ff,
-        #7c3aed,
-        #ff00ff,
-        #00d4ff
-    );
+    background: linear-gradient(180deg, #00d4ff, #7c3aed, #ff00ff, #00d4ff);
 
     animation: rotateBorder 4s linear infinite;
 
     z-index: 0;
-}
+  }
 
-/* INNER WHITE CARD */
+  /* INNER WHITE CARD */
 
-.project-card::after{
-    content: '';
+  .project-card::after {
+    content: "";
 
     position: absolute;
 
@@ -1434,237 +1333,196 @@ PROJECT CAROUSEL
     border-radius: 25px;
 
     z-index: 1;
-}
+  }
 
-/* KEEP ALL CONTENT ABOVE */
+  /* KEEP ALL CONTENT ABOVE */
 
-.project-card > *{
+  .project-card > * {
     position: relative;
     z-index: 2;
-}
+  }
 
-/* HOVER EFFECT */
+  /* HOVER EFFECT */
 
-.project-card:hover{
-
+  .project-card:hover {
     transform: translateY(-10px);
 
     box-shadow:
-        0 20px 40px rgba(37,99,235,.15),
-        0 0 20px rgba(0,212,255,.15);
-}
+      0 20px 40px rgba(37, 99, 235, 0.15),
+      0 0 20px rgba(0, 212, 255, 0.15);
+  }
 
-/* ROTATION */
+  /* ROTATION */
 
-@keyframes rotateBorder{
-
-    from{
-        transform: translateX(-50%) rotate(0deg);
+  @keyframes rotateBorder {
+    from {
+      transform: translateX(-50%) rotate(0deg);
     }
 
-    to{
-        transform: translateX(-50%) rotate(360deg);
+    to {
+      transform: translateX(-50%) rotate(360deg);
     }
-}
-.project-card:hover{
+  }
+  .project-card:hover {
+    transform: translateY(-8px);
 
-    transform:translateY(-8px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);
+  }
 
-    box-shadow:
-        0 20px 40px rgba(37,99,235,.10);
-}
+  /* BADGE */
 
-/* BADGE */
+  .project-badge {
+    display: inline-block;
 
-.project-badge{
+    background: #eef4ff;
+    color: #2563eb;
 
-    display:inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
 
-    background:#eef4ff;
-    color:#2563eb;
+    font-size: 12px;
+    font-weight: 600;
 
-    padding:8px 16px;
-    border-radius:30px;
+    margin-bottom: 20px;
+  }
 
-    font-size:12px;
-    font-weight:600;
+  /* TITLE */
 
-    margin-bottom:20px;
-}
+  .project-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
 
-/* TITLE */
+    color: #0f172a;
 
-.project-card h4{
+    min-height: 70px;
+    margin-bottom: 22px;
+  }
 
-    font-size:18px;
-    font-weight:700;
-    line-height:1.4;
+  /* BUDGET */
 
-    color:#0f172a;
+  .project-budget {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
 
-    min-height:70px;
-    margin-bottom:22px;
-}
+    margin-bottom: 18px;
+  }
 
-/* BUDGET */
+  /* DEADLINE */
 
-.project-budget{
+  .project-deadline {
+    color: #64748b;
+    font-size: 14px;
 
-    font-size:20px;
-    font-weight:800;
-    color:#0f172a;
+    margin-bottom: 30px;
+  }
 
-    margin-bottom:18px;
-}
+  /* APPLY */
 
-/* DEADLINE */
+  .apply-btn {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 15px;
+  }
 
-.project-deadline{
+  /* BUTTONS */
 
-    color:#64748b;
-    font-size:14px;
+  .slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 
-    margin-bottom:30px;
-}
+    width: 54px;
+    height: 54px;
 
-/* APPLY */
+    border: none;
+    border-radius: 50%;
 
-.apply-btn{
+    background: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-    text-decoration:none;
-    color:#2563eb;
-    font-weight:700;
-    font-size:15px;
-}
+    color: #2563eb;
+    font-size: 28px;
+    cursor: pointer;
 
-/* BUTTONS */
+    z-index: 5;
+  }
 
-.slide-btn{
+  .left {
+    left: -20px;
+  }
 
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
+  .right {
+    right: -20px;
+  }
 
-    width:54px;
-    height:54px;
+  /* DOTS */
 
-    border:none;
-    border-radius:50%;
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+  }
 
-    background:white;
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.10);
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
 
-    color:#2563eb;
-    font-size:28px;
-    cursor:pointer;
+    background: #d6d9e5;
+  }
 
-    z-index:5;
-}
+  .dot.active {
+    background: #2563eb;
+  }
 
-.left{
-    left:-20px;
-}
+  /* SEARCH BAR */
+  .hero-search {
+    display: flex;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(4, 47, 239, 0.25);
+    margin-bottom: 22px;
+  }
 
-.right{
-    right:-20px;
-}
+  .hero-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 18px 20px;
+    font-size: 16px;
+    background: #fff;
+  }
 
-/* DOTS */
+  /* BLUE ICON BOX */
+  .hero-search button {
+    width: 85px;
+    border: none;
+    background: #2563eb !important;
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-.slider-dots{
-
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-top:15px;
-}
-
-.dot{
-
-    width:11px;
-    height:11px;
-    border-radius:50%;
-
-    background:#d6d9e5;
-}
-
-.dot.active{
-    background:#2563eb;
-}
-
-
+  .hero-search button:hover {
+    background: #1d4ed8 !important;
+  }
 
 
-/* SEARCH BAR */
-.hero-search{
-    display:flex;
-    width:100%;
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 8px 25px rgba(4, 47, 239, 0.25);
-    margin-bottom:22px;
-}
 
-.hero-search input{
-    flex:1;
-    border:none;
-    outline:none;
-    padding:18px 20px;
-    font-size:16px;
-    background:#fff;
-}
-
-/* BLUE ICON BOX */
-.hero-search button{
-    width:85px;
-    border:none;
-    background:#2563eb !important;
-    color:#fff;
-    font-size:22px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:all .3s ease;
-}
-
-.hero-search button:hover{
-    background:#1d4ed8 !important;
-}
 </style>
 
 
 
-<script>
-
-const slider =
-document.getElementById(
-'projectSlider'
-);
-
-document.getElementById(
-'nextBtn'
-).onclick = () => {
-
-    slider.scrollBy({
-        left:320,
-        behavior:'smooth'
-    });
-
-};
-
-document.getElementById(
-'prevBtn'
-).onclick = () => {
-
-    slider.scrollBy({
-        left:-320,
-        behavior:'smooth'
-    });
-
-};
-
-</script>
 {% endblock %}
+
+

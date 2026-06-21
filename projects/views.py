@@ -16,6 +16,11 @@ from proposals.models import Proposal
 from messaging.models import Conversation
 from submissions.models import Submission
 from profiles.models import FreelanceProfile
+from django.db.models import Q
+from django.http import JsonResponse
+
+
+
 
 
 
@@ -89,12 +94,13 @@ def project_list(request):
         )
 
     # Search
-    query = request.GET.get('q')
+    query = request.GET.get('q', '').strip()
 
     if query:
-
         projects = projects.filter(
-            title__icontains=query
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
         )
 
     # Category filter
@@ -375,3 +381,21 @@ def home(request):
         'home.html',
         context
     )
+    
+    
+
+def search_suggestions(request):
+    query = request.GET.get('q', '').strip()
+    suggestions = []
+
+    if query:
+        projects = Project.objects.filter(
+            Q(title__icontains=query) |
+            Q(category__name__icontains=query)
+        )[:5]
+
+        suggestions = list(
+            projects.values_list('title', flat=True)
+        )
+
+    return JsonResponse(suggestions, safe=False)

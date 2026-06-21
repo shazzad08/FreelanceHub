@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'messaging',
     'notifications',
     'submissions',
+    'dal',
+    'dal_select2',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'accounts.User'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
