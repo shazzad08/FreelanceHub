@@ -33,7 +33,12 @@
         <div id="suggestions"></div>
       </div>
 
-      <button type="submit">🔍</button>
+      <button type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
     </form>
 
     <!-- CATEGORY TAGS -->
@@ -434,15 +439,8 @@
 <script>
   const searchInput = document.getElementById("searchInput");
   const suggestionsBox = document.getElementById("suggestions");
-
-  function validateSearch() {
-    const value = searchInput.value.trim();
-    if (value === "") {
-      alert("Please enter something");
-      return false;
-    }
-    return true;
-  }
+  const searchForm = searchInput ? searchInput.closest("form") : null;
+  let activeIndex = -1;
 
   function fetchSuggestions() {
     const query = searchInput.value.trim();
@@ -450,6 +448,7 @@
     if (query.length < 2) {
       suggestionsBox.innerHTML = "";
       suggestionsBox.style.display = "none";
+      activeIndex = -1;
       return;
     }
 
@@ -460,21 +459,23 @@
       })
       .then((data) => {
         suggestionsBox.innerHTML = "";
+        activeIndex = -1;
 
         if (data.length === 0) {
           suggestionsBox.style.display = "none";
           return;
         }
 
-        data.forEach((item) => {
+        data.forEach((item, index) => {
           const div = document.createElement("div");
           div.classList.add("suggestion-item");
           div.innerText = item;
-          div.onclick = function () {
-            searchInput.value = item;
-            suggestionsBox.innerHTML = "";
-            suggestionsBox.style.display = "none";
-          };
+          div.setAttribute("data-index", index);
+          
+          div.addEventListener("click", function () {
+            selectSuggestion(item);
+          });
+          
           suggestionsBox.appendChild(div);
         });
 
@@ -483,19 +484,69 @@
       .catch(() => {
         suggestionsBox.innerHTML = "";
         suggestionsBox.style.display = "none";
+        activeIndex = -1;
       });
   }
 
-  searchInput.addEventListener("input", fetchSuggestions);
-  searchInput.addEventListener("keyup", fetchSuggestions);
-
-  // Hide suggestions when clicking outside
-  document.addEventListener("click", function (e) {
-    if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
-      suggestionsBox.innerHTML = "";
-      suggestionsBox.style.display = "none";
+  function selectSuggestion(value) {
+    searchInput.value = value;
+    suggestionsBox.innerHTML = "";
+    suggestionsBox.style.display = "none";
+    activeIndex = -1;
+    if (searchForm) {
+      searchForm.submit();
     }
-  });
+  }
+
+  function updateActiveSuggestion() {
+    const items = suggestionsBox.querySelectorAll(".suggestion-item");
+    items.forEach((item, index) => {
+      if (index === activeIndex) {
+        item.classList.add("active");
+        item.scrollIntoView({ block: "nearest" });
+      } else {
+        item.classList.remove("active");
+      }
+    });
+  }
+
+  if (searchInput && suggestionsBox) {
+    searchInput.addEventListener("input", fetchSuggestions);
+
+    searchInput.addEventListener("keydown", function (e) {
+      const items = suggestionsBox.querySelectorAll(".suggestion-item");
+      
+      if (suggestionsBox.style.display === "block" && items.length > 0) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          activeIndex = (activeIndex + 1) % items.length;
+          updateActiveSuggestion();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          activeIndex = (activeIndex - 1 + items.length) % items.length;
+          updateActiveSuggestion();
+        } else if (e.key === "Enter") {
+          if (activeIndex >= 0 && activeIndex < items.length) {
+            e.preventDefault();
+            selectSuggestion(items[activeIndex].innerText);
+          }
+        } else if (e.key === "Escape") {
+          suggestionsBox.innerHTML = "";
+          suggestionsBox.style.display = "none";
+          activeIndex = -1;
+        }
+      }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.style.display = "none";
+        activeIndex = -1;
+      }
+    });
+  }
 
   // Project Slider
   const projectSlider = document.getElementById("projectSlider");
@@ -675,14 +726,14 @@
   #suggestions {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    top: calc(100% + 8px);
+    left: 10px;
+    right: 10px;
     background: #ffffff;
     color: #111827;
     z-index: 9999;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     max-height: 260px;
     overflow-y: auto;
@@ -702,7 +753,8 @@
     border-bottom: none;
   }
 
-  .suggestion-item:hover {
+  .suggestion-item:hover,
+  .suggestion-item.active {
     background: #f3f4f6;
     color: #1d4ed8;
   }
@@ -1482,39 +1534,60 @@ PROJECT CAROUSEL
   /* SEARCH BAR */
   .hero-search {
     display: flex;
+    align-items: center;
     width: 100%;
     background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(4, 47, 239, 0.25);
+    border-radius: 100px;
+    padding: 6px 8px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
     margin-bottom: 22px;
+    box-sizing: border-box;
   }
 
   .hero-search input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 18px 20px;
-    font-size: 16px;
-    background: #fff;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-family: 'Inter', 'Outfit', sans-serif;
+    font-weight: 300;
+    color: #2b2b2b;
+    background: transparent;
   }
 
-  /* BLUE ICON BOX */
+  .hero-search input::placeholder {
+    color: #9ca3af;
+    font-weight: 300;
+  }
+
+  /* BLACK CIRCLE BUTTON */
   .hero-search button {
-    width: 85px;
+    width: 52px;
+    height: 52px;
     border: none;
-    background: #2563eb !important;
+    border-radius: 50%;
+    background: #231f1e !important;
     color: #fff;
-    font-size: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    flex-shrink: 0;
   }
 
   .hero-search button:hover {
-    background: #1d4ed8 !important;
+    background: #12100f !important;
+    transform: scale(1.05);
+  }
+
+  .hero-search button svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    stroke-width: 2.5;
   }
 
 

@@ -65,37 +65,27 @@ def project_list(request):
     total_projects = Project.objects.count()
     freelancer_count = User.objects.filter(role='freelancer').count()
 
-    # Freelancer sees all
-    if (
-        request.user.is_authenticated
-        and
-        request.user.role == 'freelancer'
-    ):
+    # Search query
+    query = request.GET.get('q', '').strip()
 
-        projects = Project.objects.all().order_by(
-            '-id'
-        )
-
-    # Client sees own
+    # Base queryset depending on role
+    if query:
+        # Search is global
+        projects = Project.objects.all().order_by('-id')
     elif (
         request.user.is_authenticated
         and
         request.user.role == 'client'
     ):
-
         projects = Project.objects.filter(
             client=request.user
         ).order_by('-id')
-
     else:
-
         projects = Project.objects.all().order_by(
             '-id'
         )
 
-    # Search
-    query = request.GET.get('q', '').strip()
-
+    # Search filtering
     if query:
         projects = projects.filter(
             Q(title__icontains=query) |
@@ -385,17 +375,26 @@ def home(request):
     
 
 def search_suggestions(request):
-    query = request.GET.get('q', '').strip()
+    query = request.GET.get('q', '').strip() or request.GET.get('term', '').strip()
     suggestions = []
+    seen = set()
 
     if query:
+        # Category suggestions first (usually higher level)
+        categories = Category.objects.filter(
+            name__icontains=query
+        ).values_list('name', flat=True).distinct()[:10]
+
+        # Project title suggestions
         projects = Project.objects.filter(
-            Q(title__icontains=query) |
-            Q(category__name__icontains=query)
-        )[:5]
+            title__icontains=query
+        ).values_list('title', flat=True).distinct()[:10]
 
-        suggestions = list(
-            projects.values_list('title', flat=True)
-        )
+        for name in list(categories) + list(projects):
+            name_stripped = name.strip()
+            name_lower = name_stripped.lower()
+            if name_lower not in seen:
+                seen.add(name_lower)
+                suggestions.append(name_stripped)
 
-    return JsonResponse(suggestions, safe=False)
+    return JsonResponse(suggestions[:10], safe=False)

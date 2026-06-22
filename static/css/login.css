@@ -305,3 +305,26 @@ input[type="email"]:focus{
     font-size:13px;
     margin-top:6px;
 }
+
+
+.forgot-password{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -6px;
+    margin-bottom: 18px;
+}
+
+.forgot-password a,
+.forgot-password a:hover,
+.forgot-password a:focus,
+.forgot-password a:active,
+.forgot-password a:visited{
+    text-decoration: none !important;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+
+
