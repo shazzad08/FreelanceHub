@@ -179,3 +179,4 @@ wsproto
 xgboost
 zope.event
 zope.interface
+python-decouple
