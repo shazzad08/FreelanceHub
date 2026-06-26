@@ -18,12 +18,12 @@ def create_user_profile(sender, instance, created, **kwargs):
 
         if instance.role == 'freelancer':
 
-            FreelanceProfile.objects.create(
+            FreelanceProfile.objects.get_or_create(
                 user=instance
             )
 
         elif instance.role == 'client':
 
-            ClientProfile.objects.create(
+            ClientProfile.objects.get_or_create(
                 user=instance
             )
