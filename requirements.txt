@@ -128,7 +128,6 @@ python-json-logger
 python-multipart
 python-socketio
 pytz
-pywinpty
 PyYAML
 pyzmq
 referencing
