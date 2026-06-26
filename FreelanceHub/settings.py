@@ -33,8 +33,14 @@ environ.Env.read_env(
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "freelancehub-c8io.onrender.com",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://freelancehub-c8io.onrender.com"
+]
 
 # Application definition
 
