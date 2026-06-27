@@ -104,16 +104,28 @@ WSGI_APPLICATION = 'FreelanceHub.wsgi.application'
 
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
+#         'PORT': config('DB_PORT'),
+#     }
+# }
+
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-    }
+    'default': dj_database_url.config(
+        default='postgresql://freelancehub_db_twb6_user:JSi8SJC72yRdnmEWddcsDNNU3L2HZADz@dpg-d8vcjetaeets739epeq0-a.oregon-postgres.render.com/freelancehub_db_twb6',
+        
+    )
 }
+
+
+
 
 
 # Password validation
