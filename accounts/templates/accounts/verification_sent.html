@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/verification_sent.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="verification-page">
+
+    <div class="verification-card">
+
+        <div class="verification-icon">
+            📧
+        </div>
+
+        <h1>Verify Your Email</h1>
+
+        <p class="verification-text">
+            We’ve sent a verification link to:
+        </p>
+
+        <div class="email-box">
+            {{ email }}
+        </div>
+
+        <p class="verification-text">
+            Open your inbox and click the verification link to activate your
+            FreelanceHub account.
+        </p>
+
+        <div class="verification-note">
+            <h5>Didn’t receive the email?</h5>
+            <ul>
+                <li>Check your Spam / Junk folder</li>
+                <li>Wait 2–5 minutes</li>
+                <li>Ensure the email address is correct</li>
+            </ul>
+        </div>
+
+        <a href="{% url 'login' %}" class="login-btn">
+            Go to Login →
+        </a>
+
+    </div>
+
+</div>
+
+<style>
+    /* =========================
+   VERIFICATION PAGE
+========================= */
+
+.verification-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    background:
+        radial-gradient(circle at top left,#312e81 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#2563eb 0%,transparent 35%),
+        linear-gradient(135deg,#020617,#0f172a,#111827);
+}
+
+/* CARD */
+
+.verification-card{
+    width:100%;
+    max-width:720px;
+    padding:60px;
+    border-radius:30px;
+    text-align:center;
+
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* ICON */
+
+.verification-icon{
+    font-size:80px;
+    margin-bottom:25px;
+    animation:float 4s infinite ease-in-out;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+}
+
+/* TITLE */
+
+.verification-card h1{
+    font-size:46px;
+    font-weight:800;
+    color:white;
+    margin-bottom:16px;
+    letter-spacing:-1px;
+}
+
+/* TEXT */
+
+.verification-text{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+/* EMAIL BOX */
+
+.email-box{
+    background:rgba(37,99,235,.15);
+    border:1px solid rgba(96,165,250,.4);
+    color:#93c5fd;
+    padding:18px;
+    border-radius:16px;
+    font-weight:700;
+    font-size:16px;
+    margin-bottom:28px;
+}
+
+/* NOTE BOX */
+
+.verification-note{
+    text-align:left;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:24px;
+    margin-top:25px;
+    margin-bottom:35px;
+}
+
+.verification-note h5{
+    color:white;
+    font-size:18px;
+    margin-bottom:16px;
+}
+
+.verification-note ul{
+    padding-left:22px;
+    margin:0;
+}
+
+.verification-note li{
+    color:#cbd5e1;
+    margin-bottom:10px;
+    line-height:1.6;
+}
+
+/* BUTTON */
+
+.login-btn{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+
+    padding:16px 36px;
+    border-radius:16px;
+    font-weight:700;
+    font-size:16px;
+    transition:.35s;
+}
+
+.login-btn:hover{
+    transform:translateY(-4px);
+    color:white;
+    box-shadow:
+        0 12px 30px rgba(59,130,246,.35),
+        0 0 20px rgba(124,58,237,.25);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+    .verification-card{
+        padding:40px 25px;
+    }
+
+    .verification-card h1{
+        font-size:34px;
+    }
+}
+</style>
+{% endblock %}

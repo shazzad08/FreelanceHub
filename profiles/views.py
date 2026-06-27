@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+import uuid
 
 from .forms import (
     FreelancerProfileForm,
@@ -12,6 +13,7 @@ from .models import (
 )
 
 from proposals.models import Proposal
+from utils.supabase_helper import supabase
 
 
 @login_required
@@ -47,8 +49,24 @@ def profile_view(request):
 
             if form.is_valid():
 
-                form.save()
+                profile = form.save(commit=False)
 
+                if request.FILES.get('profile_image'):
+                    image = request.FILES['profile_image']
+                    filename = f"{uuid.uuid4()}_{image.name}"
+
+                    supabase.storage.from_("profile-images").upload(
+                        filename,
+                        image.read()
+                    )
+
+                    public_url = supabase.storage.from_(
+                        "profile-images"
+                    ).get_public_url(filename)
+
+                    profile.profile_image_url = public_url
+
+                profile.save()
                 return redirect('profile')
 
     # Client
@@ -72,8 +90,24 @@ def profile_view(request):
 
             if form.is_valid():
 
-                form.save()
+                profile = form.save(commit=False)
 
+                if request.FILES.get('company_logo'):
+                    image = request.FILES['company_logo']
+                    filename = f"{uuid.uuid4()}_{image.name}"
+
+                    supabase.storage.from_("profile-images").upload(
+                        filename,
+                        image.read()
+                    )
+
+                    public_url = supabase.storage.from_(
+                        "profile-images"
+                    ).get_public_url(filename)
+
+                    profile.company_logo_url = public_url
+
+                profile.save()
                 return redirect('profile')
 
     context = {
@@ -88,12 +122,10 @@ def profile_view(request):
         'profiles/profile.html',
         context
     )
-    
-    
-    
+
 
 def freelancer_list(request):
-    
+
     freelancers = FreelanceProfile.objects.filter(
         user__role='freelancer',
         user__is_verified=True

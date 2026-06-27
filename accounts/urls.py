@@ -14,6 +14,7 @@ urlpatterns = [
     path('login/',UserLoginView.as_view() , name='login'),
     path('logout/', logout_view, name='logout'),
     path('activate/<uid>/<token>/',views.activate,name='activate'),
+    path('verification-sent/', views.verification_sent, name='verification_sent'),
     
     path(
     'password-reset/',
