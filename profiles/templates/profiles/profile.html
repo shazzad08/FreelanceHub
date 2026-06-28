@@ -10,9 +10,9 @@
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-start flex-wrap">
           <div class="d-flex align-items-center gap-4">
-            {% if user.role == 'freelancer' %} {% if profile.profile_image_url or profile.profile_image %}
+            {% if user.role == 'freelancer' %} {% if profile.profile_image %}
             <img
-              src="{% if profile.profile_image_url %}{{ profile.profile_image_url }}{% else %}{{ profile.profile_image.url }}{% endif %}"
+              src="{{ profile.profile_image.url }}"
               class="rounded-circle shadow-sm"
               width="120"
               height="120"
@@ -26,9 +26,9 @@
               <span class="badge bg-primary"> Freelancer </span>
             </div>
 
-            {% else %} {% if profile.company_logo_url or profile.company_logo %}
+            {% else %} {% if profile.company_logo %}
             <img
-              src="{% if profile.company_logo_url %}{{ profile.company_logo_url }}{% else %}{{ profile.company_logo.url }}{% endif %}"
+              src="{{ profile.company_logo.url }}"
               class="rounded-circle shadow-sm"
               width="120"
               height="120"
@@ -157,11 +157,11 @@
 
               <label>Profile Image</label>
 
-              {% if profile.profile_image_url or profile.profile_image %}
+              {% if profile.profile_image %}
               <div class="mb-3 text-center">
                 <img
                   id="preview-image"
-                  src="{% if profile.profile_image_url %}{{ profile.profile_image_url }}{% else %}{{ profile.profile_image.url }}{% endif %}"
+                  src="{{ profile.profile_image.url }}"
                   class="rounded-circle shadow"
                   width="130"
                   height="130"
@@ -256,11 +256,11 @@
                 Company Logo
               </label>
 
-              {% if profile.company_logo_url or profile.company_logo %}
+              {% if profile.company_logo %}
               <div class="mb-3 text-center">
                 <img
                   id="preview-image"
-                  src="{% if profile.company_logo_url %}{{ profile.company_logo_url }}{% else %}{{ profile.company_logo.url }}{% endif %}"
+                  src="{{ profile.company_logo.url }}"
                   class="rounded-circle shadow"
                   width="130"
                   height="130"

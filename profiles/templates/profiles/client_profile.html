@@ -30,17 +30,7 @@
 
                     <div class="text-center mb-4">
 
-                        {% if profile_user.company_logo_url %}
-
-                        <img
-                            src="{{ profile_user.company_logo_url }}"
-                            class="rounded-circle shadow"
-                            width="140"
-                            height="140"
-                            style="object-fit: cover;"
-                        >
-
-                        {% elif profile_user.company_logo %}
+                        {% if profile_user.company_logo %}
 
                         <img
                             src="{{ profile_user.company_logo.url }}"

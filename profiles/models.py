@@ -16,10 +16,7 @@ class FreelanceProfile(models.Model):
         blank=True,
         null=True
     )
-    profile_image_url = models.URLField(
-        blank=True,
-        null=True
-    )
+    
 
     bio = models.TextField(
         blank=True
@@ -79,10 +76,7 @@ class ClientProfile(models.Model):
         blank=True,
         null=True
     )
-    company_logo_url = models.URLField(
-        blank=True,
-        null=True
-    )
+    
 
     company_description = models.TextField(
         blank=True
