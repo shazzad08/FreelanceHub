@@ -14,7 +14,7 @@ from decouple import config
 from pathlib import Path
 import environ
 import os
-
+import cloudinary
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,6 +37,19 @@ ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
     "https://freelancehub-c8io.onrender.com"
 ]
+
+
+
+
+
+cloudinary.config(
+    cloud_name=config("CLOUDINARY_CLOUD_NAME"),
+    api_key=config("CLOUDINARY_API_KEY"),
+    api_secret=config("CLOUDINARY_API_SECRET"),
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 # Application definition
 
@@ -61,6 +74,8 @@ INSTALLED_APPS = [
     'submissions',
     'dal',
     'dal_select2',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
