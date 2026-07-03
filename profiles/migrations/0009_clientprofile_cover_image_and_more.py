@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0008_remove_clientprofile_city_and_more'),
+    ('profiles', '0006_remove_clientprofile_location_and_more'),
     ]
 
     operations = [
