@@ -85,7 +85,11 @@ INSTALLED_APPS = [
     'dal_select2',
     'cloudinary',
     'cloudinary_storage',
+    'django_countries',
+    'cities_light',
 ]
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['BD', 'US', 'GB']
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

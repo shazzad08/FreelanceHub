@@ -1,373 +1,830 @@
-{% extends 'base.html' %} {% load static %} {% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
 
-<div class="container py-5">
-  <!-- PROFILE CARD -->
-  <div class="row justify-content-center">
-    <div class="col-lg-9">
-      <div class="card border-0 shadow-sm rounded-4 p-4">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-start flex-wrap">
-          <div class="d-flex align-items-center gap-4">
-            {% if user.role == 'freelancer' %} {% if profile.profile_image %}
-            <img
-              src="{{ profile.profile_image.url }}"
-              class="rounded-circle shadow-sm"
-              width="120"
-              height="120"
-              style="object-fit: cover"
-            />
+{% block extra_head %}
+<link class="profile-style" rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-4">
+  <!-- PROFILE HEADER CARD -->
+  <div class="profile-header-card card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+    <div class="profile-cover position-relative">
+      {% if profile.cover_image %}
+        <img src="{{ profile.cover_image.url }}" class="w-100 h-100" style="object-fit: cover;" />
+      {% else %}
+        <div class="profile-cover-pattern"></div>
+      {% endif %}
+    </div>
+    <div class="profile-header-body p-4 position-relative">
+      <div class="d-flex flex-column flex-md-row align-items-center align-items-md-end gap-4 position-relative" style="z-index: 5;">
+        <!-- Avatar Container -->
+        <div class="position-relative" style="margin-top: -95px;">
+          {% if user.role == 'freelancer' %}
+            {% if profile.profile_image %}
+              <img src="{{ profile.profile_image.url }}" class="rounded-circle shadow border border-4 border-white profile-avatar-img" width="140" height="140" style="object-fit: cover" />
+            {% else %}
+              <div class="rounded-circle shadow border border-4 border-white bg-primary text-white d-flex align-items-center justify-content-center text-uppercase fw-bold" style="width: 140px; height: 140px; font-size: 3rem;">
+                {{ user.first_name|slice:":1" }}
+              </div>
             {% endif %}
-
-            <div>
-              <h2 class="fw-bold mb-1">{{ user.first_name }}</h2>
-
-              <span class="badge bg-primary"> Freelancer </span>
-            </div>
-
-            {% else %} {% if profile.company_logo %}
-            <img
-              src="{{ profile.company_logo.url }}"
-              class="rounded-circle shadow-sm"
-              width="120"
-              height="120"
-              style="object-fit: cover"
-            />
+            <span class="position-absolute bottom-0 end-0 bg-success border border-3 border-white rounded-circle p-2" style="transform: translate(-10%, -10%);" title="Online"></span>
+          {% else %}
+            {% if profile.company_logo %}
+              <img src="{{ profile.company_logo.url }}" class="rounded-circle shadow border border-4 border-white profile-avatar-img" width="140" height="140" style="object-fit: cover" />
+            {% else %}
+              <div class="rounded-circle shadow border border-4 border-white bg-dark text-white d-flex align-items-center justify-content-center text-uppercase fw-bold" style="width: 140px; height: 140px; font-size: 3rem;">
+                {{ user.first_name|slice:":1" }}
+              </div>
             {% endif %}
-
-            <div>
-              <h2 class="fw-bold mb-1">{{ profile.company_name }}</h2>
-
-              <span class="badge bg-dark"> Client </span>
-            </div>
-
-            {% endif %}
-          </div>
-
-          {% if not edit_mode %}
-          <div>
-            <a href="?edit=True" class="btn btn-primary rounded-pill px-4">
-              Edit Profile
-            </a>
-          </div>
+            <span class="position-absolute bottom-0 end-0 bg-success border border-3 border-white rounded-circle p-2" style="transform: translate(-10%, -10%);" title="Online"></span>
           {% endif %}
         </div>
-
-        <hr class="my-4" />
-
-        <!-- VIEW MODE -->
-        {% if not edit_mode %} {% if user.role == 'freelancer' %}
-
-        <!-- Bio -->
-        <div class="mb-4">
-          <h5 class="fw-semibold mb-2">About</h5>
-
-          <p class="text-muted">{{ profile.bio }}</p>
-        </div>
-
-        <!-- Skills -->
-        <div class="mb-4">
-          <h5 class="fw-semibold mb-3">Skills</h5>
-
-          {% for skill in profile.skills.split %}
-          <span class="badge bg-light text-dark border me-2 mb-2 p-2">
-            {{ skill }}
-          </span>
-          {% endfor %}
-        </div>
-
-        <!-- Info Grid -->
-        <div class="row g-3">
-          <div class="col-md-4">
-            <div class="card border-0 bg-light p-3 rounded-3">
-              <small class="text-muted"> Hourly Rate </small>
-              <h5 class="mb-0">${{ profile.hourly_rate }}</h5>
-            </div>
+        
+        <!-- User Identity -->
+        <div class="text-center text-md-start flex-grow-1">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 flex-wrap mb-2">
+            <h2 class="fw-bold mb-0 text-dark text-nowrap">
+              {% if user.role == 'freelancer' %}{{ user.first_name }}{% else %}{{ profile.company_name|default:user.first_name }}{% endif %}
+            </h2>
+            {% if user.is_verified %}
+            <span class="text-primary bg-primary-subtle border border-primary-subtle rounded-circle d-inline-flex align-items-center justify-content-center p-1" style="width: 22px; height: 22px;" title="Verified">
+              <i class="bi bi-patch-check-fill" style="font-size: 0.85rem;"></i>
+            </span>
+            {% else %}
+            <!-- For design layout matching, show always verified or design-consistent badge -->
+            <span class="bg-primary-subtle border border-primary-subtle rounded-circle d-inline-flex align-items-center justify-content-center p-1" style="width: 22px; height: 22px;" title="Verified Pro">
+              <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.85rem;"></i>
+            </span>
+            {% endif %}
+            <span class="badge rounded-pill {% if user.role == 'freelancer' %}bg-primary{% else %}bg-dark{% endif %} px-3 py-1 fs-8">
+              {% if user.role == 'freelancer' %}Freelancer{% else %}Client{% endif %}
+            </span>
           </div>
-
-          <div class="col-md-4">
-            <div class="card border-0 bg-light p-3 rounded-3">
-              <small class="text-muted"> Github </small>
-
-              <a href="{{ profile.github }}" target="_blank">
-                <img
-                  width="50"
-                  height="50"
-                  src="https://img.icons8.com/ios-filled/50/github.png"
-                  alt="github"
-                />
-              </a>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card border-0 bg-light p-3 rounded-3">
-              <small class="text-muted"> LinkedIn </small>
-
-              <a href="{{ profile.linkedin }}" target="_blank">
-                <img
-                  width="50"
-                  height="50"
-                  src="https://img.icons8.com/ios/50/linkedin.png"
-                  alt="linkedin"
-                />
-              </a>
-            </div>
+          
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 flex-wrap text-muted fs-7">
+            <span><i class="bi bi-geo-alt me-1"></i>{{ profile.country.name|default:"Bangladesh" }}</span>
+            <span><i class="bi bi-calendar-event me-1"></i>Member since {{ user.date_joined|date:"F Y" }}</span>
           </div>
         </div>
-
-        {% else %}
-
-        <!-- Client View -->
-
-        <div class="mb-4">
-          <h5 class="fw-semibold">Company Description</h5>
-
-          <p class="text-muted">{{ profile.company_description }}</p>
-        </div>
-
-        <div class="card border-0 bg-light p-3">
-          <small class="text-muted"> Website </small>
-
-          <a href="{{ profile.company_website }}" target="_blank">
-            {{ profile.company_website }}
-          </a>
-        </div>
-
-        {% endif %} {% else %}
-
-        <div class="edit-header">
-    <h3>
-        <i class="fas fa-user-edit text-primary me-2"></i>
-        Update Your Profile
-    </h3>
-
-    <p>
-        Keep your profile updated to attract more clients and opportunities.
-    </p>
-</div>
-          <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-
+        
+        <!-- Edit Profile & Socials -->
+        <div class="d-flex flex-column align-items-center align-items-md-end gap-3 w-100 w-md-auto mt-3 mt-md-0">
+          {% if not edit_mode %}
+            <a href="?edit=True" class="btn btn-edit-profile rounded-pill px-4 shadow-sm border fw-semibold d-flex align-items-center gap-2">
+              <i class="bi bi-pencil-square"></i> Edit Profile
+            </a>
+          {% endif %}
+          
+          <div class="d-flex gap-2 mt-1">
             {% if user.role == 'freelancer' %}
-            <!-- Profile Image -->
-
-            <div class="field-card mb-4">
-
-              <label>Profile Image</label>
-
-              {% if profile.profile_image %}
-              <div class="mb-3 text-center">
-                <img
-                  id="preview-image"
-                  src="{{ profile.profile_image.url }}"
-                  class="rounded-circle shadow"
-                  width="130"
-                  height="130"
-                  style="object-fit: cover;"
-                >
-              </div>
+              {% if profile.github %}
+                <a href="{{ profile.github }}" target="_blank" class="social-circle bg-light border text-dark" title="GitHub">
+                  <i class="bi bi-github"></i>
+                </a>
               {% endif %}
+              {% if profile.linkedin %}
+                <a href="{{ profile.linkedin }}" target="_blank" class="social-circle bg-light border text-primary" title="LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              {% endif %}
+              <a href="mailto:{{ user.email }}" class="social-circle bg-light border text-danger" title="Email" onclick="navigator.clipboard.writeText('{{ user.email }}'); alert('Email address copied to clipboard: {{ user.email }}');">
+                <i class="bi bi-envelope-fill"></i>
+              </a>
+            {% else %}
+              {% if profile.company_website %}
+                <a href="{{ profile.company_website }}" target="_blank" class="social-circle bg-light border text-primary" title="Website">
+                  <i class="bi bi-globe"></i>
+                </a>
+              {% endif %}
+              <a href="mailto:{{ user.email }}" class="social-circle bg-light border text-danger" title="Email" onclick="navigator.clipboard.writeText('{{ user.email }}'); alert('Email address copied to clipboard: {{ user.email }}');">
+                <i class="bi bi-envelope-fill"></i>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation Tabs -->
+      {% if not edit_mode %}
+      <div class="profile-tabs-bar border-top mt-5 pt-3">
+        <ul class="nav nav-tabs border-0" id="profileTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-pane" type="button" role="tab" aria-controls="about-pane" aria-selected="true">
+              <i class="bi bi-person me-2"></i>About
+            </button>
+          </li>
+          {% if user.role == 'freelancer' %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills-pane" type="button" role="tab" aria-controls="skills-pane" aria-selected="false">
+              <i class="bi bi-wrench me-2"></i>Skills
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="portfolio-tab" data-bs-toggle="tab" data-bs-target="#portfolio-pane" type="button" role="tab" aria-controls="portfolio-pane" aria-selected="false">
+              <i class="bi bi-briefcase me-2"></i>Portfolio
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-pane" type="button" role="tab" aria-controls="reviews-pane" aria-selected="false">
+              <i class="bi bi-star me-2"></i>Reviews
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="applied-tab" data-bs-toggle="tab" data-bs-target="#applied-pane" type="button" role="tab" aria-controls="applied-pane" aria-selected="false">
+              <i class="bi bi-journal-check me-2"></i>Applied Jobs
+            </button>
+          </li>
+          {% else %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="posted-projects-tab" data-bs-toggle="tab" data-bs-target="#posted-projects-pane" type="button" role="tab" aria-controls="posted-projects-pane" aria-selected="false">
+              <i class="bi bi-folder-check me-2"></i>Posted Projects
+            </button>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 
-              {{ form.profile_image }}
-
-              <small class="text-muted mt-2 d-block">
-                Upload a new image to replace the current one.
-              </small>
+  <!-- VIEW MODE / EDIT MODE -->
+  {% if not edit_mode %}
+  <div class="row">
+    <!-- LEFT COLUMN (Tab Contents) -->
+    <div class="col-lg-8">
+      <div class="tab-content" id="profileTabContent">
+        <!-- ABOUT TAB -->
+        <div class="tab-pane fade show active" id="about-pane" role="tabpanel" aria-labelledby="about-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h4 class="fw-bold text-dark mb-3">About Me</h4>
+            <p class="text-muted lh-lg fs-6">
+              {% if user.role == 'freelancer' %}
+                {{ profile.bio|default:"No bio added yet. Edit your profile to tell clients about yourself!" }}
+              {% else %}
+                {{ profile.company_description|default:"No company description added yet. Edit your profile to tell freelancers about your company!" }}
+              {% endif %}
+            </p>
+            
+            {% if user.role == 'freelancer' %}
+            <hr class="my-4 text-muted opacity-25">
+            <div class="row g-4">
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="bi bi-clock fs-4"></i>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block fs-8">Hourly Rate</small>
+                    <span class="fw-bold text-dark">${{ profile.hourly_rate|default:"0.00" }} /hr</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="bi bi-briefcase fs-4"></i>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block fs-8">Availability</small>
+                    <span class="fw-bold text-dark">{{ profile.get_availability_display }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-info-subtle text-info rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="bi bi-translate fs-4"></i>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block fs-8">Languages</small>
+                    <span class="fw-bold text-dark">{{ profile.languages }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="bi bi-calendar-check fs-4"></i>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block fs-8">Experience</small>
+                    <span class="fw-bold text-dark">{{ profile.get_experience_display }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
+            {% endif %}
+          </div>
+        </div>
 
-            <!-- Bio -->
-
-            <div class="field-card mb-4">
-              <label> Bio </label>
-
-              {{ form.bio }}
+        {% if user.role == 'freelancer' %}
+        <!-- SKILLS TAB -->
+        <div class="tab-pane fade" id="skills-pane" role="tabpanel" aria-labelledby="skills-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold text-dark mb-0">Skills</h4>
+              {% if skill_list %}
+              <span class="badge bg-primary rounded-pill px-3 py-2 fs-8">{{ skill_list|length }} Skills Listed</span>
+              {% endif %}
             </div>
+            <div class="d-flex flex-wrap gap-2">
+              {% if skill_list %}
+                {% for skill in skill_list %}
+                  <div class="skill-chip d-flex align-items-center gap-2 px-3 py-2 border rounded-pill bg-light text-dark fw-semibold transition">
+                    <i class="bi bi-check-circle-fill text-primary"></i>
+                    <span>{{ skill }}</span>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <p class="text-muted w-100 text-center py-4">No skills added yet. Click Edit Profile to add skills.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
 
-            <!-- Skills + Hourly Rate -->
+        <!-- PORTFOLIO TAB -->
+        <div class="tab-pane fade" id="portfolio-pane" role="tabpanel" aria-labelledby="portfolio-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h4 class="fw-bold text-dark mb-4">Portfolio</h4>
+            {% if profile.portfolio %}
+              <div class="portfolio-item-card p-4 rounded-4 border text-center bg-light transition">
+                <div class="portfolio-icon bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 64px; height: 64px;">
+                  <i class="bi bi-globe fs-2"></i>
+                </div>
+                <h5 class="fw-bold text-dark">Portfolio Website</h5>
+                <p class="text-muted mb-4">Check out my projects and personal work here.</p>
+                <a href="{{ profile.portfolio }}" target="_blank" class="btn btn-primary rounded-pill px-4">
+                  Visit Portfolio Website <i class="bi bi-arrow-up-right-circle ms-1"></i>
+                </a>
+              </div>
+            {% else %}
+              <div class="text-center p-5 border border-dashed rounded-4">
+                <i class="bi bi-briefcase text-muted fs-1 mb-3 text-muted"></i>
+                <h5>No Portfolio Website Added</h5>
+                <p class="text-muted mb-3">Add a portfolio website to showcase your best works to clients.</p>
+                <a href="?edit=True" class="btn btn-outline-primary rounded-pill btn-sm px-4">Add Portfolio</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
 
+        <!-- REVIEWS TAB -->
+        <div class="tab-pane fade" id="reviews-pane" role="tabpanel" aria-labelledby="reviews-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h4 class="fw-bold text-dark mb-4">Client Reviews</h4>
+            {% if reviews %}
+              <div class="d-flex flex-column gap-4">
+                {% for review in reviews %}
+                  <div class="review-item-card p-3 border rounded-4 bg-light-subtle transition">
+                    <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
+                      <div>
+                        <h6 class="fw-bold text-dark mb-1">{{ review.client.first_name }}</h6>
+                        <small class="text-muted d-flex align-items-center gap-1">
+                          <i class="bi bi-folder-check"></i> Project: {{ review.project.title }}
+                        </small>
+                      </div>
+                      <div class="text-warning d-flex align-items-center gap-1">
+                        {% for i in "12345" %}
+                          {% if forloop.counter <= review.rating %}
+                            <i class="bi bi-star-fill"></i>
+                          {% else %}
+                            <i class="bi bi-star"></i>
+                          {% endif %}
+                        {% endfor %}
+                        <span class="ms-2 text-dark fw-bold fs-7">{{ review.rating }}.0</span>
+                      </div>
+                    </div>
+                    <p class="text-muted mb-0 italic" style="font-style: italic;">"{{ review.feedback }}"</p>
+                    <div class="text-end mt-2">
+                      <small class="text-muted fs-8">{{ review.created_at|date:"d M Y" }}</small>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="text-center p-5 border border-dashed rounded-4">
+                <i class="bi bi-chat-left-text text-muted fs-1 mb-3 text-muted"></i>
+                <h5>No Reviews Yet</h5>
+                <p class="text-muted mb-0">Client feedback will be displayed here once you complete projects.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- APPLIED JOBS TAB -->
+        <div class="tab-pane fade" id="applied-pane" role="tabpanel" aria-labelledby="applied-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold text-dark mb-0">Applied Jobs</h4>
+              <span class="badge bg-dark rounded-pill px-3 py-2 fs-8">{{ proposals|length }} Applications</span>
+            </div>
+            
+            {% if proposals %}
+              <div class="d-flex flex-column gap-3">
+                {% for proposal in proposals %}
+                  <div class="applied-job-card p-3 rounded-4 border bg-light-subtle transition">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div>
+                        <h5 class="fw-bold text-dark mb-1">{{ proposal.project.title }}</h5>
+                        <div class="d-flex gap-3 flex-wrap text-muted fs-7 mt-1">
+                          <span><i class="bi bi-calendar3 me-1"></i>Applied: {{ proposal.created_at|date:"d M Y" }}</span>
+                          <span><i class="bi bi-cash me-1"></i>Your Bid: ${{ proposal.bid_amount }}</span>
+                        </div>
+                      </div>
+                      <div>
+                        {% if proposal.status == 'pending' %}
+                          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1.5 fw-semibold">Pending</span>
+                        {% elif proposal.status == 'accepted' %}
+                          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5 fw-semibold">Accepted</span>
+                        {% else %}
+                          <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1.5 fw-semibold">Rejected</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+                    <div class="mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                      <div>
+                        {% if proposal.project.status == 'open' %}
+                          <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 fs-8">Project: Open</span>
+                        {% elif proposal.project.status == 'in_progress' %}
+                          <span class="badge bg-warning-subtle text-warning rounded-pill px-2.5 py-1 fs-8">Project: In Progress</span>
+                        {% elif proposal.project.status == 'submitted' %}
+                          <span class="badge bg-info-subtle text-info rounded-pill px-2.5 py-1 fs-8">Project: Submitted</span>
+                        {% elif proposal.project.status == 'completed' %}
+                          <span class="badge bg-success-subtle text-success rounded-pill px-2.5 py-1 fs-8">Project: Completed</span>
+                        {% endif %}
+                      </div>
+                      <a href="{% url 'project_details' proposal.project.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        View Project <i class="bi bi-arrow-right ms-1"></i>
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="text-center p-5 border border-dashed rounded-4">
+                <i class="bi bi-file-earmark-text text-muted fs-1 mb-3 text-muted"></i>
+                <h5>No Applications Yet</h5>
+                <p class="text-muted">You haven't applied for any projects yet.</p>
+                <a href="{% url 'project_list' %}" class="btn btn-primary rounded-pill mt-3 px-4">Find Projects</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% else %}
+        <!-- CLIENT POSTED PROJECTS TAB -->
+        <div class="tab-pane fade" id="posted-projects-pane" role="tabpanel" aria-labelledby="posted-projects-tab">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold text-dark mb-0">Posted Projects</h4>
+              <span class="badge bg-dark rounded-pill px-3 py-2 fs-8">{{ user.projects.all|length }} Posted</span>
+            </div>
+            
+            {% if user.projects.all %}
+              <div class="d-flex flex-column gap-3">
+                {% for project in user.projects.all %}
+                  <div class="applied-job-card p-3 rounded-4 border bg-light-subtle transition">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div>
+                        <h5 class="fw-bold text-dark mb-1">{{ project.title }}</h5>
+                        <div class="d-flex gap-3 flex-wrap text-muted fs-7 mt-1">
+                          <span><i class="bi bi-calendar3 me-1"></i>Posted: {{ project.created_at|date:"d M Y" }}</span>
+                          <span><i class="bi bi-cash me-1"></i>Budget: ${{ project.budget }}</span>
+                        </div>
+                      </div>
+                      <div>
+                        {% if project.status == 'open' %}
+                          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1.5 fw-semibold">Open</span>
+                        {% elif project.status == 'in_progress' %}
+                          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1.5 fw-semibold">In Progress</span>
+                        {% elif project.status == 'submitted' %}
+                          <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-1.5 fw-semibold">Submitted</span>
+                        {% elif project.status == 'completed' %}
+                          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5 fw-semibold">Completed</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="text-end mt-3">
+                      <a href="{% url 'project_details' project.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        Manage Project <i class="bi bi-arrow-right ms-1"></i>
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="text-center p-5 border border-dashed rounded-4">
+                <i class="bi bi-folder-plus text-muted fs-1 mb-3 text-muted"></i>
+                <h5>No Projects Posted Yet</h5>
+                <p class="text-muted">Post your first project to hire top freelancers!</p>
+                <a href="{% url 'create_project' %}" class="btn btn-primary rounded-pill mt-3 px-4">Post a Project</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN (Quick Overview & Contacts) -->
+    <div class="col-lg-4">
+      <!-- QUICK OVERVIEW CARD -->
+      <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <h5 class="fw-bold text-dark mb-4">Quick Overview</h5>
+        <div class="row g-3">
+          {% if user.role == 'freelancer' %}
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-primary-subtle text-primary mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-file-earmark-check fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.completed_projects_count }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Projects Done</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-success-subtle text-success mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-cash-stack fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">${{ stats.total_earnings|floatformat:0 }}+</h4>
+                <small class="text-muted fs-8 d-block mt-1">Total Earnings</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-warning-subtle text-warning mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-star-fill fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.average_rating }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Avg Rating</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-info-subtle text-info mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-percent fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.job_success }}%</h4>
+                <small class="text-muted fs-8 d-block mt-1">Job Success</small>
+              </div>
+            </div>
+          {% else %}
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-primary-subtle text-primary mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-folder-plus fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.projects_posted_count }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Posted</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-warning-subtle text-warning mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-clock-history fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.active_projects_count }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Active</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-success-subtle text-success mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-check-circle fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ stats.completed_projects_count }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Completed</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="overview-subcard p-3 rounded-4 text-center border transition">
+                <div class="overview-icon bg-info-subtle text-info mb-2 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                  <i class="bi bi-wallet2 fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">${{ stats.total_spent|floatformat:0 }}</h4>
+                <small class="text-muted fs-8 d-block mt-1">Total Spent</small>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- CONTACT & SOCIAL CARD -->
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h5 class="fw-bold text-dark mb-4">Contact & Social</h5>
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex align-items-center justify-content-between p-2.5 rounded-3 bg-light border">
+            <span class="text-muted fs-7"><i class="bi bi-envelope me-2 text-primary"></i>Email</span>
+            <a href="mailto:{{ user.email }}" class="text-dark fw-semibold text-break text-end fs-7" onclick="navigator.clipboard.writeText('{{ user.email }}'); alert('Email address copied to clipboard: {{ user.email }}');">{{ user.email }}</a>
+          </div>
+          {% if user.role == 'freelancer' %}
+            {% if profile.github %}
+            <div class="d-flex align-items-center justify-content-between p-2.5 rounded-3 bg-light border">
+              <span class="text-muted fs-7"><i class="bi bi-github me-2 text-dark"></i>GitHub</span>
+              <a href="{{ profile.github }}" target="_blank" class="text-dark fw-semibold text-break text-end fs-7">{{ profile.github|slice:"8:" }}</a>
+            </div>
+            {% endif %}
+            {% if profile.linkedin %}
+            <div class="d-flex align-items-center justify-content-between p-2.5 rounded-3 bg-light border">
+              <span class="text-muted fs-7"><i class="bi bi-linkedin me-2 text-primary"></i>LinkedIn</span>
+              <a href="{{ profile.linkedin }}" target="_blank" class="text-dark fw-semibold text-break text-end fs-7">{{ profile.linkedin|slice:"8:" }}</a>
+            </div>
+            {% endif %}
+          {% else %}
+            {% if profile.company_website %}
+            <div class="d-flex align-items-center justify-content-between p-2.5 rounded-3 bg-light border">
+              <span class="text-muted fs-7"><i class="bi bi-globe me-2 text-primary"></i>Website</span>
+              <a href="{{ profile.company_website }}" target="_blank" class="text-dark fw-semibold text-break text-end fs-7">{{ profile.company_website|slice:"8:" }}</a>
+            </div>
+            {% endif %}
+          {% endif %}
+          <div class="d-flex align-items-center justify-content-between p-2.5 rounded-3 bg-light border">
+            <span class="text-muted fs-7"><i class="bi bi-geo-alt me-2 text-danger"></i>Location</span>
+            <span class="text-dark fw-semibold text-break text-end fs-7">{{ profile.country.name|default:"Bangladesh" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  
+  <!-- EDIT MODE -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="profile-edit-card shadow border-0 rounded-4 p-4 p-md-5">
+        <div class="edit-header mb-4 text-center">
+          <h3 class="fw-bold text-dark"><i class="bi bi-person-fill-gear text-primary me-2"></i>Update Your Profile</h3>
+          <p class="text-muted">Keep your profile information accurate to stand out to the community.</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data" class="needs-validation">
+          {% csrf_token %}
+          
+          {% if user.role == 'freelancer' %}
             <div class="row">
-              <div class="col-md-6 mb-4">
-                <div class="field-card">
-                  <label> Skills </label>
+              <!-- Profile Image -->
+              <div class="col-md-4 text-center mb-4">
+                <div class="field-card h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                  <label class="fw-bold mb-3 d-block text-dark">Profile Image</label>
+                  {% if profile.profile_image %}
+                    <img id="preview-image" src="{{ profile.profile_image.url }}" class="rounded-circle shadow border border-3 border-light mb-3" width="130" height="130" style="object-fit: cover;" />
+                  {% else %}
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-3" style="width: 130px; height: 130px; font-size: 2.5rem;">
+                      {{ user.first_name|slice:":1" }}
+                    </div>
+                  {% endif %}
+                  <div class="upload-wrapper position-relative w-100">
+                    {{ form.profile_image }}
+                  </div>
+                  <small class="text-muted mt-2 d-block">Square format (JPG/PNG).</small>
+                </div>
+              </div>
 
+              <!-- Cover Image -->
+              <div class="col-md-4 text-center mb-4">
+                <div class="field-card h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                  <label class="fw-bold mb-3 d-block text-dark">Cover Image</label>
+                  {% if profile.cover_image %}
+                    <img id="preview-cover" src="{{ profile.cover_image.url }}" class="w-100 rounded shadow border border-3 border-light mb-3" style="height: 130px; object-fit: cover;" />
+                  {% else %}
+                    <div class="w-100 rounded bg-secondary text-white d-flex align-items-center justify-content-center mb-3" style="height: 130px;">
+                      <i class="bi bi-image fs-2"></i>
+                    </div>
+                  {% endif %}
+                  <div class="upload-wrapper position-relative w-100">
+                    {{ form.cover_image }}
+                  </div>
+                  <small class="text-muted mt-2 d-block">Landscape banner (JPG/PNG).</small>
+                </div>
+              </div>
+              
+              <div class="col-md-4 mb-4">
+                <div class="field-card h-100 p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-card-text me-2 text-primary"></i>Bio / Professional Summary</label>
+                  {{ form.bio }}
+                  <small class="text-muted mt-2 d-block">Explain your qualifications, goals, and expertise.</small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <!-- Skills & Hourly rate -->
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-tags-fill me-2 text-primary"></i>Skills</label>
                   {{ form.skills }}
-
-                  <small class="text-muted d-block mt-2">
-                    Separate skills with space
-                  </small>
+                  <small class="text-muted mt-2 d-block">Separate skills with a space (e.g. Django React VueJS).</small>
                 </div>
               </div>
-
+              
               <div class="col-md-6 mb-4">
-                <div class="field-card">
-                  <label> Hourly Rate ($) </label>
-
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-currency-dollar me-2 text-primary"></i>Hourly Rate ($)</label>
                   {{ form.hourly_rate }}
+                  <small class="text-muted mt-2 d-block">Specify your rate per hour in USD.</small>
                 </div>
               </div>
             </div>
-
-            <!-- Social Links -->
-
+            
             <div class="row">
+              <!-- Location & Availability -->
               <div class="col-md-6 mb-4">
-                <div class="field-card">
-                  <label> Github Profile </label>
-
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Location (Country)</label>
+                  {{ form.country }}
+                  <small class="text-muted mt-2 d-block">Select your country.</small>
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-person-check-fill me-2 text-primary"></i>Availability Status</label>
+                  {{ form.availability }}
+                  <small class="text-muted mt-2 d-block">e.g. Available for work, Full-time, etc.</small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <!-- Languages & Experience -->
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-translate me-2 text-primary"></i>Languages</label>
+                  {{ form.languages }}
+                  <small class="text-muted mt-2 d-block">e.g. English, Bengali, Hindi.</small>
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-calendar-check-fill me-2 text-primary"></i>Experience Level</label>
+                  {{ form.experience }}
+                  <small class="text-muted mt-2 d-block">e.g. 2+ Years, Intermediate, Senior.</small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <!-- Social Links -->
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-github me-2 text-primary"></i>GitHub Link</label>
                   {{ form.github }}
                 </div>
               </div>
-
+              
               <div class="col-md-6 mb-4">
-                <div class="field-card">
-                  <label> LinkedIn Profile </label>
-
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-linkedin me-2 text-primary"></i>LinkedIn Link</label>
                   {{ form.linkedin }}
                 </div>
               </div>
             </div>
-
-            <!-- Portfolio -->
-
-            {% if form.portfolio %}
-
-            <div class="field-card mb-4">
-              <label> Portfolio Website </label>
-
-              {{ form.portfolio }}
-            </div>
-
-            {% endif %}
-            {% else %}
-            <!-- Client Fields -->
-
-            <div class="field-card mb-4">
-              <label for="{{ form.company_name.id_for_label }}">
-                Company Name
-              </label>
-              {{ form.company_name }}
-              {{ form.company_name.errors }}
-            </div>
-
-            <div class="field-card mb-4">
-              <label for="{{ form.company_logo.id_for_label }}">
-                Company Logo
-              </label>
-
-              {% if profile.company_logo %}
-              <div class="mb-3 text-center">
-                <img
-                  id="preview-image"
-                  src="{{ profile.company_logo.url }}"
-                  class="rounded-circle shadow"
-                  width="130"
-                  height="130"
-                  style="object-fit: cover;"
-                  alt="{{ profile.company_name }} logo"
-                >
+            
+            <div class="row">
+              <!-- Portfolio Link -->
+              <div class="col-12 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-briefcase-fill me-2 text-primary"></i>Portfolio Website Link</label>
+                  {{ form.portfolio }}
+                </div>
               </div>
-              {% endif %}
-
-              {{ form.company_logo }}
-              {{ form.company_logo.errors }}
-
-              <small class="text-muted mt-2 d-block">
-                Upload a new logo to replace the current one.
-              </small>
             </div>
+            
+          {% else %}
+            <!-- Client Fields -->
+            <div class="row">
+              <!-- Company Logo -->
+              <div class="col-md-4 text-center mb-4">
+                <div class="field-card h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                  <label class="fw-bold mb-3 d-block text-dark">Company Logo</label>
+                  {% if profile.company_logo %}
+                    <img id="preview-image" src="{{ profile.company_logo.url }}" class="rounded-circle shadow border border-3 border-light mb-3" width="130" height="130" style="object-fit: cover;" />
+                  {% else %}
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-3" style="width: 130px; height: 130px; font-size: 2.5rem;">
+                      {{ user.first_name|slice:":1" }}
+                    </div>
+                  {% endif %}
+                  <div class="upload-wrapper position-relative w-100">
+                    {{ form.company_logo }}
+                  </div>
+                  <small class="text-muted mt-2 d-block">Upload company logo.</small>
+                </div>
+              </div>
 
-            <div class="field-card mb-4">
-              <label for="{{ form.company_description.id_for_label }}">
-                Company Description
-              </label>
-              {{ form.company_description }}
-              {{ form.company_description.errors }}
+              <!-- Cover Image -->
+              <div class="col-md-4 text-center mb-4">
+                <div class="field-card h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                  <label class="fw-bold mb-3 d-block text-dark">Cover Image</label>
+                  {% if profile.cover_image %}
+                    <img id="preview-cover" src="{{ profile.cover_image.url }}" class="w-100 rounded shadow border border-3 border-light mb-3" style="height: 130px; object-fit: cover;" />
+                  {% else %}
+                    <div class="w-100 rounded bg-secondary text-white d-flex align-items-center justify-content-center mb-3" style="height: 130px;">
+                      <i class="bi bi-image fs-2"></i>
+                    </div>
+                  {% endif %}
+                  <div class="upload-wrapper position-relative w-100">
+                    {{ form.cover_image }}
+                  </div>
+                  <small class="text-muted mt-2 d-block">Upload company cover banner.</small>
+                </div>
+              </div>
+              
+              <div class="col-md-4 mb-4">
+                <div class="field-card h-100 p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-building me-2 text-primary"></i>Company Name</label>
+                  {{ form.company_name }}
+                  
+                  <div class="mt-4">
+                    <label class="fw-bold text-dark mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Company Location (Country)</label>
+                    {{ form.country }}
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div class="field-card mb-4">
-              <label for="{{ form.company_website.id_for_label }}">
-                Company Website
-              </label>
-              {{ form.company_website }}
-              {{ form.company_website.errors }}
+            
+            <div class="row">
+              <!-- Company Description & Website -->
+              <div class="col-12 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-card-text me-2 text-primary"></i>Company Description</label>
+                  {{ form.company_description }}
+                </div>
+              </div>
+              
+              <div class="col-12 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-globe me-2 text-primary"></i>Company Website</label>
+                  {{ form.company_website }}
+                </div>
+              </div>
             </div>
-            {% endif %}
-
-            <div class="edit-actions">
-              <button type="submit" class="btn btn-save">
-                <i class="fas fa-save me-2"></i>
-                Save Changes
-              </button>
-
-              <a href="{% url 'profile' %}" class="btn btn-cancel"> Cancel </a>
-            </div>
-          </form>
-        </div>
-
-        {% endif %}
-      </div>
-
-      <!-- APPLIED JOB HISTORY -->
-      {% if user.role == 'freelancer' and not edit_mode %}
-
-      <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4 class="fw-bold mb-0">Applied Jobs</h4>
-
-          <span class="badge bg-dark">
-            {{ proposals|length }} Applications
-          </span>
-        </div>
-
-        {% for proposal in proposals %}
-
-        <div class="card border-0 bg-light rounded-4 p-3 mb-3">
-          <div class="d-flex justify-content-between flex-wrap">
-            <div>
-              <h5 class="mb-1 fw-semibold">{{ proposal.project.title }}</h5>
-
-              <small class="text-muted">
-                Applied: {{ proposal.created_at|date:"d M Y" }}
-              </small>
-            </div>
-
-            <div>
-              {% if proposal.project.status == 'open' %}
-              <span class="badge bg-primary"> Open </span>
-              {% elif proposal.project.status == 'in_progress' %}
-              <span class="badge bg-warning text-dark"> In Progress </span>
-              {% elif proposal.project.status == 'submitted' %}
-              <span class="badge bg-info text-dark"> Submitted </span>
-              {% elif proposal.project.status == 'completed' %}
-              <span class="badge bg-success"> Completed </span>
-              {% else %}
-              <span class="badge bg-secondary"> {{ proposal.project.get_status_display }} </span>
-              {% endif %}
-            </div>
+          {% endif %}
+          
+          <div class="d-flex gap-3 justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold d-flex align-items-center gap-2 shadow-sm">
+              <i class="bi bi-save"></i> Save Changes
+            </button>
+            <a href="{% url 'profile' %}" class="btn btn-outline-secondary rounded-pill px-5 py-2.5 fw-semibold">
+              Cancel
+            </a>
           </div>
-
-          <a
-            href="{% url 'project_details' proposal.project.id %}"
-            class="btn btn-outline-primary btn-sm rounded-pill mt-3"
-          >
-            View Project
-          </a>
-        </div>
-
-        {% empty %}
-
-        <div class="alert alert-light border rounded-4">
-          No applied jobs yet.
-        </div>
-
-        {% endfor %}
+        </form>
       </div>
-
-      {% endif %}
     </div>
   </div>
+  {% endif %}
 </div>
 
+<!-- Extra Javascript for file upload previews -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const avatarInput = document.querySelector('input[name="profile_image"], input[name="company_logo"]');
+    const coverInput = document.querySelector('input[name="cover_image"]');
+    
+    if (avatarInput) {
+      avatarInput.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const preview = document.getElementById('preview-image');
+            if (preview) {
+              preview.src = e.target.result;
+            }
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+    }
+    
+    if (coverInput) {
+      coverInput.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            let preview = document.getElementById('preview-cover');
+            if (preview) {
+              preview.src = e.target.result;
+            } else {
+              const container = coverInput.closest('.field-card');
+              const placeholder = container.querySelector('.bg-secondary');
+              if (placeholder) {
+                const img = document.createElement('img');
+                img.id = 'preview-cover';
+                img.src = e.target.result;
+                img.className = 'w-100 rounded shadow border border-3 border-light mb-3';
+                img.style.height = '130px';
+                img.style.objectFit = 'cover';
+                placeholder.replaceWith(img);
+              }
+            }
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}
