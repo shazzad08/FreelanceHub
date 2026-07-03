@@ -81,8 +81,6 @@ INSTALLED_APPS = [
     'messaging',
     'notifications',
     'submissions',
-    'dal',
-    'dal_select2',
     'cloudinary',
     'cloudinary_storage',
     'django_countries',
