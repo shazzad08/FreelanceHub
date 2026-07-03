@@ -62,10 +62,20 @@
             </span>
           </div>
           
-          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 flex-wrap text-muted fs-7">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 flex-wrap text-muted fs-7" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 1rem !important;">
             <span><i class="bi bi-geo-alt me-1"></i>{{ profile.country.name|default:"Bangladesh" }}</span>
             <span><i class="bi bi-calendar-event me-1"></i>Member since {{ user.date_joined|date:"F Y" }}</span>
           </div>
+          
+          {% if user.role == 'freelancer' and profile.category.all %}
+          <div class="d-flex flex-wrap gap-2 mt-3 justify-content-center justify-content-md-start" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 0.5rem !important;">
+            {% for cat in profile.category.all %}
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 fs-8 rounded-pill shadow-sm" style="display: inline-flex !important; align-items: center !important;">
+                <i class="bi bi-tag-fill me-1"></i>{{ cat.name }}
+              </span>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         
         <!-- Edit Profile & Socials -->
@@ -610,7 +620,7 @@
             </div>
             
             <div class="row">
-              <!-- Skills & Hourly rate -->
+              <!-- Skills & Categories -->
               <div class="col-md-6 mb-4">
                 <div class="field-card p-4">
                   <label class="fw-bold text-dark mb-2"><i class="bi bi-tags-fill me-2 text-primary"></i>Skills</label>
@@ -621,20 +631,39 @@
               
               <div class="col-md-6 mb-4">
                 <div class="field-card p-4">
-                  <label class="fw-bold text-dark mb-2"><i class="bi bi-currency-dollar me-2 text-primary"></i>Hourly Rate ($)</label>
-                  {{ form.hourly_rate }}
-                  <small class="text-muted mt-2 d-block">Specify your rate per hour in USD.</small>
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-list-stars me-2 text-primary"></i>Categories</label>
+                  <div class="dropdown custom-category-dropdown">
+                    <button class="form-select text-start d-flex justify-content-between align-items-center" type="button" id="categoryDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 12px 16px; background-color: #fff;">
+                      <span id="categoryDropdownText" class="text-muted">Select Categories</span>
+                    </button>
+                    <div class="dropdown-menu w-100 p-3 shadow" aria-labelledby="categoryDropdown" style="max-height: 250px; overflow-y: auto; border-radius: 14px;">
+                      {% for choice in form.category.field.choices %}
+                        {% if choice.0 %}
+                          <div class="form-check mb-2">
+                            <input class="form-check-input category-checkbox cursor-pointer" type="checkbox" value="{{ choice.0 }}" id="category_chk_{{ choice.0 }}">
+                            <label class="form-check-label text-dark w-100 cursor-pointer" for="category_chk_{{ choice.0 }}">
+                              {{ choice.1 }}
+                            </label>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="d-none">
+                    {{ form.category }}
+                  </div>
+                  <small class="text-muted mt-2 d-block">Select one or more categories that match your expertise.</small>
                 </div>
               </div>
             </div>
             
             <div class="row">
-              <!-- Location & Availability -->
+              <!-- Hourly Rate & Availability -->
               <div class="col-md-6 mb-4">
                 <div class="field-card p-4">
-                  <label class="fw-bold text-dark mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Location (Country)</label>
-                  {{ form.country }}
-                  <small class="text-muted mt-2 d-block">Select your country.</small>
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-currency-dollar me-2 text-primary"></i>Hourly Rate ($)</label>
+                  {{ form.hourly_rate }}
+                  <small class="text-muted mt-2 d-block">Specify your rate per hour in USD.</small>
                 </div>
               </div>
               
@@ -648,7 +677,15 @@
             </div>
             
             <div class="row">
-              <!-- Languages & Experience -->
+              <!-- Location & Languages -->
+              <div class="col-md-6 mb-4">
+                <div class="field-card p-4">
+                  <label class="fw-bold text-dark mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Location (Country)</label>
+                  {{ form.country }}
+                  <small class="text-muted mt-2 d-block">Select your country.</small>
+                </div>
+              </div>
+              
               <div class="col-md-6 mb-4">
                 <div class="field-card p-4">
                   <label class="fw-bold text-dark mb-2"><i class="bi bi-translate me-2 text-primary"></i>Languages</label>
@@ -656,7 +693,10 @@
                   <small class="text-muted mt-2 d-block">e.g. English, Bengali, Hindi.</small>
                 </div>
               </div>
-              
+            </div>
+            
+            <div class="row">
+              <!-- Experience Level -->
               <div class="col-md-6 mb-4">
                 <div class="field-card p-4">
                   <label class="fw-bold text-dark mb-2"><i class="bi bi-calendar-check-fill me-2 text-primary"></i>Experience Level</label>
@@ -824,6 +864,47 @@
           reader.readAsDataURL(this.files[0]);
         }
       });
+    }
+    
+    // Custom Multi-select Category Dropdown Logic
+    const realSelect = document.getElementById("id_category");
+    if (realSelect) {
+      const checkboxes = document.querySelectorAll(".category-checkbox");
+      const dropdownText = document.getElementById("categoryDropdownText");
+      
+      function updateSelection() {
+        const selectedLabels = [];
+        
+        checkboxes.forEach(cb => {
+          const option = realSelect.querySelector(`option[value="${cb.value}"]`);
+          if (cb.checked) {
+            selectedLabels.push(cb.nextElementSibling.textContent.trim());
+            if (option) option.selected = true;
+          } else {
+            if (option) option.selected = false;
+          }
+        });
+        
+        if (selectedLabels.length > 0) {
+          dropdownText.textContent = selectedLabels.join(", ");
+          dropdownText.classList.remove("text-muted");
+          dropdownText.classList.add("text-dark");
+        } else {
+          dropdownText.textContent = "Select Categories";
+          dropdownText.classList.add("text-muted");
+          dropdownText.classList.remove("text-dark");
+        }
+      }
+      
+      checkboxes.forEach(cb => {
+        const option = realSelect.querySelector(`option[value="${cb.value}"]`);
+        if (option && option.selected) {
+          cb.checked = true;
+        }
+        cb.addEventListener("change", updateSelection);
+      });
+      
+      updateSelection();
     }
   });
 </script>

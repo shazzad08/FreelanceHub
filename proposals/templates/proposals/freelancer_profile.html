@@ -135,7 +135,19 @@
 
                     </div>
 
+                    {% if profile_user.category.all %}
+                    <h5 class="fw-bold mb-3">
+                        Categories
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2 mb-3" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 0.5rem !important;">
+                        {% for cat in profile_user.category.all %}
+                        <span class="badge bg-primary px-3 py-2 rounded-pill" style="display: inline-block !important;">
+                            {{ cat.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
                     <hr>
+                    {% endif %}
 
                     <!-- Skills -->
 

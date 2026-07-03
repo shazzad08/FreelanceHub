@@ -26,7 +26,8 @@ A modern, full-stack Freelance Marketplace Platform designed to bridge the gap b
 | **Database** | PostgreSQL | Production-grade relational storage |
 | **Media Storage** | Cloudinary & `django-cloudinary-storage` | Seamless image and submission file upload to the cloud |
 | **Styling & UI** | Bootstrap 5, Custom CSS & JS | Clean, responsive, mobile-first design with interactive elements |
-| **User/Geo Fields** | `django-countries` | Geolocation filtering and accurate country fields |
+| **User/Geo Fields** | `django-countries` & `django-cities-light` | Geolocation filtering and accurate address/country fields |
+| **REST APIs** | Django REST Framework (DRF) | Scalable APIs for future mobile or SPA integration |
 | **Auth & Security** | Django Custom User Model & Email Verification | Role-based permission controls and SMTP-driven auth checks |
 
 ---
@@ -157,4 +158,5 @@ Visit the application at `http://127.0.0.1:8000/`.
 *   **Live WebSockets Chat:** Real-time push messages via Django Channels instead of polling.
 *   **Advanced AI Matching:** Skill-based recommendation engine matching freelancers to suitable projects.
 
-
+---
+Developed as a portfolio showcase demonstrating database design, third-party cloud integration, role-based workflows, and professional Django backend development.

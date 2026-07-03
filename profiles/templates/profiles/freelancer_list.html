@@ -66,6 +66,16 @@
                         ✓ Verified
                     </span>
 
+                    {% if freelancer.category.all %}
+                    <div class="mb-2 d-flex flex-wrap justify-content-center gap-1" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 0.25rem !important;">
+                        {% for cat in freelancer.category.all %}
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2.5 py-1 rounded-pill" style="font-size:0.75rem; display: inline-block !important;">
+                            {{ cat.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
                     
                     {% if freelancer.skills %}
                     <div class="mb-2">

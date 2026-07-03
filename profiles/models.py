@@ -47,12 +47,7 @@ class FreelanceProfile(models.Model):
         help_text='Separate skills with commas'
     )
 
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
+    category = models.ManyToManyField(Category, blank=True, related_name='freelancers')
 
     
     country = CountryField(blank=True)

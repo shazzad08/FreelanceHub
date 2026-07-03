@@ -38,8 +38,8 @@ class FreelancerProfileForm(forms.ModelForm):
                 'placeholder': 'Django, Python, React'
             }),
 
-            'category': forms.Select(attrs={
-                'class': 'form-select'
+            'category': forms.SelectMultiple(attrs={
+                'class': 'form-select d-none'
             }),
 
             'country': forms.Select(attrs={
