@@ -25,7 +25,7 @@ class FreelanceProfile(models.Model):
     skills = models.CharField(
         max_length=300,
         blank=True,
-        help_text='Separate skills with commas'
+        help_text='Separate skills with space'
     )
     category = models.ForeignKey(
     Category,

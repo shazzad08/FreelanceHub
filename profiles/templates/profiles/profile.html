@@ -334,14 +334,16 @@
             </div>
 
             <div>
-              {% if proposal.status == 'accepted' %}
-              <span class="badge bg-success"> Accepted </span>
-
-              {% elif proposal.status == 'rejected' %}
-              <span class="badge bg-danger"> Rejected </span>
-
+              {% if proposal.project.status == 'open' %}
+              <span class="badge bg-primary"> Open </span>
+              {% elif proposal.project.status == 'in_progress' %}
+              <span class="badge bg-warning text-dark"> In Progress </span>
+              {% elif proposal.project.status == 'submitted' %}
+              <span class="badge bg-info text-dark"> Submitted </span>
+              {% elif proposal.project.status == 'completed' %}
+              <span class="badge bg-success"> Completed </span>
               {% else %}
-              <span class="badge bg-warning text-dark"> Pending </span>
+              <span class="badge bg-secondary"> {{ proposal.project.get_status_display }} </span>
               {% endif %}
             </div>
           </div>
